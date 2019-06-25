@@ -5,7 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190625070706_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190625070706_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190625072619_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190625072619_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190625083917_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190625083917_InitialCreate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

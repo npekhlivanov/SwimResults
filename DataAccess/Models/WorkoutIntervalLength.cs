@@ -3,10 +3,7 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    [System.Serializable()]
-    [System.ComponentModel.DesignerCategory("code")]
-    [System.Xml.Serialization.XmlType(AnonymousType = true)]
-    public partial class WorkoutIntervalLength
+    public class WorkoutIntervalLength
     {
         public enum StrokeType
         {
@@ -31,7 +28,6 @@
         public float Duration { get; set; }
 
         [Display(Name = "Stroke type")]
-        [System.Xml.Serialization.XmlElement("strokeType")]
         public StrokeType StrokeTypeId { get; set; }
 
         [Display(Name = "Stroke count")]
@@ -39,7 +35,6 @@
 
         public float Distance { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
         public string StrokeTypeName => StrokeTypeId.ToString(); //{ get }
 
         public virtual WorkoutInterval WorkoutInterval { get; set; }

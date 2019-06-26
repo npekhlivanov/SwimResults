@@ -23,6 +23,8 @@ namespace DataAccess.Migrations
                 {
                     b.Property<int>("Id");
 
+                    b.Property<DateTime>("Date");
+
                     b.Property<float>("Distance");
 
                     b.Property<float>("Duration");

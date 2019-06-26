@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190625161538_InitialCreate")]
+    [Migration("20190626142359_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,8 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Workout", b =>
                 {
                     b.Property<int>("Id");
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<float>("Distance");
 

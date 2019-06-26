@@ -5,11 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Serializable()]
-    [System.ComponentModel.DesignerCategory("code")]
-    [System.Xml.Serialization.XmlType(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRoot(Namespace = "", IsNullable = false)]
-    public partial class Workout
+    public class Workout
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -27,28 +23,17 @@
         [MaxLength(50)]
         public string Place { get; set; }
 
-        [NotMapped]
-        public WorkoutDevice Device { get; set; }
+        public DateTime Date { get; set; }
 
-        [NotMapped]
-        public WorkoutUser User { get; set; }
-
-        [NotMapped]
-        public WorkoutLocation Location { get; set; }
-
-        [System.Xml.Serialization.XmlElement(DataType = "date")]
         [DataType(DataType.Date)]
         [Column(TypeName = "datetime")]
+        [Display(Name = "Start time")]
         public DateTime Start { get; set; }
-
-        [NotMapped]
-        public WorkoutCourse Course { get; set; }
 
         [Display(Name = "Notes")]
         [MaxLength(500)]
         public string Note { get; set; }
 
-        [System.Xml.Serialization.XmlElement("interval")]
         public ICollection<WorkoutInterval> Intervals { get; set; }
     }
 }

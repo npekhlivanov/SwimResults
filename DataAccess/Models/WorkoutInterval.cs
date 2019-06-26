@@ -2,11 +2,10 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
-    [System.Serializable()]
-    [System.ComponentModel.DesignerCategory("code")]
-    [System.Xml.Serialization.XmlType(AnonymousType = true)]
-    public partial class WorkoutInterval
+    public class WorkoutInterval
     {
         public int Id { get; set; }
 
@@ -15,13 +14,16 @@
         [Display(Name = "Time offset")]
         public float TimeOffset { get; set; }
 
-        [System.Xml.Serialization.XmlElement("length")]
+        [NotMapped]
+        public float Duration { get => Lengths?.Sum(x => x.Duration) ?? 0;  }
+
+        [NotMapped]
+        public float Distance { get => Lengths?.Sum(x => x.Distance) ?? 0; }
+
         public ICollection<WorkoutIntervalLength> Lengths { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
         public int? WorkoutIntervalTypeId { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
         [MaxLength(500)]
         public string Notes { get; set; }
 

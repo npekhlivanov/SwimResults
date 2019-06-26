@@ -31,6 +31,7 @@ namespace DataAccess.Migrations
                     Duration = table.Column<float>(nullable: false),
                     Pace = table.Column<float>(nullable: false),
                     Place = table.Column<string>(maxLength: 50, nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
                     Start = table.Column<DateTime>(type: "datetime", nullable: false),
                     Note = table.Column<string>(maxLength: 500, nullable: true)
                 },

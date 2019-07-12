@@ -1,17 +1,18 @@
 ﻿namespace DataAccess.Models
 {
+    using DataTemplates.Entities;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Contracts.Entities;
 
-    public class Workout
+    public class Workout : Entity, IWorkout
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public int Id { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         public float Distance { get; set; }
@@ -20,20 +21,20 @@
 
         public float Pace { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Place { get; set; }
 
+        [DataType(DataType.Date)] // Display the value without the time
         public DateTime Date { get; set; }
 
-        [DataType(DataType.Date)]
         [Column(TypeName = "datetime")]
         [Display(Name = "Start time")]
         public DateTime Start { get; set; }
 
         [Display(Name = "Notes")]
-        [MaxLength(500)]
+        [MaxLength(1000)]
         public string Note { get; set; }
 
-        public ICollection<WorkoutInterval> Intervals { get; set; }
+        public IList<WorkoutInterval> Intervals { get; set; }
     }
 }

@@ -3,6 +3,7 @@
     using DataAccess.Models;
     using DataImport.Models.XML;
     using DataImport.Tools;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Serialization;
@@ -11,6 +12,16 @@
     {
         public static void LoadWorkoutData(string xmlFileName, Workout workout)
         {
+            if (!File.Exists(xmlFileName))
+            {
+                throw new ArgumentException($"File \"{xmlFileName}\" does not exist!");
+            }
+
+            if (workout == null)
+            {
+                throw new ArgumentNullException("workout");
+            }
+
             using (FileStream xmlFile = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
             {
                 LoadWorkoutData(xmlFile, workout);

@@ -2,11 +2,10 @@
 {
     using DataAccess.Models;
     using Microsoft.EntityFrameworkCore;
-    using System.ComponentModel.DataAnnotations.Schema;
 
-    public class ApplicationDbContext : DbContext
+    public partial class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -18,8 +17,16 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Workout>()
+                .Property(p => p.Id)
+                .ValueGeneratedNever();
+
+            //modelBuilder.Entity<WorkoutInterval>()
+            //    .Property(p => p.DurationComputed)
+            //    .HasComputedColumnSql("select 99999");
+
             modelBuilder.Entity<WorkoutIntervalType>().HasData(
-                new WorkoutIntervalType { Id = 1, Name = "Warm up"},
+                new WorkoutIntervalType { Id = 1, Name = "Warm up" },
                 new WorkoutIntervalType { Id = 2, Name = "First quick freestyle" },
                 new WorkoutIntervalType { Id = 3, Name = "Second quick freestyle" },
                 new WorkoutIntervalType { Id = 4, Name = "Drill with fins" },
@@ -31,8 +38,6 @@
                 new WorkoutIntervalType { Id = 10, Name = "Backstroke" },
                 new WorkoutIntervalType { Id = 11, Name = "Manually added" }
                );
-
-//            modelBuilder.Entity<Workout>().Property(w => w.Id).ValueGeneratedNever(); // HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190626142359_InitialCreate")]
+    [Migration("20190701113433_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,15 +32,15 @@ namespace DataAccess.Migrations
                     b.Property<float>("Duration");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.Property<string>("Note")
-                        .HasMaxLength(500);
+                        .HasMaxLength(1000);
 
                     b.Property<float>("Pace");
 
                     b.Property<string>("Place")
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime");
@@ -57,7 +57,7 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(500);
+                        .HasMaxLength(1000);
 
                     b.Property<float>("TimeOffset");
 
@@ -104,7 +104,7 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 

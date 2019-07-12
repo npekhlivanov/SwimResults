@@ -14,7 +14,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: true)
+                    Name = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,14 +26,14 @@ namespace DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
                     Distance = table.Column<float>(nullable: false),
                     Duration = table.Column<float>(nullable: false),
                     Pace = table.Column<float>(nullable: false),
-                    Place = table.Column<string>(maxLength: 50, nullable: true),
+                    Place = table.Column<string>(maxLength: 100, nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     Start = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Note = table.Column<string>(maxLength: 500, nullable: true)
+                    Note = table.Column<string>(maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace DataAccess.Migrations
                     WorkoutId = table.Column<int>(nullable: false),
                     TimeOffset = table.Column<float>(nullable: false),
                     WorkoutIntervalTypeId = table.Column<int>(nullable: true),
-                    Notes = table.Column<string>(maxLength: 500, nullable: true)
+                    Notes = table.Column<string>(maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {

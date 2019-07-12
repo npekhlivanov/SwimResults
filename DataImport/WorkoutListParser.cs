@@ -9,7 +9,7 @@
 
     public class WorkoutListParser
     {
-        public static ICollection<Workout> LoadWorkoutList(string jsonFileName)
+        public static IList<Workout> LoadWorkoutList(string jsonFileName)
         {
             using (StreamReader reader = new StreamReader(jsonFileName))
             {

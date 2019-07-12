@@ -1,0 +1,59 @@
+﻿@page
+@model SwimResults.Pages.EditIntervalModel
+
+@{
+    ViewData["Title"] = "Edit Interval";
+}
+
+<h1>Edit Interval</h1>
+
+<h4>Workout Interval @Model.WorkoutInterval.IntervalNo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="WorkoutInterval.WorkoutId" class="control-label"></label>
+            <select asp-for="WorkoutInterval.WorkoutId" class="form-control" asp-items="ViewBag.WorkoutId"></select>
+            <span asp-validation-for="WorkoutInterval.WorkoutId" class="text-danger"></span>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="WorkoutInterval.TimeOffset" class="control-label"></label>
+            <input asp-for="WorkoutInterval.TimeOffset" class="form-control" />
+            <span asp-validation-for="WorkoutInterval.TimeOffset" class="text-danger"></span>
+        </div>*@
+
+            <input type="hidden" asp-for="WorkoutInterval.Id" />
+            <input type="hidden" asp-for="WorkoutInterval.WorkoutId" />
+            <input type="hidden" asp-for="WorkoutInterval.IntervalNo" />
+
+            <div class="form-group">
+                <label asp-for="WorkoutInterval.WorkoutIntervalTypeId" class="control-label"></label>
+                <select asp-for="WorkoutInterval.WorkoutIntervalTypeId" class="form-control" asp-items="Model.WorkoutIntervalTypeSelectList">
+                    <option value="">-</option>
+                </select>
+                <span asp-validation-for="WorkoutInterval.WorkoutIntervalTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkoutInterval.Notes" class="control-label"></label>
+                <textarea asp-for="WorkoutInterval.Notes" class="form-control"></textarea>
+                <span asp-validation-for="WorkoutInterval.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @*<a asp-page="./IntervalDetails" asp-route-id="@Model.WorkoutInterval.Id">Back to Interval</a>
+            <a asp-page="./Details" asp-route-id="@Model.WorkoutInterval.WorkoutId">Back to Workout</a>*@
+        <a href="@TempData.Peek(EditIntervalModel.ReturnPathKeyName)">Back</a>
+        @*<a href="@Model.ReturnPath">Back</a>*@
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

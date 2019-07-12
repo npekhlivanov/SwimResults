@@ -1,28 +1,12 @@
 ﻿namespace DataAccess.Models
 {
-    using System.ComponentModel;
+    using Contracts.Entities;
+    using DataTemplates.Entities;
     using System.ComponentModel.DataAnnotations;
+    using static Constants.Enums;
 
-    public class WorkoutIntervalLength
+    public class WorkoutIntervalLength : Entity, IWorkoutIntervalLength
     {
-        public enum StrokeType
-        {
-            [Description("Free")]
-            Freestyle = 0,
-            [Description("Back")]
-            Backstroke = 1,
-            [Description("Breast")]
-            Breaststroke = 2,
-            [Description("Fly")]
-            Butterfly = 3,
-            [Description("Drill")]
-            Drill = 4,
-            [Description("Kick")]
-            Kick = 5
-        }
-
-        public int Id { get; set; }
-
         public int WorkoutIntervalId { get; set; }
 
         public float Duration { get; set; }

@@ -1,7 +1,7 @@
 ﻿namespace DataImport.Tools
 {
     using System;
-    using DataAccess.Models;
+    using static Constants.Enums;
 
     public class Converters
     {
@@ -11,14 +11,14 @@
             return time.LocalDateTime;
         }
 
-        public static WorkoutIntervalLength.StrokeType IntToStrokeType(int value)
+        public static StrokeType IntToStrokeType(int value)
         {
-            if (Enum.IsDefined(typeof(WorkoutIntervalLength.StrokeType), value))
+            if (Enum.IsDefined(typeof(StrokeType), value))
             {
-                return (WorkoutIntervalLength.StrokeType)value;
+                return (StrokeType)value;
             }
 
-            throw new ArgumentOutOfRangeException($"{value} is not valid for type {typeof(WorkoutIntervalLength.StrokeType).Name}");
+            throw new ArgumentOutOfRangeException($"{value} is not valid for type {typeof(StrokeType).Name}");
         }
     }
 }

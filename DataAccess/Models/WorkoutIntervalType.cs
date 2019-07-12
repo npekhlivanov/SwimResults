@@ -1,12 +1,12 @@
 ﻿namespace DataAccess.Models
 {
-   using System.ComponentModel.DataAnnotations;
+    using Contracts.Entities;
+    using DataTemplates.Entities;
+    using System.ComponentModel.DataAnnotations;
 
-   public class WorkoutIntervalType
+    public class WorkoutIntervalType : Entity, IWorkoutIntervalType
     {
-        public int Id { get; set; }
-
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
     }
 }

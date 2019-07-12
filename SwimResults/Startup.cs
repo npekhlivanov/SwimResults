@@ -1,13 +1,18 @@
 namespace SwimResults
 {
+    using AutoMapper;
     using DataAccess;
+    using DataAccess.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.Reflection;
 
     public class Startup
     {
@@ -32,7 +37,28 @@ namespace SwimResults
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) 
             );
 
+            // Add AutoMapper
+            //var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            //var dataAccessAssembly = Assembly.Load("DataAccess");// Assembly.GetAssembly(typeof(System.Int32));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            // Add repositories
+            services.AddTransient(typeof(WorkoutRepository));
+            services.AddTransient(typeof(WorkoutIntervalRepository));
+            services.AddTransient(typeof(WorkoutIntervalLengthRepository));
+            services.AddTransient(typeof(WorkoutIntervalTypeRepository));
+
+            // Set specific name for the TempData cookie
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.Name = "MyTempDataCookie";
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
+
+            //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
+            //services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +78,8 @@ namespace SwimResults
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //app.UseSession();
 
             app.UseMvc();
         }

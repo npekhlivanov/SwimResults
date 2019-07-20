@@ -11,17 +11,17 @@
     {
         public int WorkoutId { get; set; }
 
-        [Display(Name = "Time offset")]
         public float TimeOffset { get; set; }
 
-        [NotMapped]
-        public float Duration { get => Lengths?.Sum(x => x.Duration) ?? 0; }
+        public float Duration { get; set; }
 
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        //public float DurationComputed { get; set; }
+        public float Distance { get; set; }
 
-        [NotMapped]
-        public float Distance { get => Lengths?.Sum(x => x.Distance) ?? 0; }
+        //[NotMapped]
+        //public float DurationComputed { get => Lengths?.Sum(x => x.Duration) ?? 0; }
+
+        //[NotMapped]
+        //public float DistanceComputed { get => Lengths?.Sum(x => x.Distance) ?? 0; }
 
         public IList<WorkoutIntervalLength> Lengths { get; set; }
 
@@ -29,6 +29,8 @@
 
         [MaxLength(1000)]
         public string Notes { get; set; }
+
+        public float StrokeCount { get; set; }
 
         public WorkoutIntervalType WorkoutIntervalType { get; set; }
 

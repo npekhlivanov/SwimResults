@@ -24,56 +24,98 @@
                 @Html.DisplayNameFor(model => model.Workouts[0].Pace)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Workouts[0].Place)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Workouts[0].Place)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Workouts[0].Date)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Workouts[0].Start)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Workouts[0].Note)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Workouts[0].Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Workouts[0].Note)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Workouts) {
-        <tr>
-            <td>
-                <a asp-page="./Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DurationFormatted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaceFormatted)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Place)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Start)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>*@
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.Workouts)
+        {
+            <tr>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td id="workoutDistance">
+                    @Html.DisplayFor(modelItem => item.Distance) m
+                </td>
+                <td id="workoutDuration">
+                    @Html.DisplayFor(modelItem => item.DurationFormatted)
+                </td>
+                <td id="workoutPace">
+                    @Html.DisplayFor(modelItem => item.PaceFormatted)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Place)
+                    </td>*@
+                <td id="workoutDate">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>*@
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a href="#" onclick="fillWorkoutDetail(this)" id="@item.Id">Load</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
+@{
+    var nextPageDisabled = Model.HasNextPage ? "" : "disabled";
+    var previousPageDisabled = Model.HasPreviousPage ? "" : "disabled";
+}
+<a asp-page="./Index" asp-route-pageNo="1" class="btn @previousPageDisabled"><i class="fas fa-angle-double-left"></i></a>
+<a asp-page="./Index" asp-route-pageNo="@(Model.PageNo - 1)" class="btn @previousPageDisabled"><i class="fas fa-angle-left"></i></a>
+Page @Model.PageNo.ToString() of @Model.TotalPages.ToString()
+<a asp-page="./Index" asp-route-pageNo="@(Model.PageNo + 1)" class="btn @nextPageDisabled"><i class="fas fa-angle-right"></i></a>
+<a asp-page="./Index" asp-route-pageNo="@Model.TotalPages" class="btn @nextPageDisabled"><i class="fas fa-angle-double-right"></i></a>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<script>
+    function fillWorkoutDetail(sender) {
+        let workoutId = sender.id;
+        var parentTr = sender.closest('tr');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Post", "Workout")',
+            contentType: "Application/json; charset=utf-8",
+            data: workoutId,
+            //processData: false,
+            success: function (data) {
+                if (!data.success) {
+                    alert(data.message);
+                    return;
+                };
+                parentTr.children[0].innerHTML = '<a href="@Url.Page("Details")?id=' + data.workoutData.workoutId + '">' + data.workoutData.name + '</a>';
+                parentTr.children[1].innerText = data.workoutData.distance + " m";
+                parentTr.children[2].innerText = data.workoutData.duration;
+                parentTr.children[3].innerText = data.workoutData.pace;
+                parentTr.children[4].innerText = data.workoutData.startDate;
+                console.info(data.message);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+        return false;
+    }
+
+</script>

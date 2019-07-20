@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Constants\Constants.csproj" />
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\DataImport\DataImport.csproj" />
   </ItemGroup>
 
 </Project>

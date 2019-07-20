@@ -14,5 +14,6 @@
         int WorkoutId { get; set; }
         //IWorkoutIntervalType WorkoutIntervalType { get; set; }
         int? WorkoutIntervalTypeId { get; set; }
+        float StrokeCount { get; set; }
     }
 }

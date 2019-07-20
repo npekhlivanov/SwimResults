@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml.Serialization;
 
     public class WorkoutDetailParser
@@ -31,8 +32,15 @@
         public static void LoadWorkoutData(Stream stream, Workout workout)
         {
             var xmlSerializer = new XmlSerializer(typeof(WorkoutXml));
+            stream.Position = 0;
             var workoutXml = (WorkoutXml)xmlSerializer.Deserialize(stream);
-            workout.Duration = workoutXml.Duration; // already loaded, but accuracu seems to be better here
+
+            workout.Duration = workoutXml.Duration; // already loaded, but accuracy seems to be better here
+            workout.Start = workoutXml.Start;
+            workout.Date = workout.Start.Date;
+            workout.Note = workoutXml.Note;
+            workout.CourseLength = workoutXml.Course.CourseLength;
+
             TransformWorkoutIntervals(workoutXml, workout);
         }
 
@@ -46,6 +54,9 @@
             }
 
             workout.Intervals = intervals;
+            workout.Distance = intervals.Sum(i => i.Distance);
+            workout.ActiveTime = intervals.Sum(i => i.Duration);
+            workout.Pace = workout.ActiveTime * 100 / workout.Distance;
         }
 
         private static WorkoutInterval TransformWorkoutInterval(WorkoutIntervalXml intervalXml)
@@ -63,6 +74,9 @@
                 TimeOffset = intervalXml.TimeOffset
             };
 
+            interval.Distance = lengths.Sum(l => l.Distance);
+            interval.Duration = lengths.Sum(l => l.Duration);
+            interval.StrokeCount = lengths.Sum(l => l.StrokeCount) / (float)lengths.Count;
             return interval;
         }
 

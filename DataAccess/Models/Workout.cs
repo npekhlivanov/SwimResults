@@ -28,13 +28,15 @@
         public DateTime Date { get; set; }
 
         [Column(TypeName = "datetime")]
-        [Display(Name = "Start time")]
         public DateTime Start { get; set; }
 
-        [Display(Name = "Notes")]
         [MaxLength(1000)]
         public string Note { get; set; }
 
         public IList<WorkoutInterval> Intervals { get; set; }
+
+        public float ActiveTime { get; set; }
+
+        public float CourseLength { get; set; }
     }
 }

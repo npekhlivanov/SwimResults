@@ -9,7 +9,6 @@
         float Duration { get; set; }
         int StrokeCount { get; set; }
         Enums.StrokeType StrokeTypeId { get; set; }
-        string StrokeTypeName { get; }
         //IWorkoutInterval WorkoutInterval { get; set; }
         int WorkoutIntervalId { get; set; }
     }

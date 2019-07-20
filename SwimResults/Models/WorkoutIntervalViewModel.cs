@@ -18,11 +18,11 @@
         [Display(Name = "Time offset")]
         public float TimeOffset { get; set; }
 
-        public float Duration { get => Lengths?.Sum(x => x.Duration) ?? 0; }
+        public float DurationComputed { get => Lengths?.Sum(x => x.Duration) ?? 0; }
 
-        public float DurationComputed { get; set; }
+        public float Duration { get; set; }
 
-        public float Distance { get => Lengths?.Sum(x => x.Distance) ?? 0; }
+        public float Distance { get; set; }
 
         public IList<WorkoutIntervalLengthViewModel> Lengths { get; set; }
 
@@ -33,6 +33,8 @@
 
         [DataType(DataType.MultilineText)]
         public string Notes { get; set; }
+
+        public float StrokeCount { get; set; }
 
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 

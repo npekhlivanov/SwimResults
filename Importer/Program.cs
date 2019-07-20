@@ -6,7 +6,9 @@
     using Microsoft.Extensions.Configuration;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Reflection;
 
     public static class EnumExtensions
     {
@@ -52,6 +54,20 @@
             Enum.TryParse(typeOfT, value.ToString(), out object result);
             return (T)result;
         }
+
+        public static string GetDisplayName(this Enum enumValue)
+        {
+            var enumType = enumValue.GetType();
+            var valueName = Enum.GetName(enumType, enumValue);// enumValue.ToString();
+
+            var memberInfo = enumType.GetMember(valueName);
+            var attrs = memberInfo.Length > 0 ? memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false) : null;
+            var displayAttribute = attrs?.Length > 0 ? (DisplayAttribute)attrs[0] : null;
+
+            //var fieldInfo = enumType.GetField(valueName);
+            //var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>() ?? null;
+            return displayAttribute?.Name ?? valueName;
+        }
     }
 
     class Program
@@ -66,11 +82,16 @@
 
         public enum TestEnum1
         {
-            Value1, Value2, Value3
+            [Display(Name = "Value 1", Description = "value 1")]
+            Value1,
+            Value2,
+            Value3
         }
 
         static void Main(string[] args)
         {
+            var x = TestEnum1.Value1;
+            var s = x.GetDisplayName();
 
             var enumType = Enum.GetUnderlyingType(typeof(TestFlags1));
             var enumType2 = Enum.GetUnderlyingType(typeof(TestEnum1));

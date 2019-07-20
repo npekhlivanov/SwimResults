@@ -1,0 +1,9 @@
+Add fields ActiveTime, CourseLength to Workout model 
+Add StrokeCount to WorkoutInterval model
+Add a mirgation to have them in DB.
+
+Add Active swim time, rest time to details view; also Stroke count in table; move Pace before Distance
+
+Add method to insert rest time between intervals; add checkbox to control whether they are displayed (javascript to toggle visibility)
+
+Alternative to <a href="#" ..> -> href="javascript:void(0)" onclick=""

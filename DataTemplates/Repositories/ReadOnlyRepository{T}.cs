@@ -21,7 +21,7 @@
 
         public virtual async Task<IList<TEntity>> GetList()
         {
-            var result = _context.Set<TEntity>().ToListAsync(); //.AsNoTracking() ?
+            var result = _context.Set<TEntity>().AsNoTracking().ToListAsync(); 
             return await result;
         }
 
@@ -44,9 +44,9 @@
         public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending)
         {
             var result = GetListAsQueriable(sortSelector, sortDescending);
-            return await result.ToListAsync();
+            return await result.AsNoTracking().ToListAsync();
         }
-
+        
         public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo)
         {
             if (pageSize <= 0)
@@ -58,10 +58,15 @@
             {
                 throw new ArgumentOutOfRangeException("pageNo");
             }
-
             var result = GetListAsQueriable(sortSelector, sortDescending);
             result = result.Skip(pageNo * pageSize).Take(pageSize);
-            return await result.ToListAsync();
+            return await result.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<int> GetCount()
+        {
+            var result = await _context.Set<TEntity>().CountAsync();
+            return result;
         }
 
         public virtual async Task<IList<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate)
@@ -73,6 +78,7 @@
             //});
             var result = _context.Set<TEntity>()
                 .Where(predicate)
+                .AsNoTracking()
                 .ToListAsync();
             return await result;
         }
@@ -82,6 +88,7 @@
             var result = _context.Set<TEntity>()
                 .Include(navigationPropertyPath)
                 .Where(predicate)
+                .AsNoTracking()
                 .ToListAsync();
             return await result;
         }

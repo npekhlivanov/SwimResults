@@ -13,9 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Importer", "Importer\Import
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTemplates", "DataTemplates\DataTemplates.csproj", "{99CDEEE3-CFE7-4839-ABAC-4E670F347DD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{833DACA6-0F0B-4947-A1E0-22754EA9321D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{833DACA6-0F0B-4947-A1E0-22754EA9321D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{B1F36B09-1D7F-4E4E-9856-FB84F80E2033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Constants", "Constants\Constants.csproj", "{B1F36B09-1D7F-4E4E-9856-FB84F80E2033}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84450570-318C-4359-AD2B-C92F0412015E}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

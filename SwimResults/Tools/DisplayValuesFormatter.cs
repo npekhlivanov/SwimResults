@@ -7,7 +7,7 @@
         public static string FormatDuration(float duration, bool showHundredths)
         {
             var time = TimeSpan.FromSeconds(duration);
-            if (duration > 3600)
+            if (duration >= 3600)
             {
                 return time.ToString(@"h\:mm\:ss");
             }

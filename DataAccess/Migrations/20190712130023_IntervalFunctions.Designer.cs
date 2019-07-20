@@ -4,28 +4,26 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190712130023_IntervalFunctions")]
+    partial class IntervalFunctions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DataAccess.Models.Workout", b =>
                 {
                     b.Property<int>("Id");
-
-                    b.Property<float>("ActiveTime");
-
-                    b.Property<float>("CourseLength");
 
                     b.Property<DateTime>("Date");
 
@@ -60,16 +58,14 @@ namespace DataAccess.Migrations
 
                     b.Property<float>("Distance")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("dbo.fnGetIntervalDistance(id)");
+                        .HasComputedColumnSql("select dbo.fnGetIntervalDistance(id)");
 
                     b.Property<float>("Duration")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("dbo.fnGetIntervalDuration(id)");
+                        .HasComputedColumnSql("select dbo.fnGetIntervalDuration(id)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000);
-
-                    b.Property<float>("StrokeCount");
 
                     b.Property<float>("TimeOffset");
 

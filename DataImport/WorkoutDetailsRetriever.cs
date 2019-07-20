@@ -18,8 +18,15 @@
                         return null;
                     }
 
-                    return await responseMessage.Content.ReadAsStreamAsync();
-                }
+                    var result = new MemoryStream();
+                    using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
+                    {
+                        await responseStream.CopyToAsync(result);
+                    }
+
+                    result.Position = 0;
+                    return result;
+               }
             }
         }
     }

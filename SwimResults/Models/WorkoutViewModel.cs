@@ -38,6 +38,8 @@
 
         public string PaceFormatted { get => DisplayValuesFormatter.FormatDuration(Pace, false); }
 
-        public int CourseLength { get => 50; }
+        public int CourseLength { get; set; }
+
+        public float ActiveTime { get; set; }
     }
 }

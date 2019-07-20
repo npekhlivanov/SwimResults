@@ -20,7 +20,7 @@
 
         public float Distance { get; set; }
 
-        public string StrokeTypeName => StrokeTypeId.ToString(); //{ get }
+        public string StrokeTypeName => StrokeTypeId.GetDisplayName(); //{ get }
 
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, true); }
 

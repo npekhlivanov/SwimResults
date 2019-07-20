@@ -21,9 +21,13 @@
                 .Property(p => p.Id)
                 .ValueGeneratedNever();
 
-            //modelBuilder.Entity<WorkoutInterval>()
-            //    .Property(p => p.DurationComputed)
-            //    .HasComputedColumnSql("select 99999");
+            modelBuilder.Entity<WorkoutInterval>()
+                .Property(p => p.Duration)
+                .HasComputedColumnSql("dbo.fnGetIntervalDuration(id)");
+
+            modelBuilder.Entity<WorkoutInterval>()
+                .Property(p => p.Distance)
+                .HasComputedColumnSql("dbo.fnGetIntervalDistance(id)");
 
             modelBuilder.Entity<WorkoutIntervalType>().HasData(
                 new WorkoutIntervalType { Id = 1, Name = "Warm up" },

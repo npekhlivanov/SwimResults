@@ -6,12 +6,14 @@ namespace SwimResults
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using System;
+    using System.Globalization;
     using System.Reflection;
 
     public class Startup
@@ -75,6 +77,8 @@ namespace SwimResults
                 app.UseHsts();
             }
 
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-2.2#make-the-apps-content-localizable
+            //app.UseRequestLocalization(options => options.DefaultRequestCulture = new RequestCulture("bg-BG"));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -58,11 +58,11 @@ namespace DataAccess.Migrations
 
                     b.Property<float>("Distance")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("select dbo.fnGetIntervalDistance(id)");
+                        .HasComputedColumnSql("dbo.fnGetIntervalDistance(id)");
 
                     b.Property<float>("Duration")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("select dbo.fnGetIntervalDuration(id)");
+                        .HasComputedColumnSql("dbo.fnGetIntervalDuration(id)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000);

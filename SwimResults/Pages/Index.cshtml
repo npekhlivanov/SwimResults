@@ -8,6 +8,8 @@
 
 <h1>Swims</h1>
 
+<h5 id="workoutLoadMessage" class="text-info" style="display: none">Workout load message</h5>
+
 <table class="table">
     <thead>
         <tr>
@@ -35,7 +37,11 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Workouts[0].Note)
                 </th>*@
-            <th></th>
+            <th>
+                <div id="busyIndicator" style="display: none">
+                    <img src="~/images/ajax-loader.gif" />
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -91,6 +97,7 @@ Page @Model.PageNo.ToString() of @Model.TotalPages.ToString()
 
 <script>
     function fillWorkoutDetail(sender) {
+        $("#busyIndicator").show();
         let workoutId = sender.id;
         var parentTr = sender.closest('tr');
         $.ajax({
@@ -109,6 +116,8 @@ Page @Model.PageNo.ToString() of @Model.TotalPages.ToString()
                 parentTr.children[2].innerText = data.workoutData.duration;
                 parentTr.children[3].innerText = data.workoutData.pace;
                 parentTr.children[4].innerText = data.workoutData.startDate;
+                $("#workoutLoadMessage").text(data.message).show();
+                $("#busyIndicator").hide();
                 console.info(data.message);
             },
             failure: function (errMsg) {

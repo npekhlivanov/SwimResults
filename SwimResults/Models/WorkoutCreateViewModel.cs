@@ -1,6 +1,7 @@
 ﻿namespace SwimResults.Models
 {
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class WorkoutCreateViewModel
@@ -20,5 +21,8 @@
         [DataType(DataType.MultilineText)]
         [MaxLength(1000)]
         public string Note { get; set; }
+
+        [DataType(DataType.Date)] // Display the value without the time
+        public DateTime Date { get; set; }
     }
 }

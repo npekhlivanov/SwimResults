@@ -14,6 +14,11 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Workout.Date" class="control-label"></label>
+                <input asp-for="Workout.Date" class="form-control" type="date"/>
+                <span asp-validation-for="Workout.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Workout.Name" class="control-label"></label>
                 <input asp-for="Workout.Name" class="form-control" />
                 <span asp-validation-for="Workout.Name" class="text-danger"></span>

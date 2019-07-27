@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
-namespace SwimResults.Tools
+﻿namespace SwimResults.Tools
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public static class EnumExtensions
     {
         public static string GetDisplayName(this Enum enumValue)

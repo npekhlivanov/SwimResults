@@ -18,7 +18,9 @@
             [Description("Drill")]
             Drill = 4,
             [Description("Kick")]
-            Kick = 5
+            Kick = 5,
+            [Description("Not selected")]
+            Unknown = 6
         }
     }
 }

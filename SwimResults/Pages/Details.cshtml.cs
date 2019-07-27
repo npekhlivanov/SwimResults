@@ -1,6 +1,7 @@
 ﻿namespace SwimResults.Pages
 {
     using AutoMapper;
+    using Constants;
     using DataAccess.Data;
     using DataAccess.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@
 
         public WorkoutViewModel Workout { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, string returnPath)
         {
             if (id == null)
             {
@@ -37,6 +38,7 @@
 
             //storedWorkout.Intervals = await _workoutIntervalRepository.GetList(i => i.WorkoutId == storedWorkout.Id, i => i.Lengths);
             Workout = _mapper.Map<WorkoutViewModel>(storedWorkout);
+            TempData[ValueKeys.TempDataReturnPathKey] = returnPath;
             return Page();
         }
     }

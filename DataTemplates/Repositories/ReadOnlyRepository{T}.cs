@@ -41,13 +41,7 @@
             return result;
         }
 
-        public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending)
-        {
-            var result = GetListAsQueriable(sortSelector, sortDescending);
-            return await result.AsNoTracking().ToListAsync();
-        }
-        
-        public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo)
+        private void ValidatePageParams(int pageSize, int pageNo)
         {
             if (pageSize <= 0)
             {
@@ -58,15 +52,47 @@
             {
                 throw new ArgumentOutOfRangeException("pageNo");
             }
+        }
+
+        public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending)
+        {
+            var result = GetListAsQueriable(sortSelector, sortDescending);
+            return await result.AsNoTracking().ToListAsync();
+        }
+        
+        public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo)
+        {
+            ValidatePageParams(pageSize, pageNo);
+
             var result = GetListAsQueriable(sortSelector, sortDescending);
             result = result.Skip(pageNo * pageSize).Take(pageSize);
             return await result.AsNoTracking().ToListAsync();
         }
 
-        public async Task<int> GetCount()
+        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo, 
+            Expression<Func<TEntity, TProperty>> navigationPropertyPath)
         {
-            var result = await _context.Set<TEntity>().CountAsync();
-            return result;
+            ValidatePageParams(pageSize, pageNo);
+
+            var result = GetListAsQueriable(sortSelector, sortDescending);
+            result = result.Skip(pageNo * pageSize)
+                .Take(pageSize)
+                .Include(navigationPropertyPath);
+            return await result.AsNoTracking().ToListAsync();
+        }
+
+
+        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty, TProperty2>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo,
+            Expression<Func<TEntity, TProperty>> navigationPropertyPath, Expression<Func<TEntity, TProperty2>> otherNavigationPropertyPath)
+        {
+            ValidatePageParams(pageSize, pageNo);
+
+            var result = GetListAsQueriable(sortSelector, sortDescending);
+            result = result.Skip(pageNo * pageSize)
+                .Take(pageSize)
+                .Include(navigationPropertyPath)
+                .Include(otherNavigationPropertyPath);
+            return await result.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<IList<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate)
@@ -124,6 +150,11 @@
                 .FirstOrDefaultAsync(e => e.Id == id);
             return await result;
         }
+        public async Task<int> GetCount()
+        {
+            var result = await _context.Set<TEntity>().CountAsync();
+            return result;
+        }
     }
-    
+
 }

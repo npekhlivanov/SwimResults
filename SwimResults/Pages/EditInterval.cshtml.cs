@@ -1,6 +1,7 @@
 ﻿namespace SwimResults.Pages
 {
     using AutoMapper;
+    using Constants;
     using DataAccess.Data;
     using DataAccess.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -15,8 +16,6 @@
         private readonly WorkoutIntervalRepository _intervalRepository;
         private readonly WorkoutIntervalTypeRepository _intervalTypeRepository;
         private readonly IMapper _mapper;
-
-        public const string ReturnPathKeyName = "ReturnUrl";
 
         public EditIntervalModel(WorkoutIntervalRepository intervalRepository, WorkoutIntervalTypeRepository intervalTypeRepository, IMapper mapper)
         {
@@ -33,7 +32,7 @@
         //[TempData]
         //public string ReturnPath { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id, int? intervalNo, string returnUrl)
+        public async Task<IActionResult> OnGetAsync(int? id, int? intervalNo, string returnPath)
         {
             if (id == null)
             {
@@ -48,8 +47,8 @@
 
             WorkoutInterval = _mapper.Map<WorkoutIntervalEditModel>(storedInterval);
             WorkoutInterval.IntervalNo = intervalNo ?? 0;
-            var returnPath = string.IsNullOrEmpty(returnUrl) ? Url.Page("Details", new { id = storedInterval.WorkoutId }): returnUrl; // Request.Headers["Referer"]
-            TempData[ReturnPathKeyName] = returnPath;
+            var returnUrl = string.IsNullOrEmpty(returnPath) ? Url.Page("Details", new { id = storedInterval.WorkoutId }): returnPath; // Request.Headers["Referer"]
+            TempData[ValueKeys.TempDataReturnPathKey] = returnUrl;
             //ReturnPath = returnPath; // works fine without extra configuring; get value in page via @Model.ReturnPath 
 
             var intervalTypes = await _intervalTypeRepository.GetList();
@@ -86,7 +85,7 @@
 
             //var returnUrl = ReturnPath;
             //ReturnPath = null;
-            var returnUrl = (string)TempData[ReturnPathKeyName];
+            var returnUrl = (string)TempData[ValueKeys.TempDataReturnPathKey];
             TempData.Clear();
             if (!string.IsNullOrEmpty(returnUrl))
             {

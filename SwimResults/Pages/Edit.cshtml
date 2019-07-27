@@ -1,4 +1,5 @@
 ﻿@page
+@using Constants;
 @model SwimResults.Pages.EditModel
 
 @{
@@ -62,7 +63,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a href="@TempData.Peek(ValueKeys.TempDataReturnPathKey)">Back to List</a>
 </div>
 
 @section Scripts {

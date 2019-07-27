@@ -15,12 +15,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Workout.Date" class="control-label"></label>
-                <input asp-for="Workout.Date" class="form-control" type="date"/>
+                <input asp-for="Workout.Date" class="form-control" type="date" onchange="dateChanged(event);"/>
                 <span asp-validation-for="Workout.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Workout.Name" class="control-label"></label>
-                <input asp-for="Workout.Name" class="form-control" />
+                <input asp-for="Workout.Name" class="form-control" id="workoutName"/>
                 <span asp-validation-for="Workout.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,3 +52,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function dateChanged(e) {
+        let selectedDate = e.target.value;
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("GetWorkoutName", "Workout")',
+            data: { 'value': selectedDate },
+            success: function (data) {
+                $('#workoutName').val(data);
+            },
+            failure: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>

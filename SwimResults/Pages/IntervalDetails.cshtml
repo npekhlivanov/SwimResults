@@ -78,7 +78,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(model => item.Distance)
+                        @Html.DisplayFor(model => item.Distance) m
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.DurationFormatted)
@@ -101,7 +101,7 @@
     </table>
 </div>
 <div>
-    @{ var routeValues = new Dictionary<string, string> { { "id", Model.Interval.Id.ToString() }, { "intervalNo", Model.IntervalNo.ToString() }, { "returnUrl", Request.GetEncodedPathAndQuery() } }; }
+    @{ var routeValues = new Dictionary<string, string> { { "id", Model.Interval.Id.ToString() }, { "intervalNo", Model.IntervalNo.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery() } }; }
     <a asp-page="./EditInterval" asp-all-route-data="routeValues">Edit</a> |
     <a asp-page="./Details" asp-route-id="@Model.Interval.WorkoutId">Back to Workout</a>
 </div>

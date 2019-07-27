@@ -1,6 +1,7 @@
 ﻿namespace SwimResults.Pages
 {
     using AutoMapper;
+    using Constants;
     using DataAccess.Data;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,7 +22,7 @@
         [BindProperty]
         public WorkoutViewModel Workout { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, string returnPath)
         {
             if (id == null)
             {
@@ -34,6 +35,7 @@
                 return NotFound();
             }
 
+            TempData[ValueKeys.TempDataReturnPathKey] = returnPath;
             Workout = _mapper.Map<WorkoutViewModel>(storedWorkout);
             return Page();
         }
@@ -46,7 +48,14 @@
             }
 
             await _workoutRepository.Delete(id.Value);
-            return RedirectToPage("./Index");
+
+            var returnPath = (string)TempData[ValueKeys.TempDataReturnPathKey];
+            if (string.IsNullOrEmpty(returnPath))
+            {
+                return RedirectToPage("./Index");
+            }
+
+            return Redirect(returnPath); 
         }
     }
 }

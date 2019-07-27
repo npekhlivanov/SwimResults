@@ -3,6 +3,7 @@
     using DataAccess.Models;
     using Microsoft.AspNetCore.Mvc;
     using SwimResults.Tools;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -46,5 +47,12 @@
 
         [Display(Name = "End time")]
         public string EndTime { get => DisplayValuesFormatter.FormatDuration(TimeOffset + Duration, false); }
+
+        [Display(Name = "Workout name")]
+        public string WorkoutName { get; set; }
+
+        [Display(Name = "Workout date")]
+        [DataType(DataType.Date)]
+        public DateTime WorkoutDate { get; set; }
     }
 }

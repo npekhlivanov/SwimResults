@@ -4,8 +4,8 @@
     using DataAccess.Data;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SwimResults.Models;
+    using SwimResults.Tools;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -22,21 +22,18 @@
             _pageSize = 10;
         }
 
-        public IList<WorkoutViewModel> Workouts { get;set; }
-        public int PageNo { get; set; }
-        public int TotalPages { get; set; }
-        public bool HasPreviousPage => PageNo > 1;
-        public bool HasNextPage => PageNo < TotalPages; 
+        public ListWithPaging<WorkoutViewModel> Workouts { get; internal set; }
+
 
         public async Task OnGetAsync(int? pageNo)
         {
-            var pageIndex = pageNo.HasValue ? pageNo.Value > 1 ? pageNo.Value - 1 : 0 : 0;
-            PageNo = pageIndex + 1;
-            var workoutList = (await _repository.GetList(w => w.Start, true, _pageSize, pageIndex)).ToList();
-            var totalCount = await _repository.GetCount();
-            TotalPages = (int)Math.Ceiling(totalCount / (double)_pageSize);
+            var pageIndex = ValuesHelper.GetPageIndex(pageNo);
 
-            Workouts = new List<WorkoutViewModel>();
+            var workoutList = await _repository.GetList(w => w.Start, true, _pageSize, pageIndex);
+            var totalCount = await _repository.GetCount();
+
+            Workouts = new ListWithPaging<WorkoutViewModel>(totalCount, pageIndex, _pageSize, nameof(pageNo));
+
             foreach (var item in workoutList)
             {
                 Workouts.Add(_mapper.Map<WorkoutViewModel>(item));

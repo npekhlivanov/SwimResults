@@ -1,4 +1,5 @@
 ﻿@page
+@using Constants;
 @model SwimResults.Pages.EditIntervalModel
 
 @{
@@ -50,7 +51,7 @@
 <div>
     @*<a asp-page="./IntervalDetails" asp-route-id="@Model.WorkoutInterval.Id">Back to Interval</a>
             <a asp-page="./Details" asp-route-id="@Model.WorkoutInterval.WorkoutId">Back to Workout</a>*@
-        <a href="@TempData.Peek(EditIntervalModel.ReturnPathKeyName)">Back</a>
+        <a href="@TempData.Peek(ValueKeys.TempDataReturnPathKey)">Back</a>
         @*<a href="@Model.ReturnPath">Back</a>*@
     </div>
 

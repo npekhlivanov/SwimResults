@@ -127,6 +127,10 @@
                 var storedWorkouts = repository.GetList(w => w.Start, true).Result;
                 var newWorkouts = GetNewWorkouts(loadedWorkouts, storedWorkouts);
                 SaveWorkouts(newWorkouts, repository);
+                if (workoutId == 0)
+                {
+                    return;
+                }
 
                 var myWorkout = storedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
                 if (myWorkout == null)

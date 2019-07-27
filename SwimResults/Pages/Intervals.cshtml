@@ -1,0 +1,90 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Extensions
+@model SwimResults.Pages.IntervalsModel
+
+@{
+    ViewData["Title"] = "Intervals";
+}
+
+<h1>Intervals</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            @{ 
+                var upDown = Model.Intervals.ReversedOrder ? "down" : "up";
+                var sortIndicator = $" <i class=\"fas fa-sort-{upDown}\"></i>";
+            }
+            <th>
+                @{
+                    var dateSort = Model.Intervals.IsCurrentSortOrder["WorkoutDate"] ? sortIndicator : "";
+                    var routeParams = Model.Intervals.SortRouteValues["WorkoutDate"]; 
+                }
+                <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].WorkoutDate)</a>@Html.Raw(dateSort)
+            </th>
+            <th>
+                @{ 
+                    var distanceSort = Model.Intervals.IsCurrentSortOrder["Distance"] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues["Distance"];
+                }
+                <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Distance)</a>@Html.Raw(distanceSort)
+            </th>
+            <th>
+                @{ 
+                    var durationSort = Model.Intervals.IsCurrentSortOrder["Duration"] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues["Duration"]; 
+                }
+                <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Duration)</a>@Html.Raw(durationSort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Intervals[0].PaceFormatted)
+            </th>
+            <th>
+                @{ 
+                    var strokeCountSort = Model.Intervals.IsCurrentSortOrder["StrokeCount"] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues["StrokeCount"]; 
+                }
+                <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].StrokeCount)</a>@Html.Raw(strokeCountSort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Intervals[0].WorkoutIntervalType)
+            </th>
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Intervals)
+        {
+            <tr>
+                <td>
+                    @{ routeParams = new Dictionary<string, string> { { "id", item.WorkoutId.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery() } }; }
+                    <a asp-page="Details" asp-all-route-data="routeParams">@item.WorkoutDate</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.Distance) m
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.DurationFormatted)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.PaceFormatted)
+                </td>
+                <td>
+                    @item.StrokeCount.ToString("0.#")
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.WorkoutIntervalType.Name)
+                </td>
+                @*<td>
+                        <a asp-page="IntervalDetails" asp-route-id="@item.Id">Details</a>
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="./Intervals" asp-all-route-data="Model.Intervals.FirstPageRouteValues" class="btn @Model.Intervals.PrevPageDisabledClass"><i class="fas fa-angle-double-left"></i></a>
+<a asp-page="./Intervals" asp-all-route-data="Model.Intervals.PrevPageRouteValues" class="btn @Model.Intervals.PrevPageDisabledClass"><i class="fas fa-angle-left"></i></a>
+Page @Model.Intervals.PageNo.ToString() of @Model.Intervals.TotalPages.ToString()
+<a asp-page="./Intervals" asp-all-route-data="Model.Intervals.NextPageRouteValues" class="btn @Model.Intervals.NextPageDisabledClass"><i class="fas fa-angle-right"></i></a>
+<a asp-page="./Intervals" asp-all-route-data="Model.Intervals.LastPageRouteValues" class="btn @Model.Intervals.NextPageDisabledClass"><i class="fas fa-angle-double-right"></i></a>

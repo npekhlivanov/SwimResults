@@ -34,12 +34,15 @@
 
         public IList<WorkoutIntervalViewModel> Intervals { get; set; }
 
+        public int CourseLength { get; set; }
+
+        [Display(Name = "Active time")]
+        public float ActiveTime { get; set; }
+
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 
         public string PaceFormatted { get => DisplayValuesFormatter.FormatDuration(Pace, false); }
 
-        public int CourseLength { get; set; }
-
-        public float ActiveTime { get; set; }
+        public string ActiveTimeFormatted { get => DisplayValuesFormatter.FormatDuration(ActiveTime, false); }
     }
 }

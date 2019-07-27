@@ -7,8 +7,8 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Configuration;
     using SwimResults.Models;
+    using SwimResults.Tools;
     using System;
-    using System.Globalization;
     using System.Threading.Tasks;
 
     public class CreateModel : PageModel
@@ -30,11 +30,10 @@
         public IActionResult OnGet()
         {
             var time = DateTime.Now;
-            var morningOrAfternoon = time.Hour < 12 ? "Morning" : "Afternoon";
             Workout = new WorkoutCreateViewModel
             {
                 Date = time.Date,
-                Name = $"{time.ToString("dddd", CultureInfo.InvariantCulture)} {morningOrAfternoon} Swim {time.ToString("dd.MM.yyyy")}",
+                Name = ValuesHelper.ComposeWorkoutName(time),
                 Place = _configuration["DefaultSwimPlace"]
             };
             return Page();
@@ -48,11 +47,10 @@
             }
 
             var workout = _mapper.Map<Workout>(Workout);
-            workout.Start = DateTime.Now;
-            //workout.Date = DateTime.Today;
+            workout.Start = new DateTime(workout.Date.Year, workout.Date.Month, workout.Date.Day, DateTime.Now.Hour, 0, 0);
             await _workoutRepository.Add(workout);
 
             return RedirectToPage("./Index");
         }
-    }
+    } 
 }

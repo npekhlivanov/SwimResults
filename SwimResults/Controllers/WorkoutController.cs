@@ -95,7 +95,7 @@
             if (System.IO.File.Exists(workoutDetailsFile))
             {
                 WorkoutDetailParser.LoadWorkoutData(workoutDetailsFile, workout);
-                result.Message = "Loaded workout details from file";
+                result.Message = $"Loaded details for workout {workout.Id} from file";
             }
             else
             {
@@ -118,7 +118,7 @@
                     }
                 }
 
-                result.Message = "Loaded workout details from online source";
+                result.Message = $"Loaded details for workout {workout.Id} from online source";
             }
 
             result.Success = true;
@@ -132,6 +132,23 @@
                 Success = false,
                 Message = errorMessage
             };
+
+            return new JsonResult(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetWorkoutName(string value)
+        {
+            string result;
+            if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))
+            {
+                var dateAndTime = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, 0, 0);
+                result = ValuesHelper.ComposeWorkoutName(dateAndTime);
+            }
+            else
+            {
+                result = string.Empty;
+            }
 
             return new JsonResult(result);
         }

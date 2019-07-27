@@ -1,4 +1,5 @@
 ﻿@page
+@using Constants;
 @model SwimResults.Pages.DeleteModel
 
 @{
@@ -22,19 +23,19 @@
             @Html.DisplayNameFor(model => model.Workout.Distance)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Workout.Distance)
+            @Html.DisplayFor(model => model.Workout.Distance) m
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Workout.Duration)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Workout.Duration)
+            @Html.DisplayFor(model => model.Workout.DurationFormatted)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Workout.Pace)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Workout.Pace)
+            @Html.DisplayFor(model => model.Workout.PaceFormatted) / 100 m
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Workout.Place)
@@ -52,19 +53,19 @@
             @Html.DisplayNameFor(model => model.Workout.Start)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Workout.Start)
+            @Model.Workout.Start.ToString("t")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Workout.Note)
         </dt>
         <dd class="col-sm-10">
             <span style="white-space: pre-line">@Html.DisplayFor(model => model.Workout.Note)</span>
-</dd>
+        </dd>
     </dl>
     
     <form method="post">
         <input type="hidden" asp-for="Workout.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <a href="@TempData.Peek(ValueKeys.TempDataReturnPathKey)">Back to List</a>
     </form>
 </div>

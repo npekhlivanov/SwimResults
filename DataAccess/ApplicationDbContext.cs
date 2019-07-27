@@ -40,8 +40,9 @@
                 new WorkoutIntervalType { Id = 8, Name = "Freestyle series with paddles" },
                 new WorkoutIntervalType { Id = 9, Name = "Final quick freestyle" },
                 new WorkoutIntervalType { Id = 10, Name = "Backstroke" },
-                new WorkoutIntervalType { Id = 11, Name = "Manually added" }
-               );
+                new WorkoutIntervalType { Id = 11, Name = "Manually added" },
+                new WorkoutIntervalType { Id = 12, Name = "Pre warm-up" }
+              );
         }
     }
 }

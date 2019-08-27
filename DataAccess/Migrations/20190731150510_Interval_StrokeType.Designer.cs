@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190731150510_Interval_StrokeType")]
+    partial class Interval_StrokeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,30 +62,20 @@ namespace DataAccess.Migrations
 
                     b.Property<float>("Distance")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("dbo.fnGetIntervalDistance(Id)");
+                        .HasComputedColumnSql("dbo.fnGetIntervalDistance(id)");
 
                     b.Property<float>("Duration")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("dbo.fnGetIntervalDuration(Id)");
-
-                    b.Property<int?>("IntervalNo");
+                        .HasComputedColumnSql("dbo.fnGetIntervalDuration(id)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000);
-
-                    b.Property<float?>("Pace")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 100 / dbo.fnGetIntervalDistance(Id) end");
 
                     b.Property<float>("StrokeCount");
 
                     b.Property<int?>("StrokeTypeId")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("dbo.fnGetIntervalStrokeType(Id)");
-
-                    b.Property<float?>("Swolf")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 50 / dbo.fnGetIntervalDistance(Id) + StrokeCount * 2 end");
+                        .HasComputedColumnSql("dbo.fnGetIntervalStrokeType(id)");
 
                     b.Property<float>("TimeOffset");
 
@@ -109,8 +101,6 @@ namespace DataAccess.Migrations
                     b.Property<float>("Distance");
 
                     b.Property<float>("Duration");
-
-                    b.Property<int?>("LengthNo");
 
                     b.Property<int>("StrokeCount");
 
@@ -198,21 +188,6 @@ namespace DataAccess.Migrations
                         {
                             Id = 12,
                             Name = "Pre warm-up"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Name = "Intermediate quick freestyle"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Name = "Final quick freestyle 2"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Name = "Other freestyle"
                         });
                 });
 

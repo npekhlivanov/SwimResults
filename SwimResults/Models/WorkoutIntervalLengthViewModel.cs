@@ -8,6 +8,8 @@
     {
         public int Id { get; set; }
 
+        public int LengthNo { get; set; }
+
         public int WorkoutIntervalId { get; set; }
 
         public float Duration { get; set; }

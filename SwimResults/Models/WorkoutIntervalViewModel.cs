@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using static Constants.Enums;
 
     public class WorkoutIntervalViewModel
     {
@@ -16,10 +17,12 @@
         [HiddenInput]
         public int WorkoutId { get; set; }
 
+        public int IntervalNo { get; set; }
+
         [Display(Name = "Time offset")]
         public float TimeOffset { get; set; }
 
-        public float DurationComputed { get => Lengths?.Sum(x => x.Duration) ?? 0; }
+        //public float DurationComputed { get => Lengths?.Sum(x => x.Duration) ?? 0; }
 
         public float Duration { get; set; }
 
@@ -35,12 +38,28 @@
         [DataType(DataType.MultilineText)]
         public string Notes { get; set; }
 
+        [Display(Name = "Stroke count")]
         public float StrokeCount { get; set; }
+
+        [Display(Name = "Stroke type")]
+        public StrokeType StrokeTypeId { get; set; }
+
+        public float Pace { get; set; }
+
+        [Display(Name = "SWOLF")]
+        public float Swolf { get; set; }
+
+        public string DistanceFormatted => Distance > 0 ? Distance.ToString() + " m" : "-";
+
+        public string StrokeCountFormatted => StrokeCount > 0 ? StrokeCount.ToString("0.#") : "-";
 
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 
-        [Display(Name = "Pace")]
-        public string PaceFormatted { get => Distance > 0 ? DisplayValuesFormatter.FormatDuration(Duration * 100 / Distance, true) : "-"; }
+        public string DurationFormattedWithMs { get => DisplayValuesFormatter.FormatDuration(Duration, true); }
+
+        public string PaceFormatted { get => Distance > 0 ? DisplayValuesFormatter.FormatDuration(Pace, true) : "-"; }
+
+        public string SwolfFormatted => StrokeTypeId != StrokeType.Drill && StrokeCount > 0 ? Swolf.ToString("0.#") : "-";
 
         [Display(Name = "Start time")]
         public string StartTime { get => DisplayValuesFormatter.FormatDuration(TimeOffset, false); }
@@ -54,5 +73,7 @@
         [Display(Name = "Workout date")]
         [DataType(DataType.Date)]
         public DateTime WorkoutDate { get; set; }
+
+        public string StrokeTypeName => StrokeTypeId.GetDisplayName(); 
     }
 }

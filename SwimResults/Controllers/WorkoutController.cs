@@ -91,6 +91,7 @@
             var result = new LoadWorkoutDetailsResult();
 
             var workoutDetailsFolder = _configuration["WorkoutDetailsFolder"];
+            workoutDetailsFolder = Environment.ExpandEnvironmentVariables(workoutDetailsFolder);
             var workoutDetailsFile = Path.Combine(workoutDetailsFolder, $"{workout.Id}.xml");
             if (System.IO.File.Exists(workoutDetailsFile))
             {

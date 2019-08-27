@@ -39,10 +39,15 @@
         [Display(Name = "Active time")]
         public float ActiveTime { get; set; }
 
+        [Display(Name = "Rest time")]
+        public float RestTime => Duration - ActiveTime;
+
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 
         public string PaceFormatted { get => DisplayValuesFormatter.FormatDuration(Pace, false); }
 
         public string ActiveTimeFormatted { get => DisplayValuesFormatter.FormatDuration(ActiveTime, false); }
+
+        public string RestTimeFormatted { get => DisplayValuesFormatter.FormatDuration(RestTime, false); }
     }
 }

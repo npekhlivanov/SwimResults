@@ -95,6 +95,20 @@
             return await result.AsNoTracking().ToListAsync();
         }
 
+        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty, TProperty2>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> sortSelector, 
+            bool sortDescending, int pageSize, int pageNo, Expression<Func<TEntity, TProperty>> navigationPropertyPath, Expression<Func<TEntity, TProperty2>> otherNavigationPropertyPath)
+        {
+            ValidatePageParams(pageSize, pageNo);
+
+            var result = GetListAsQueriable(sortSelector, sortDescending)
+                .Where(predicate);
+            result = result.Skip(pageNo * pageSize)
+                .Take(pageSize)
+                .Include(navigationPropertyPath)
+                .Include(otherNavigationPropertyPath);
+            return await result.AsNoTracking().ToListAsync();
+        }
+
         public virtual async Task<IList<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate)
         {
             //var result = Task.Factory.StartNew<IList<TEntity>>(() => Expression<Func<TEntity, TProperty>> navigationPropertyPath
@@ -142,17 +156,35 @@
             return await result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationPropertyPath, Expression<Func<TEntity, TProperty2>> otherNavigationPropertyPath)
+        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, 
+            Expression<Func<TEntity, TProperty2>> navigationProperty2Path)
         {
             var result = _context.Set<TEntity>()
-                .Include(navigationPropertyPath)
-                .Include(otherNavigationPropertyPath)
+                .Include(navigationProperty1Path)
+                .Include(navigationProperty2Path)
                 .FirstOrDefaultAsync(e => e.Id == id);
             return await result;
         }
+
+        public async Task<TEntity> Get<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, 
+                Expression<Func<TEntity, TProperty2>> navigationProperty2Path, Expression<Func<TEntity, TProperty3>> navigationProperty3Path)
+        {
+            var result = _context.Set<TEntity>()
+                .Include(navigationProperty1Path)
+                .Include(navigationProperty2Path)
+                .Include(navigationProperty3Path)
+                .FirstOrDefaultAsync(e => e.Id == id);
+            return await result;
+        }
+
         public async Task<int> GetCount()
         {
             var result = await _context.Set<TEntity>().CountAsync();
+            return result;
+        }
+        public async Task<int> GetCount(Expression<Func<TEntity, bool>> predicate)
+        {
+            var result = await _context.Set<TEntity>().Where(predicate).CountAsync();
             return result;
         }
     }

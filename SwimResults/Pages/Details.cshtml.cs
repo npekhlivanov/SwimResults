@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SwimResults.Models;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class DetailsModel : PageModel
@@ -23,23 +24,53 @@
 
         public WorkoutViewModel Workout { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id, string returnPath)
+        public string ReturnPath { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id, string returnPath, bool? showRests)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.Get(id.Value, w => w.Intervals, i => ((WorkoutInterval)i).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
+            var storedWorkout = await _workoutRepository.Get(id.Value, w => w.Intervals, wi => ((WorkoutInterval)wi).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
             if (storedWorkout == null)
             {
                 return NotFound();
             }
 
+            //TempData[ValueKeys.TempDataReturnPathKey] = returnPath;
+            ReturnPath = string.IsNullOrWhiteSpace(returnPath) ? Url.Page("Index") : returnPath;
+
             //storedWorkout.Intervals = await _workoutIntervalRepository.GetList(i => i.WorkoutId == storedWorkout.Id, i => i.Lengths);
             Workout = _mapper.Map<WorkoutViewModel>(storedWorkout);
-            TempData[ValueKeys.TempDataReturnPathKey] = returnPath;
+            var intervals = Workout.Intervals.OrderBy(wi => wi.IntervalNo).ToList();
+            if (showRests ?? false)
+            {
+                InsertRests(intervals);
+            }
+
+            Workout.Intervals = intervals;
             return Page();
+        }
+
+        private static void InsertRests(System.Collections.Generic.List<WorkoutIntervalViewModel> intervals)
+        {
+            var i = 0;
+            while (++i < intervals.Count())
+            {
+                var interval = intervals[i];
+                if (i > 0)
+                {
+                    var prevInterval = intervals[i - 1];
+                    var prevIntervalEnd = prevInterval.TimeOffset + prevInterval.Duration;
+                    var delta = interval.TimeOffset - prevIntervalEnd;
+                    if (delta > 1)
+                    {
+                        intervals.Insert(i++, new WorkoutIntervalViewModel { TimeOffset = prevIntervalEnd, Duration = delta, Notes = "Rest" });
+                    }
+                }
+            }
         }
     }
 }

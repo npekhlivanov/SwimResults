@@ -7,19 +7,19 @@
     {
         public enum StrokeType
         {
-            [Display(Name="FreeStyle", Description="Free")]
+            [DisplayName("Free")]
             Freestyle = 0,
-            [Description("Back")]
+            [DisplayName("Back")]
             Backstroke = 1,
-            [Description("Breast")]
+            [DisplayName("Breast")]
             Breaststroke = 2,
-            [Description("Fly")]
+            [DisplayName("Fly")]
             Butterfly = 3,
-            [Description("Drill")]
+            [DisplayName("Drill")]
             Drill = 4,
-            [Description("Kick")]
+            [DisplayName("Kick")]
             Kick = 5,
-            [Description("Not selected")]
+            [DisplayName("Not selected")]
             Unknown = 6
         }
     }

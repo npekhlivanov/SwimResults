@@ -7,8 +7,10 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
 
     public static class EnumExtensions
     {
@@ -112,12 +114,16 @@
                 }
             }
 
-            var loadedWorkouts = WorkoutListParser.LoadWorkoutList(@"H:\OneDrive\Архив\Плуване\AllSwims.json"); //"C:\\Temp\\Workouts.json"
-            Console.WriteLine($"Workouts loaded: {loadedWorkouts?.Count ?? 0}");
-
             IConfiguration config = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json", true, true)
                .Build();
+
+            var workoutDetailsFolder = config["WorkoutDetailsFolder"];
+            workoutDetailsFolder = Environment.ExpandEnvironmentVariables(workoutDetailsFolder);
+            var allSwimsFile = Path.Combine(workoutDetailsFolder, "AllSwims.json");//"C:\\Temp\\Workouts.json"
+            var loadedWorkouts = WorkoutListParser.LoadWorkoutList(allSwimsFile); 
+            Console.WriteLine($"Workouts loaded: {loadedWorkouts?.Count ?? 0}");
+
             string connectionString = config.GetConnectionString("DefaultConnection");
 
             using (var dbContext = new SqlServerDbContext(connectionString))
@@ -125,12 +131,29 @@
                 var repository = new WorkoutRepository(dbContext);
 
                 var storedWorkouts = repository.GetList(w => w.Start, true).Result;
-                var newWorkouts = GetNewWorkouts(loadedWorkouts, storedWorkouts);
-                SaveWorkouts(newWorkouts, repository);
+
                 if (workoutId == 0)
                 {
+                    var workouts = storedWorkouts.OrderBy(w => w.Id);
+                    foreach (var workout in workouts)
+                    {
+                        if (ImportWorkoutDetails(workout.Id, repository, workoutDetailsFolder))
+                        {
+                            Console.WriteLine($"Workout {workout.Id} details loaded");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Workout {workout.Id} details load failed!");
+                        }
+
+                        Thread.Sleep(300);
+                    }
+
                     return;
                 }
+
+                var newWorkouts = GetNewWorkouts(loadedWorkouts, storedWorkouts);
+                SaveWorkouts(newWorkouts, repository);
 
                 var myWorkout = storedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
                 if (myWorkout == null)
@@ -146,7 +169,8 @@
                 //var xmlDataStream = WorkoutDetailsRetriever.DownloadWorkoutDetails("https://www.swim.com/export/xml/", 1248785).Result;
                 //WorkoutDetailParser.LoadWorkoutData(xmlDataStream, myWorkout);
 
-                WorkoutDetailParser.LoadWorkoutData($@"H:\OneDrive\Архив\Плуване\{workoutId}.xml", myWorkout);
+                var detailsFile = Path.Combine(workoutDetailsFolder, $@"{workoutId}.xml");
+                WorkoutDetailParser.LoadWorkoutData(detailsFile, myWorkout);
 
                 //var workoutInDb = repository.Get(workoutId).Result;
                 var workoutInDb = repository.GetList(w => w.Id == workoutId).Result;
@@ -160,8 +184,22 @@
                     repository.Update(myWorkout).Wait();
                 }
 
-                repository.FindAndDelete(workoutId).Wait();
+                //repository.FindAndDelete(workoutId).Wait();
             }
+        }
+
+        static bool ImportWorkoutDetails(int workoutId, WorkoutRepository repository, string workoutDetailsFolder)
+        {
+            var myWorkout = repository.Get(workoutId).Result;
+            if (myWorkout == null)
+            {
+                return false;
+            }
+
+            var detailsFile = Path.Combine(workoutDetailsFolder, $@"{workoutId}.xml");
+            WorkoutDetailParser.LoadWorkoutData(detailsFile, myWorkout);
+            repository.Update(myWorkout).Wait();
+            return true;
         }
 
         static void SaveWorkouts(IList<Workout> workouts, WorkoutRepository repository)

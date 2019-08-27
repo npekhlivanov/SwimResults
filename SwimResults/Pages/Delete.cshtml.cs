@@ -50,7 +50,7 @@
             await _workoutRepository.Delete(id.Value);
 
             var returnPath = (string)TempData[ValueKeys.TempDataReturnPathKey];
-            if (string.IsNullOrEmpty(returnPath))
+            if (string.IsNullOrWhiteSpace(returnPath))
             {
                 return RedirectToPage("./Index");
             }

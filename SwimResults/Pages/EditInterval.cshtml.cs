@@ -27,12 +27,12 @@
         [BindProperty]
         public WorkoutIntervalEditModel WorkoutInterval { get; set; }
 
-        public SelectList WorkoutIntervalTypeSelectList { get; set; }
+        public SelectList WorkoutIntervalTypeSelectList { get; private set; }
 
         //[TempData]
         //public string ReturnPath { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id, int? intervalNo, string returnPath)
+        public async Task<IActionResult> OnGetAsync(int? id, string returnPath)
         {
             if (id == null)
             {
@@ -46,8 +46,7 @@
             }
 
             WorkoutInterval = _mapper.Map<WorkoutIntervalEditModel>(storedInterval);
-            WorkoutInterval.IntervalNo = intervalNo ?? 0;
-            var returnUrl = string.IsNullOrEmpty(returnPath) ? Url.Page("Details", new { id = storedInterval.WorkoutId }): returnPath; // Request.Headers["Referer"]
+            var returnUrl = string.IsNullOrWhiteSpace(returnPath) ? Url.Page("Details", new { id = storedInterval.WorkoutId }): returnPath; // Request.Headers["Referer"]
             TempData[ValueKeys.TempDataReturnPathKey] = returnUrl;
             //ReturnPath = returnPath; // works fine without extra configuring; get value in page via @Model.ReturnPath 
 

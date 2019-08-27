@@ -47,9 +47,11 @@
         private static void TransformWorkoutIntervals(WorkoutXml workoutXml, Workout workout)
         {
             var intervals = new List<WorkoutInterval>();
-            foreach (var intervalXml in workoutXml.Intervals)
+            for (int i = 0; i < workoutXml.Intervals.Length; ++i)
             {
+                var intervalXml = workoutXml.Intervals[i];
                 var interval = TransformWorkoutInterval(intervalXml);
+                interval.IntervalNo = i + 1;
                 intervals.Add(interval);
             }
 
@@ -62,9 +64,11 @@
         private static WorkoutInterval TransformWorkoutInterval(WorkoutIntervalXml intervalXml)
         {
             var lengths = new List<WorkoutIntervalLength>();
-            foreach (var lengthXml in intervalXml.Lengths)
+            for (int i = 0; i < intervalXml.Lengths.Length; ++i)
             {
+                var lengthXml = intervalXml.Lengths[i];
                 var length = TransformWorkoutIntervalLength(lengthXml);
+                length.LengthNo = i + 1;
                 lengths.Add(length);
             }
 

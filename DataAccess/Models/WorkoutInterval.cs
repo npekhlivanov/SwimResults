@@ -5,11 +5,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
+    using static Constants.Enums;
 
     public class WorkoutInterval : Entity, IWorkoutInterval
     {
         public int WorkoutId { get; set; }
+
+        public int? IntervalNo { get; set; }
 
         public float TimeOffset { get; set; }
 
@@ -33,6 +35,12 @@
         public float StrokeCount { get; set; }
 
         public WorkoutIntervalType WorkoutIntervalType { get; set; }
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)] // this is set in OnModelCreating() so it is redundant here
+        public StrokeType? StrokeTypeId { get; private set; }
+        public float? Pace { get; set; }
+
+        public float? Swolf { get; set; }
 
         public virtual Workout Workout { get; set; }
     }

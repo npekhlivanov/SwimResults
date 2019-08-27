@@ -8,6 +8,8 @@
     {
         public int WorkoutIntervalId { get; set; }
 
+        public int? LengthNo { get; set; }
+
         public float Duration { get; set; }
 
         public StrokeType StrokeTypeId { get; set; }

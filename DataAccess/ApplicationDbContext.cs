@@ -23,11 +23,25 @@
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Duration)
-                .HasComputedColumnSql("dbo.fnGetIntervalDuration(id)");
+                .HasComputedColumnSql("dbo.fnGetIntervalDuration(Id)");
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Distance)
-                .HasComputedColumnSql("dbo.fnGetIntervalDistance(id)");
+                .HasComputedColumnSql("dbo.fnGetIntervalDistance(Id)");
+
+            modelBuilder.Entity<WorkoutInterval>()
+                .Property(p => p.StrokeTypeId)
+                .HasComputedColumnSql("dbo.fnGetIntervalStrokeType(Id)");
+
+            modelBuilder.Entity<WorkoutInterval>()
+                .Property(p => p.Pace)
+                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else " +
+                    "dbo.fnGetIntervalDuration(Id) * 100 / dbo.fnGetIntervalDistance(Id) end");
+
+            modelBuilder.Entity<WorkoutInterval>()
+                .Property(p => p.Swolf)
+                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else " +
+                    "dbo.fnGetIntervalDuration(Id) * 50 / dbo.fnGetIntervalDistance(Id) + StrokeCount * 2 end");
 
             modelBuilder.Entity<WorkoutIntervalType>().HasData(
                 new WorkoutIntervalType { Id = 1, Name = "Warm up" },
@@ -41,8 +55,11 @@
                 new WorkoutIntervalType { Id = 9, Name = "Final quick freestyle" },
                 new WorkoutIntervalType { Id = 10, Name = "Backstroke" },
                 new WorkoutIntervalType { Id = 11, Name = "Manually added" },
-                new WorkoutIntervalType { Id = 12, Name = "Pre warm-up" }
-              );
+                new WorkoutIntervalType { Id = 12, Name = "Pre warm-up" },
+                new WorkoutIntervalType { Id = 13, Name = "Intermediate quick freestyle" },
+                new WorkoutIntervalType { Id = 14, Name = "Final quick freestyle 2" },
+                new WorkoutIntervalType { Id = 15, Name = "Other freestyle" }
+             );
         }
     }
 }

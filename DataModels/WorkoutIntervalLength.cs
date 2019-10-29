@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Models
+﻿namespace DataModels
 {
     using Contracts.Entities;
     using DataTemplates.Entities;

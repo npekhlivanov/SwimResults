@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class RootObject
+    internal class RootObject
     {
         public object Message { get; set; }
         public Result Result { get; set; }

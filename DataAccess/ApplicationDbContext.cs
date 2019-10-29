@@ -1,6 +1,7 @@
 ﻿namespace DataAccess
 {
-    using DataAccess.Models;
+    using System;
+    using DataModels;
     using Microsoft.EntityFrameworkCore;
 
     public partial class ApplicationDbContext : DbContext
@@ -17,9 +18,18 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            if (modelBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
+
             modelBuilder.Entity<Workout>()
                 .Property(p => p.Id)
                 .ValueGeneratedNever();
+
+            modelBuilder.Entity<Workout>()
+                .Property(p => p.WorkoutDate)
+                .HasColumnName("Date");
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Duration)

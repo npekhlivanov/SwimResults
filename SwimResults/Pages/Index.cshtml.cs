@@ -1,23 +1,23 @@
 ﻿namespace SwimResults.Pages
 {
+    using System;
+    using System.Threading.Tasks;
     using AutoMapper;
-    using DataAccess.Data;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SwimResults.Models;
     using SwimResults.Tools;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class IndexModel : PageModel
     {
-        private readonly WorkoutRepository _repository;
+        private readonly IRepository<Workout> _repository;
         private readonly IMapper _mapper;
         private readonly int _pageSize;
 
-        public IndexModel(WorkoutRepository repository, IMapper mapper)
+        public IndexModel(IRepository<Workout> repository, IMapper mapper)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(WorkoutRepository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _pageSize = 10;
         }

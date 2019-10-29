@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class WorkoutData
+    internal class WorkoutData
     {
         public int WorkoutId { get; set; }
         public string WorkoutName { get; set; }

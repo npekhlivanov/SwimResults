@@ -8,7 +8,7 @@
     [XmlType(AnonymousType = true)]
     //[System.Xml.Serialization.XmlRoot(Namespace = "", IsNullable = false)]
     [XmlRoot("workout")]
-    public class WorkoutXml
+    internal class WorkoutXml
     {
         [XmlElement("device")]
         public WorkoutDeviceXml Device { get; set; }

@@ -1,11 +1,11 @@
-﻿namespace DataAccess.Models
+﻿namespace DataModels
 {
-    using DataTemplates.Entities;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Contracts.Entities;
+    using DataTemplates.Entities;
 
     public class Workout : Entity, IWorkout
     {
@@ -24,8 +24,9 @@
         [MaxLength(100)]
         public string Place { get; set; }
 
+        //[Column("Date")]
         [DataType(DataType.Date)] // Display the value without the time
-        public DateTime Date { get; set; }
+        public DateTime WorkoutDate { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime Start { get; set; }

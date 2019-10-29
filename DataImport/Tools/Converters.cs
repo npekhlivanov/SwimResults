@@ -3,7 +3,7 @@
     using System;
     using static Constants.Enums;
 
-    public class Converters
+    internal static class Converters
     {
         public static DateTime UnixTimeToDateTime(long unixTime)
         {

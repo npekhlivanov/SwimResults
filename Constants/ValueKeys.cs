@@ -1,6 +1,6 @@
 ﻿namespace Constants
 {
-    public class ValueKeys
+    public static class ValueKeys
     {
         public const string TempDataReturnPathKey = "ReturnUrl";
     }

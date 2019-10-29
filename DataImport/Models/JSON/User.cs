@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class User
+    internal class User
     {
         public int userId { get; set; }
         public object profileId { get; set; }

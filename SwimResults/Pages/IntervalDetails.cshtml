@@ -10,7 +10,7 @@
 <div>
     @{ if (Model.Interval.IntervalNo > 0)
         {
-            <h3>Interval @Model.Interval.IntervalNo of workout @Model.Interval.WorkoutName</h3>
+            <h3>Interval @Model.Interval.IntervalNo of workout &laquo;@Model.Interval.WorkoutName&raquo;</h3>
         }
         else
         {
@@ -119,6 +119,6 @@
 </div>
 <div>
     @{ var routeValues = new Dictionary<string, string> { { "id", Model.Interval.Id.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery() } }; }
-    <a asp-page="./EditInterval" asp-all-route-data="routeValues"><i class='far fa-edit'></i></a> |
-    <a href="@Model.ReturnPath"><i class='far fa-arrow-alt-circle-left'></i></a>
+    <a asp-page="./EditInterval" title="Edit interval" asp-all-route-data="routeValues"><i class='far fa-edit'></i></a> |
+    <a href="@Model.ReturnPath" title="Back"><i class='far fa-arrow-alt-circle-left'></i></a>
 </div>

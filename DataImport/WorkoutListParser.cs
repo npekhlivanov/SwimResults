@@ -1,11 +1,11 @@
 ﻿namespace DataImport
 {
-    using DataAccess.Models;
-    using DataImport.Models.JSON;
-    using DataImport.Tools;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.IO;
+    using DataImport.Models.JSON;
+    using DataImport.Tools;
+    using DataModels;
+    using Newtonsoft.Json;
 
     public class WorkoutListParser
     {
@@ -49,7 +49,7 @@
                 Distance = item.WorkoutData != null ? item.WorkoutData.Distance : 0,
                 Duration = item.WorkoutData?.Duration ?? 0,
                 Start = workoutDate,
-                Date = workoutDate.Date,
+                WorkoutDate = workoutDate.Date,
                 Note = item.WorkoutData?.WorkoutNote,
                 Place = item.WorkoutData?.PlaceName,
                 Pace = item.WorkoutData?.Pace ?? 0,

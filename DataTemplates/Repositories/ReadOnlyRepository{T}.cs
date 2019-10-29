@@ -1,27 +1,27 @@
 ﻿namespace DataTemplates.Repositories
 {
-    using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Linq;
     using System;
-    using DataTemplates.Entities;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using DataTemplates.Entities;
     using DataTemplates.Interfaces;
+    using Microsoft.EntityFrameworkCore;
 
-    public abstract class ReadOnlyRepository<TEntity> : IReadOnyReposotory<TEntity>
+    public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : Entity
     {
         protected readonly DbContext _context;
 
-        public ReadOnlyRepository(DbContext context)
+        protected ReadOnlyRepository(DbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(DbContext));
         }
 
         public virtual async Task<IList<TEntity>> GetList()
         {
-            var result = _context.Set<TEntity>().AsNoTracking().ToListAsync(); 
+            var result = _context.Set<TEntity>().AsNoTracking().ToListAsync();
             return await result;
         }
 
@@ -59,7 +59,7 @@
             var result = GetListAsQueriable(sortSelector, sortDescending);
             return await result.AsNoTracking().ToListAsync();
         }
-        
+
         public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo)
         {
             ValidatePageParams(pageSize, pageNo);
@@ -69,7 +69,7 @@
             return await result.AsNoTracking().ToListAsync();
         }
 
-        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo, 
+        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo,
             Expression<Func<TEntity, TProperty>> navigationPropertyPath)
         {
             ValidatePageParams(pageSize, pageNo);
@@ -95,7 +95,7 @@
             return await result.AsNoTracking().ToListAsync();
         }
 
-        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty, TProperty2>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> sortSelector, 
+        public virtual async Task<IList<TEntity>> GetList<TKey, TProperty, TProperty2>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> sortSelector,
             bool sortDescending, int pageSize, int pageNo, Expression<Func<TEntity, TProperty>> navigationPropertyPath, Expression<Func<TEntity, TProperty2>> otherNavigationPropertyPath)
         {
             ValidatePageParams(pageSize, pageNo);
@@ -156,7 +156,7 @@
             return await result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, 
+        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
             Expression<Func<TEntity, TProperty2>> navigationProperty2Path)
         {
             var result = _context.Set<TEntity>()
@@ -166,7 +166,7 @@
             return await result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, 
+        public async Task<TEntity> Get<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
                 Expression<Func<TEntity, TProperty2>> navigationProperty2Path, Expression<Func<TEntity, TProperty3>> navigationProperty3Path)
         {
             var result = _context.Set<TEntity>()
@@ -182,6 +182,7 @@
             var result = await _context.Set<TEntity>().CountAsync();
             return result;
         }
+
         public async Task<int> GetCount(Expression<Func<TEntity, bool>> predicate)
         {
             var result = await _context.Set<TEntity>().Where(predicate).CountAsync();

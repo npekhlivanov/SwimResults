@@ -1,23 +1,23 @@
 ﻿namespace SwimResults.Pages
 {
+    using System;
+    using System.Threading.Tasks;
     using AutoMapper;
-    using DataAccess.Data;
-    using DataAccess.Models;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Configuration;
     using SwimResults.Models;
     using SwimResults.Tools;
-    using System;
-    using System.Threading.Tasks;
 
     public class CreateModel : PageModel
     {
-        private readonly WorkoutRepository _workoutRepository;
+        private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public CreateModel(WorkoutRepository workoutRepository, IMapper mapper, IConfiguration configuration)
+        public CreateModel(IRepository<Workout> workoutRepository, IMapper mapper, IConfiguration configuration)
         {
             _workoutRepository = workoutRepository;
             _mapper = mapper;
@@ -47,10 +47,10 @@
             }
 
             var workout = _mapper.Map<Workout>(Workout);
-            workout.Start = new DateTime(workout.Date.Year, workout.Date.Month, workout.Date.Day, DateTime.Now.Hour, 0, 0);
+            workout.Start = new DateTime(workout.WorkoutDate.Year, workout.WorkoutDate.Month, workout.WorkoutDate.Day, DateTime.Now.Hour, 0, 0);
             await _workoutRepository.Add(workout);
 
             return RedirectToPage("./Index");
         }
-    } 
+    }
 }

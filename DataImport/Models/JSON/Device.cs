@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class Device
+    internal class Device
     {
         public string Name { get; set; }
         public int DeviceId { get; set; }

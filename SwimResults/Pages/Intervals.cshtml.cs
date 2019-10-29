@@ -1,22 +1,22 @@
 ﻿namespace SwimResults.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using AutoMapper;
-    using DataAccess.Data;
-    using DataAccess.Models;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using SwimResults.Models;
     using SwimResults.Tools;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
 
     public class IntervalsModel : PageModel
     {
-        private readonly WorkoutIntervalRepository _intervalRepository;
-        private readonly WorkoutIntervalTypeRepository _intervalTypeRepository;
+        private readonly IRepository<WorkoutInterval> _intervalRepository;
+        private readonly IRepository<WorkoutIntervalType> _intervalTypeRepository;
         private readonly IMapper _mapper;
         private readonly int _pageSize;
 
@@ -49,7 +49,7 @@
         private const string PaceSortKey = "Pace";
         private const string SwolfSortKey = "Swolf";
 
-        public IntervalsModel(WorkoutIntervalRepository intervalRepository, WorkoutIntervalTypeRepository intervalTypeRepository, IMapper mapper)
+        public IntervalsModel(IRepository<WorkoutInterval> intervalRepository, IRepository<WorkoutIntervalType> intervalTypeRepository, IMapper mapper)
         {
             _intervalRepository = intervalRepository;
             _intervalTypeRepository = intervalTypeRepository;
@@ -67,7 +67,7 @@
                 case StrokeCountSortKey: { sortSelector = i => i.StrokeCount; break; }
                 case PaceSortKey: { sortSelector = i => i.Pace; break; }
                 case SwolfSortKey: { sortSelector = i => i.Swolf; break; }
-                default: { sortSelector = i => i.Workout.Date; break; }
+                default: { sortSelector = i => i.Workout.WorkoutDate; break; }
             }
 
             var newSortOrder = string.IsNullOrWhiteSpace(sortBy) ? DateSortKey : sortBy;
@@ -95,7 +95,7 @@
             {
                 var displayItem = _mapper.Map<WorkoutIntervalViewModel>(interval);
                 displayItem.WorkoutName = interval.Workout.Name;
-                displayItem.WorkoutDate = interval.Workout.Date;
+                displayItem.WorkoutDate = interval.Workout.WorkoutDate;
                 Intervals.Add(displayItem);
             }
 

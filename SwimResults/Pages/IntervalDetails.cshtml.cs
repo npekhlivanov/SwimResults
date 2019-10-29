@@ -1,19 +1,20 @@
 ﻿namespace SwimResults.Pages
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using AutoMapper;
-    using DataAccess.Data;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SwimResults.Models;
-    using System.Threading.Tasks;
-    using System.Linq;
 
     public class IntervalDetailsModel : PageModel
     {
-        private readonly WorkoutIntervalRepository _intervalRepository;
+        private readonly IRepository<WorkoutInterval> _intervalRepository;
         private readonly IMapper _mapper;
 
-        public IntervalDetailsModel(WorkoutIntervalRepository intervalRepository, IMapper mapper)
+        public IntervalDetailsModel(IRepository<WorkoutInterval> intervalRepository, IMapper mapper)
         {
             _intervalRepository = intervalRepository;
             _mapper = mapper;
@@ -30,7 +31,7 @@
                 return NotFound();
             }
 
-            var storedInterval = await _intervalRepository.Get(id.Value, i => i.Lengths, i => i.WorkoutIntervalType, i => i.Workout); 
+            var storedInterval = await _intervalRepository.Get(id.Value, i => i.Lengths, i => i.WorkoutIntervalType, i => i.Workout);
             if (storedInterval == null)
             {
                 return NotFound();

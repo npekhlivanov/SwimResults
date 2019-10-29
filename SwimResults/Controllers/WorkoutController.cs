@@ -1,25 +1,24 @@
 ﻿namespace SwimResults.Controllers
 {
-    using DataAccess.Data;
-    using DataAccess.Models;
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
     using DataImport;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using SwimResults.Models;
     using SwimResults.Tools;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
     public class WorkoutController : ControllerBase
     {
-        private readonly WorkoutRepository _workoutRepository;
+        private readonly IRepository<Workout> _workoutRepository;
         private readonly IConfiguration _configuration;
 
-        public WorkoutController(WorkoutRepository workoutRepository, IConfiguration configuration)
+        public WorkoutController(IRepository<Workout> workoutRepository, IConfiguration configuration)
         {
             _workoutRepository = workoutRepository;
             _configuration = configuration;
@@ -63,7 +62,7 @@
                     Duration = DisplayValuesFormatter.FormatDuration(workout.Duration, false),
                     Name = workout.Name,
                     Pace = DisplayValuesFormatter.FormatDuration(workout.Pace, false),
-                    StartDate = workout.Date.ToShortDateString()
+                    StartDate = workout.WorkoutDate.ToShortDateString()
                 };
                 result = new FillWorkoutDetailsResult
                 {

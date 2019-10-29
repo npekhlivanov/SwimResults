@@ -26,7 +26,7 @@
 
                     result.Position = 0;
                     return result;
-               }
+                }
             }
         }
     }

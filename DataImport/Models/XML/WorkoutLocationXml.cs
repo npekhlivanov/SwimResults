@@ -5,7 +5,7 @@
     [System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutLocation", AnonymousType = true)]
-    public class WorkoutLocationXml
+    internal class WorkoutLocationXml
     {
         [XmlElement("lat")]
         public decimal Latitude { get; set; }

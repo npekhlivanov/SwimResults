@@ -1,7 +1,7 @@
 ﻿namespace SwimResults.Mappings
 {
     using AutoMapper;
-    using DataAccess.Models;
+    using DataModels;
     using SwimResults.Models;
 
     public class WorkoutProfile : Profile

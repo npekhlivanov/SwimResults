@@ -1,7 +1,7 @@
 ﻿namespace SwimResults.Models
 {
-    using SwimResults.Tools;
     using System.ComponentModel.DataAnnotations;
+    using SwimResults.Tools;
     using static Constants.Enums;
 
     public class WorkoutIntervalLengthViewModel
@@ -27,6 +27,6 @@
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, true); }
 
         [Display(Name = "Pace")]
-        public string PaceFormatted => Distance > 0 ? DisplayValuesFormatter.FormatDuration(Duration * 100 / Distance, true) : "-"; 
+        public string PaceFormatted => Distance > 0 ? DisplayValuesFormatter.FormatDuration(Duration * 100 / Distance, true) : "-";
     }
 }

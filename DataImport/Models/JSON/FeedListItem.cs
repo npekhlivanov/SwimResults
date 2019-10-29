@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class FeedListItem
+    internal class FeedListItem
     {
         public int WorkoutId { get; set; }
         public string WorkoutTitle { get; set; }

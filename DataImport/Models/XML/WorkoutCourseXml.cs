@@ -5,7 +5,7 @@
     [System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutCourse", AnonymousType = true)]
-    public class WorkoutCourseXml
+    internal class WorkoutCourseXml
     {
         [XmlElement("courseLength")]
         public float CourseLength { get; set; }

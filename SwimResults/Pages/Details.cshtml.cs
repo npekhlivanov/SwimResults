@@ -1,22 +1,21 @@
 ﻿namespace SwimResults.Pages
 {
-    using AutoMapper;
-    using Constants;
-    using DataAccess.Data;
-    using DataAccess.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-    using SwimResults.Models;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoMapper;
+    using DataModels;
+    using DataTemplates.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using SwimResults.Models;
 
     public class DetailsModel : PageModel
     {
-        private readonly WorkoutRepository _workoutRepository;
+        private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
 
-        public DetailsModel(WorkoutRepository workoutRepository, IMapper mapper)
+        public DetailsModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
             _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

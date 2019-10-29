@@ -1,10 +1,9 @@
-﻿namespace DataAccess.Models
+﻿namespace DataModels
 {
-    using Contracts.Entities;
-    using DataTemplates.Entities;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using Contracts.Entities;
+    using DataTemplates.Entities;
     using static Constants.Enums;
 
     public class WorkoutInterval : Entity, IWorkoutInterval

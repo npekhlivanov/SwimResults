@@ -12,7 +12,7 @@
                 return time.ToString(@"h\:mm\:ss");
             }
 
-            return showHundredths? time.ToString(@"mm\:ss\.ff") : time.ToString(@"mm\:ss");
+            return showHundredths ? time.ToString(@"mm\:ss\.ff") : time.ToString(@"mm\:ss");
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿namespace Contracts.Entities
 {
-    using DataTemplates.Interfaces;
     using System;
-    using System.Collections.Generic;
+    using DataTemplates.Interfaces;
 
     public interface IWorkout : IEntity
     {
-        DateTime Date { get; set; }
+        DateTime WorkoutDate { get; set; }
         float Distance { get; set; }
         float Duration { get; set; }
         //ICollection<IWorkoutInterval> Intervals { get; set; }

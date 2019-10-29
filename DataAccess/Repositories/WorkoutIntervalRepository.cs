@@ -1,10 +1,10 @@
-﻿namespace DataAccess.Data
+﻿namespace DataAccess.Repositories
 {
-    using DataAccess.Models;
+    using DataModels;
     using DataTemplates.Interfaces;
     using DataTemplates.Repositories;
 
-    public class WorkoutIntervalRepository : Repository<WorkoutInterval>, IRepository<WorkoutInterval>
+    internal class WorkoutIntervalRepository : Repository<WorkoutInterval>, IRepository<WorkoutInterval>
     {
         public WorkoutIntervalRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

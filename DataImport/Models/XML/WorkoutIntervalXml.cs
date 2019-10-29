@@ -5,7 +5,7 @@
     [System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutInterval", AnonymousType = true)]
-    public class WorkoutIntervalXml
+    internal class WorkoutIntervalXml
     {
         [XmlElement("timeOffset")]
         public float TimeOffset { get; set; }

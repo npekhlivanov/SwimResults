@@ -1,23 +1,23 @@
 ﻿namespace SwimResults.Pages
 {
+    using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
-    using DataAccess.Data;
-    using DataAccess.Models;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using SwimResults.Models;
-    using System.Threading.Tasks;
 
     public class EditIntervalModel : PageModel
     {
-        private readonly WorkoutIntervalRepository _intervalRepository;
-        private readonly WorkoutIntervalTypeRepository _intervalTypeRepository;
+        private readonly IRepository<WorkoutInterval> _intervalRepository;
+        private readonly IRepository<WorkoutIntervalType> _intervalTypeRepository;
         private readonly IMapper _mapper;
 
-        public EditIntervalModel(WorkoutIntervalRepository intervalRepository, WorkoutIntervalTypeRepository intervalTypeRepository, IMapper mapper)
+        public EditIntervalModel(IRepository<WorkoutInterval> intervalRepository, IRepository<WorkoutIntervalType> intervalTypeRepository, IMapper mapper)
         {
             _intervalRepository = intervalRepository;
             _intervalTypeRepository = intervalTypeRepository;
@@ -46,7 +46,7 @@
             }
 
             WorkoutInterval = _mapper.Map<WorkoutIntervalEditModel>(storedInterval);
-            var returnUrl = string.IsNullOrWhiteSpace(returnPath) ? Url.Page("Details", new { id = storedInterval.WorkoutId }): returnPath; // Request.Headers["Referer"]
+            var returnUrl = string.IsNullOrWhiteSpace(returnPath) ? Url.Page("Details", new { id = storedInterval.WorkoutId }) : returnPath; // Request.Headers["Referer"]
             TempData[ValueKeys.TempDataReturnPathKey] = returnUrl;
             //ReturnPath = returnPath; // works fine without extra configuring; get value in page via @Model.ReturnPath 
 

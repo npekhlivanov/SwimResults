@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
 
-    public class ValuesHelper
+    public static class ValuesHelper
     {
         public static string ComposeWorkoutName(DateTime dateAndTime)
         {

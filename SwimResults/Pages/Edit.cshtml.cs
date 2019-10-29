@@ -1,21 +1,21 @@
 ﻿namespace SwimResults.Pages
 {
+    using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
-    using DataAccess.Data;
-    using DataAccess.Models;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
     using SwimResults.Models;
-    using System.Threading.Tasks;
 
     public class EditModel : PageModel
     {
-        private readonly WorkoutRepository _workoutRepository;
+        private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
 
-        public EditModel(WorkoutRepository workoutRepository, IMapper mapper)
+        public EditModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
             _workoutRepository = workoutRepository;
             _mapper = mapper;

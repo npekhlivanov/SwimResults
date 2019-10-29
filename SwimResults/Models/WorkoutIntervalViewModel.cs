@@ -1,12 +1,11 @@
 ﻿namespace SwimResults.Models
 {
-    using DataAccess.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using SwimResults.Tools;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
+    using DataModels;
+    using Microsoft.AspNetCore.Mvc;
+    using SwimResults.Tools;
     using static Constants.Enums;
 
     public class WorkoutIntervalViewModel
@@ -74,6 +73,6 @@
         [DataType(DataType.Date)]
         public DateTime WorkoutDate { get; set; }
 
-        public string StrokeTypeName => StrokeTypeId.GetDisplayName(); 
+        public string StrokeTypeName => StrokeTypeId.GetDisplayName();
     }
 }

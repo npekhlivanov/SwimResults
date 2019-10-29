@@ -1,7 +1,6 @@
 ﻿namespace Contracts.Entities
 {
     using DataTemplates.Interfaces;
-    using System.Collections.Generic;
 
     public interface IWorkoutInterval : IEntity
     {

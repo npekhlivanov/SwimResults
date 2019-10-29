@@ -1,6 +1,6 @@
 ﻿namespace DataImport.Models.JSON
 {
-    public class Place
+    internal class Place
     {
         public int PlaceId { get; set; }
         public string Image { get; set; }

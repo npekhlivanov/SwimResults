@@ -1,8 +1,7 @@
 ﻿namespace SwimResults.Models
 {
-    using DataAccess.Models;
-    using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc;
 
     public class WorkoutIntervalEditModel
     {

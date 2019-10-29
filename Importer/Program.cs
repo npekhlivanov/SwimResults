@@ -1,16 +1,16 @@
 ﻿namespace Importer
 {
-    using DataAccess.Data;
-    using DataAccess.Models;
-    using DataImport;
-    using Microsoft.Extensions.Configuration;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Threading;
+    using DataAccess;
+    using DataImport;
+    using DataModels;
+    using DataTemplates.Interfaces;
+    using Microsoft.Extensions.Configuration;
 
     public static class EnumExtensions
     {
@@ -121,14 +121,14 @@
             var workoutDetailsFolder = config["WorkoutDetailsFolder"];
             workoutDetailsFolder = Environment.ExpandEnvironmentVariables(workoutDetailsFolder);
             var allSwimsFile = Path.Combine(workoutDetailsFolder, "AllSwims.json");//"C:\\Temp\\Workouts.json"
-            var loadedWorkouts = WorkoutListParser.LoadWorkoutList(allSwimsFile); 
+            var loadedWorkouts = WorkoutListParser.LoadWorkoutList(allSwimsFile);
             Console.WriteLine($"Workouts loaded: {loadedWorkouts?.Count ?? 0}");
 
             string connectionString = config.GetConnectionString("DefaultConnection");
 
             using (var dbContext = new SqlServerDbContext(connectionString))
             {
-                var repository = new WorkoutRepository(dbContext);
+                var repository = RepositoryFactory.CreateWorkoutRepository(dbContext);
 
                 var storedWorkouts = repository.GetList(w => w.Start, true).Result;
 
@@ -188,7 +188,7 @@
             }
         }
 
-        static bool ImportWorkoutDetails(int workoutId, WorkoutRepository repository, string workoutDetailsFolder)
+        static bool ImportWorkoutDetails(int workoutId, IRepository<Workout> repository, string workoutDetailsFolder)
         {
             var myWorkout = repository.Get(workoutId).Result;
             if (myWorkout == null)
@@ -202,7 +202,7 @@
             return true;
         }
 
-        static void SaveWorkouts(IList<Workout> workouts, WorkoutRepository repository)
+        static void SaveWorkouts(IList<Workout> workouts, IRepository<Workout> repository)
         {
             var sortedWorkouts = workouts.OrderBy(w => w.Start).ToList();
             for (int i = 0; i < sortedWorkouts.Count(); ++i)

@@ -21,7 +21,7 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataAccess.Models.Workout", b =>
+            modelBuilder.Entity("DataModels.Workout", b =>
                 {
                     b.Property<int>("Id");
 
@@ -54,7 +54,7 @@ namespace DataAccess.Migrations
                     b.ToTable("Workouts");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.WorkoutInterval", b =>
+            modelBuilder.Entity("DataModels.WorkoutInterval", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,7 +100,7 @@ namespace DataAccess.Migrations
                     b.ToTable("WorkoutIntervals");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.WorkoutIntervalLength", b =>
+            modelBuilder.Entity("DataModels.WorkoutIntervalLength", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace DataAccess.Migrations
                     b.ToTable("WorkoutIntervalLengths");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.WorkoutIntervalType", b =>
+            modelBuilder.Entity("DataModels.WorkoutIntervalType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,21 +214,21 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataAccess.Models.WorkoutInterval", b =>
+            modelBuilder.Entity("DataModels.WorkoutInterval", b =>
                 {
-                    b.HasOne("DataAccess.Models.Workout", "Workout")
+                    b.HasOne("DataModels.Workout", "Workout")
                         .WithMany("Intervals")
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DataAccess.Models.WorkoutIntervalType", "WorkoutIntervalType")
+                    b.HasOne("DataModels.WorkoutIntervalType", "WorkoutIntervalType")
                         .WithMany()
                         .HasForeignKey("WorkoutIntervalTypeId");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.WorkoutIntervalLength", b =>
+            modelBuilder.Entity("DataModels.WorkoutIntervalLength", b =>
                 {
-                    b.HasOne("DataAccess.Models.WorkoutInterval", "WorkoutInterval")
+                    b.HasOne("DataModels.WorkoutInterval", "WorkoutInterval")
                         .WithMany("Lengths")
                         .HasForeignKey("WorkoutIntervalId")
                         .OnDelete(DeleteBehavior.Cascade);

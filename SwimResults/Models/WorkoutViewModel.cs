@@ -1,12 +1,12 @@
 ﻿namespace SwimResults.Models
 {
-    using Microsoft.AspNetCore.Mvc;
-    using SwimResults.Tools;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc;
+    using SwimResults.Tools;
 
-    public class WorkoutViewModel 
+    public class WorkoutViewModel
     {
         [HiddenInput]
         public int Id { get; set; }

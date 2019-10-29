@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
@@ -6,6 +7,11 @@ namespace DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            if (migrationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(migrationBuilder));
+            }
+
             var addFunc =
               "CREATE FUNCTION dbo.fnGetIntervalStrokeType (@workoutIntervalId int) RETURNS int AS\r\n " +
               "BEGIN\r\n" +
@@ -30,6 +36,11 @@ namespace DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            if (migrationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(migrationBuilder));
+            }
+
             migrationBuilder.DeleteData(
                 table: "WorkoutIntervalType",
                 keyColumn: "Id",

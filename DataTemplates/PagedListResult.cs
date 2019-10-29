@@ -1,7 +1,7 @@
 ﻿namespace DataTemplates
 {
-    using DataTemplates.Entities;
     using System.Collections.Generic;
+    using DataTemplates.Entities;
 
     public class PagedListResult<TEntity>
         where TEntity : Entity

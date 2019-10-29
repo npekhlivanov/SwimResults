@@ -1,13 +1,13 @@
 ﻿namespace DataImport
 {
-    using DataAccess.Models;
-    using DataImport.Models.XML;
-    using DataImport.Tools;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
+    using DataImport.Models.XML;
+    using DataImport.Tools;
+    using DataModels;
 
     public class WorkoutDetailParser
     {
@@ -37,7 +37,7 @@
 
             workout.Duration = workoutXml.Duration; // already loaded, but accuracy seems to be better here
             workout.Start = workoutXml.Start;
-            workout.Date = workout.Start.Date;
+            workout.WorkoutDate = workout.Start.Date;
             workout.Note = workoutXml.Note;
             workout.CourseLength = workoutXml.Course.CourseLength;
 

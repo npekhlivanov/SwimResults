@@ -1,7 +1,7 @@
 ﻿namespace Importer
 {
-    using Microsoft.EntityFrameworkCore;
     using DataAccess;
+    using Microsoft.EntityFrameworkCore;
 
     public class SqlServerDbContext : ApplicationDbContext
     {

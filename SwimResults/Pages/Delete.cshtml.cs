@@ -1,19 +1,20 @@
 ﻿namespace SwimResults.Pages
 {
+    using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
-    using DataAccess.Data;
+    using DataModels;
+    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using SwimResults.Models;
-    using System.Threading.Tasks;
 
     public class DeleteModel : PageModel
     {
-        private WorkoutRepository _workoutRepository;
+        private IRepository<Workout> _workoutRepository;
         private IMapper _mapper;
 
-        public DeleteModel(WorkoutRepository workoutRepository, IMapper mapper)
+        public DeleteModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
             _workoutRepository = workoutRepository;
             _mapper = mapper;
@@ -55,7 +56,7 @@
                 return RedirectToPage("./Index");
             }
 
-            return Redirect(returnPath); 
+            return Redirect(returnPath);
         }
     }
 }

@@ -5,7 +5,7 @@
     [System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutDevice", AnonymousType = true)]
-    public class WorkoutDeviceXml
+    internal class WorkoutDeviceXml
     {
         [XmlElement("make")]
         public string Make { get; set; }

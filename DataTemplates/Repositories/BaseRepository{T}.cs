@@ -1,14 +1,14 @@
 ﻿namespace DataTemplates.Repositories
 {
-    using DataTemplates.Entities;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
+    using DataTemplates.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     public abstract class BaseRepository<TEntity> : ReadOnlyRepository<TEntity>
         where TEntity : Entity, new()
     {
-        public BaseRepository(DbContext context) : base(context)
+        protected BaseRepository(DbContext context) : base(context)
         {
         }
 

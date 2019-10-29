@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace SwimResults.Tools
+﻿namespace SwimResults.Tools
 {
+    using System.Collections.Generic;
+
     public class ListWithPagingAndSorting<T> : ListWithPaging<T>
     {
         public ListWithPagingAndSorting(int totalCount, int pageIndex, int pageSize, string pageNoParamName, string sortByParamName, string descendingParamName, string sortBy, bool descending,

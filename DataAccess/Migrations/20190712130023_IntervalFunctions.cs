@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
@@ -6,6 +7,11 @@ namespace DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            if (migrationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(migrationBuilder));
+            }
+
             // Consider using SQL statements instead of scalar functions:
             // https://www.mssqltips.com/sqlservertip/5464/computed-columns-with-scalar-functions-sql-server-performance-issue/
 
@@ -44,6 +50,11 @@ namespace DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            if (migrationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(migrationBuilder));
+            }
+
             migrationBuilder.DropColumn(
                 name: "Distance",
                 table: "WorkoutIntervals");
@@ -51,7 +62,7 @@ namespace DataAccess.Migrations
             migrationBuilder.DropColumn(
                 name: "Duration",
                 table: "WorkoutIntervals");
-            
+
             migrationBuilder.Sql(@"drop function [dbo].[fnGetIntervalDuration]");
             migrationBuilder.Sql(@"drop function [dbo].[fnGetIntervalDistance]");
         }

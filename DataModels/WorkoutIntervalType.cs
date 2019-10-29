@@ -1,8 +1,8 @@
-﻿namespace DataAccess.Models
+﻿namespace DataModels
 {
+    using System.ComponentModel.DataAnnotations;
     using Contracts.Entities;
     using DataTemplates.Entities;
-    using System.ComponentModel.DataAnnotations;
 
     public class WorkoutIntervalType : Entity, IWorkoutIntervalType
     {

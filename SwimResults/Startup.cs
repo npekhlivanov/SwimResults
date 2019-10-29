@@ -1,20 +1,15 @@
 namespace SwimResults
 {
+    using System.Reflection;
     using AutoMapper;
     using DataAccess;
-    using DataAccess.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Globalization;
-    using System.Reflection;
 
     public class Startup
     {
@@ -36,8 +31,8 @@ namespace SwimResults
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection") 
-                    //, assembly => assembly.MigrationsAssembly(nameof(DataAccess)) //typeof(ApplicationDbContext).Assembly.FullName
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //, assembly => assembly.MigrationsAssembly(nameof(DataAccess)) //typeof(ApplicationDbContext).Assembly.FullName
             ));
 
             // Add AutoMapper
@@ -46,10 +41,10 @@ namespace SwimResults
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Add repositories
-            services.AddTransient(typeof(WorkoutRepository));
-            services.AddTransient(typeof(WorkoutIntervalRepository));
-            services.AddTransient(typeof(WorkoutIntervalLengthRepository));
-            services.AddTransient(typeof(WorkoutIntervalTypeRepository));
+            services.AddWorkoutRepository();
+            services.AddWorkoutIntervalRepository();
+            services.AddWorkoutIntervalLengthRepository();
+            services.AddWorkoutIntervalTypeRepository();
 
             // Set specific name for the TempData cookie
             services.Configure<CookieTempDataProviderOptions>(options =>
@@ -58,7 +53,7 @@ namespace SwimResults
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-                //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
+            //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
 
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
             //services.AddSession();

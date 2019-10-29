@@ -1,9 +1,9 @@
 ﻿namespace DataTemplates.Repositories
 {
-    using DataTemplates.Entities;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
+    using DataTemplates.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     public abstract class RepositoryWithChangeTracking<TEntityWithChangeTracking> : BaseRepository<TEntityWithChangeTracking>
         where TEntityWithChangeTracking : EntityWithChangeTracking, new()

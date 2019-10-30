@@ -26,6 +26,17 @@
         {
             return services.AddTransient<IRepository<WorkoutIntervalType>, WorkoutIntervalTypeRepository>();
         }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services
+                .AddTransient<IRepository<Workout>, WorkoutRepository>()
+                .AddTransient<IRepository<WorkoutInterval>, WorkoutIntervalRepository>()
+                .AddTransient<IReadOnlyRepository<WorkoutIntervalLength>, WorkoutIntervalLengthRepository>() 
+                .AddTransient<IRepository<WorkoutIntervalType>, WorkoutIntervalTypeRepository>();
+
+            return services;
+        }
     }
 }
 

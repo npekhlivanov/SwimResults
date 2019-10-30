@@ -51,9 +51,9 @@
 
         public IntervalsModel(IRepository<WorkoutInterval> intervalRepository, IRepository<WorkoutIntervalType> intervalTypeRepository, IMapper mapper)
         {
-            _intervalRepository = intervalRepository;
-            _intervalTypeRepository = intervalTypeRepository;
-            _mapper = mapper;
+            _intervalRepository = intervalRepository ?? throw new ArgumentNullException(nameof(intervalRepository));
+            _intervalTypeRepository = intervalTypeRepository ?? throw new ArgumentNullException(nameof(intervalTypeRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _pageSize = 10;
         }
 

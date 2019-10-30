@@ -16,6 +16,7 @@
         [HiddenInput]
         public int WorkoutId { get; set; }
 
+        [Display(Name = "Interval №")]
         public int IntervalNo { get; set; }
 
         [Display(Name = "Time offset")]

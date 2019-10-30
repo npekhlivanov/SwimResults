@@ -50,7 +50,7 @@
             var maxVal = (lastVal << 1) - 1;
             if (value > maxVal)
             {
-                throw new ArgumentOutOfRangeException("value", $"Value \"{value}\" exceeds limit for enum \"{typeOfT.Name}\"");
+                throw new ArgumentOutOfRangeException(nameof(value), $"Value \"{value}\" exceeds limit for enum \"{typeOfT.Name}\"");
             }
 
             Enum.TryParse(typeOfT, value.ToString(), out object result);

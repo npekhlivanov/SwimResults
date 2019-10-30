@@ -19,9 +19,9 @@
 
         public CreateModel(IRepository<Workout> workoutRepository, IMapper mapper, IConfiguration configuration)
         {
-            _workoutRepository = workoutRepository;
-            _mapper = mapper;
-            _configuration = configuration;
+            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository)); 
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         [BindProperty]

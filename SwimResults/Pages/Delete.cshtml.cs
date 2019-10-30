@@ -1,5 +1,6 @@
 ﻿namespace SwimResults.Pages
 {
+    using System;
     using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
@@ -16,8 +17,8 @@
 
         public DeleteModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
-            _workoutRepository = workoutRepository;
-            _mapper = mapper;
+            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [BindProperty]

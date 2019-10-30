@@ -9,7 +9,7 @@
     using DataImport.Tools;
     using DataModels;
 
-    public class WorkoutDetailParser
+    public static class WorkoutDetailParser
     {
         public static void LoadWorkoutData(string xmlFileName, Workout workout)
         {
@@ -20,7 +20,7 @@
 
             if (workout == null)
             {
-                throw new ArgumentNullException("workout");
+                throw new ArgumentNullException(nameof(workout));
             }
 
             using (FileStream xmlFile = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))

@@ -10,6 +10,7 @@ namespace SwimResults
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -41,10 +42,7 @@ namespace SwimResults
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Add repositories
-            services.AddWorkoutRepository();
-            services.AddWorkoutIntervalRepository();
-            services.AddWorkoutIntervalLengthRepository();
-            services.AddWorkoutIntervalTypeRepository();
+            services.AddRepositories();
 
             // Set specific name for the TempData cookie
             services.Configure<CookieTempDataProviderOptions>(options =>
@@ -52,7 +50,12 @@ namespace SwimResults
                 options.Cookie.Name = "MyTempDataCookie";
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddRazorPages(); // 3.0
+            // see https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#opt-in-to-runtime-compilation
+            //services.AddMvc() // 2.x
+            //    .AddMvcOptions(options => options.EnableEndpointRouting = false); // for core 3.0 compatibility
+            //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
 
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
@@ -60,7 +63,7 @@ namespace SwimResults
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -69,6 +72,7 @@ namespace SwimResults
             else
             {
                 app.UseExceptionHandler("/Error");
+                //app.UseDatabaseExceptionsPage(); ??
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -79,9 +83,15 @@ namespace SwimResults
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseRouting(); // 3.0
+
             //app.UseSession();
 
-            app.UseMvc();
+            //app.UseMvc(); // 2.x
+            app.UseEndpoints(endpoints => // 3.0
+            {
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

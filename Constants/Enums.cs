@@ -1,30 +1,30 @@
 ﻿namespace Constants
 {
-    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
     public static class Enums
     {
         public enum StrokeType
         {
-            [DisplayName("Free")]
+            [Display(Name="Free")]
             Freestyle = 0,
 
-            [DisplayName("Back")]
+            [Display(Name="Back")]
             Backstroke = 1,
 
-            [DisplayName("Breast")]
+            [Display(Name="Breast")]
             Breaststroke = 2,
 
-            [DisplayName("Fly")]
+            //[DisplayName("Fly")]
             Butterfly = 3,
 
-            [DisplayName("Drill")]
+            //[DisplayName("Drill")]
             Drill = 4,
 
-            [DisplayName("Kick")]
+            //[DisplayName("Kick")]
             Kick = 5,
 
-            [DisplayName("Not selected")]
+            //[DisplayName("Not selected")]
             Unknown = 6
         }
     }

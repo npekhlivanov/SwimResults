@@ -1,5 +1,6 @@
 ﻿namespace SwimResults.Pages
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -16,8 +17,8 @@
 
         public IntervalDetailsModel(IRepository<WorkoutInterval> intervalRepository, IMapper mapper)
         {
-            _intervalRepository = intervalRepository;
-            _mapper = mapper;
+            _intervalRepository = intervalRepository ?? throw new ArgumentNullException(nameof(intervalRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public WorkoutIntervalViewModel Interval { get; set; }

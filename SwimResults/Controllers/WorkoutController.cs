@@ -20,8 +20,8 @@
 
         public WorkoutController(IRepository<Workout> workoutRepository, IConfiguration configuration)
         {
-            _workoutRepository = workoutRepository;
-            _configuration = configuration;
+            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         // POST: api/Workout

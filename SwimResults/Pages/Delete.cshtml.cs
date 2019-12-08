@@ -12,8 +12,8 @@
 
     public class DeleteModel : PageModel
     {
-        private IRepository<Workout> _workoutRepository;
-        private IMapper _mapper;
+        private readonly IRepository<Workout> _workoutRepository;
+        private readonly IMapper _mapper;
 
         public DeleteModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {

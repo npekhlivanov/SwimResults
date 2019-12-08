@@ -7,24 +7,22 @@
     using DataModels;
     using Newtonsoft.Json;
 
-    public class WorkoutListParser
+    public static class WorkoutListParser
     {
         public static IList<Workout> LoadWorkoutList(string jsonFileName)
         {
-            using (StreamReader reader = new StreamReader(jsonFileName))
+            using StreamReader reader = new StreamReader(jsonFileName);
+            var jsonData = reader.ReadToEnd();
+            var root = JsonConvert.DeserializeObject<RootObject>(jsonData);
+
+            var feedList = root?.Result?.FeedList;
+            if (feedList == null)
             {
-                var jsonData = reader.ReadToEnd();
-                var root = JsonConvert.DeserializeObject<RootObject>(jsonData);
-
-                var feedList = root?.Result?.FeedList;
-                if (feedList == null)
-                {
-                    return null;
-                }
-
-                var workouts = TransformFeedList(feedList);
-                return workouts;
+                return null;
             }
+
+            var workouts = TransformFeedList(feedList);
+            return workouts;
         }
 
         private static List<Workout> TransformFeedList(FeedListItem[] feedList)

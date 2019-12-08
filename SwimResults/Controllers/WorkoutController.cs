@@ -111,11 +111,9 @@
                     detailsStream.Position = 0;
                     WorkoutDetailParser.LoadWorkoutData(detailsStream, workout);
 
-                    using (var outputFile = new FileStream(workoutDetailsFile, FileMode.Create))
-                    {
-                        detailsStream.Position = 0;
-                        await detailsStream.CopyToAsync(outputFile);
-                    }
+                    using var outputFile = new FileStream(workoutDetailsFile, FileMode.Create);
+                    detailsStream.Position = 0;
+                    await detailsStream.CopyToAsync(outputFile);
                 }
 
                 result.Message = $"Loaded details for workout {workout.Id} from online source";
@@ -125,7 +123,7 @@
             return result;
         }
 
-        private JsonResult CreateErrorResponse(string errorMessage)
+        private static JsonResult CreateErrorResponse(string errorMessage)
         {
             var result = new FillWorkoutDetailsResult
             {
@@ -137,7 +135,8 @@
         }
 
         [HttpGet]
-        public IActionResult GetWorkoutName(string value)
+        //[ActionName("GetWorkoutName")]
+        public static IActionResult GetWorkoutName(string value)
         {
             string result;
             if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))

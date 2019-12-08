@@ -23,10 +23,8 @@
                 throw new ArgumentNullException(nameof(workout));
             }
 
-            using (FileStream xmlFile = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
-            {
-                LoadWorkoutData(xmlFile, workout);
-            }
+            using FileStream xmlFile = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read);
+            LoadWorkoutData(xmlFile, workout);
         }
 
         public static void LoadWorkoutData(Stream stream, Workout workout)

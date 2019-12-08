@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class DisplayValuesFormatter
+    public static class DisplayValuesFormatter
     {
         public static string FormatDuration(float duration, bool showHundredths)
         {

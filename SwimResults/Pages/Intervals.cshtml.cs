@@ -35,12 +35,12 @@
         //[TempData]
         //public bool ReversedOrder { get; set; }
 
-        public string DateFieldName => nameof(WorkoutIntervalViewModel.WorkoutDate);
-        public string DistanceFieldName => nameof(WorkoutIntervalViewModel.Distance);
-        public string DurationFieldName => nameof(WorkoutIntervalViewModel.Duration);
-        public string StrokeCountFieldName => nameof(WorkoutIntervalViewModel.StrokeCount);
-        public string PaceFieldName => nameof(WorkoutIntervalViewModel.Pace);
-        public string SwolfFieldName => nameof(WorkoutIntervalViewModel.Swolf);
+        public static string DateFieldName => nameof(WorkoutIntervalViewModel.WorkoutDate);
+        public static string DistanceFieldName => nameof(WorkoutIntervalViewModel.Distance);
+        public static string DurationFieldName => nameof(WorkoutIntervalViewModel.Duration);
+        public static string StrokeCountFieldName => nameof(WorkoutIntervalViewModel.StrokeCount);
+        public static string PaceFieldName => nameof(WorkoutIntervalViewModel.Pace);
+        public static string SwolfFieldName => nameof(WorkoutIntervalViewModel.Swolf);
 
         private const string DateSortKey = "Date";
         private const string DistanceSortKey = "Distance";

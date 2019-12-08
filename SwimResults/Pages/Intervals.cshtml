@@ -27,43 +27,43 @@
             }
             <th>
                 @{
-                    var dateSort = Model.Intervals.IsCurrentSortOrder[Model.DateFieldName] ? sortIndicator : "";
-                    var routeParams = Model.Intervals.SortRouteValues[Model.DateFieldName];
+                    var dateSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.DateFieldName] ? sortIndicator : "";
+                    var routeParams = Model.Intervals.SortRouteValues[IntervalsModel.DateFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].WorkoutDate)</a>@Html.Raw(dateSort)
             </th>
             <th>
                 @{
-                    var distanceSort = Model.Intervals.IsCurrentSortOrder[Model.DistanceFieldName] ? sortIndicator : "";
-                    routeParams = Model.Intervals.SortRouteValues[Model.DistanceFieldName];
+                    var distanceSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.DistanceFieldName] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues[IntervalsModel.DistanceFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Distance)</a>@Html.Raw(distanceSort)
             </th>
             <th>
                 @{
-                    var durationSort = Model.Intervals.IsCurrentSortOrder[Model.DurationFieldName] ? sortIndicator : "";
-                    routeParams = Model.Intervals.SortRouteValues[Model.DurationFieldName];
+                    var durationSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.DurationFieldName] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues[IntervalsModel.DurationFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Duration)</a>@Html.Raw(durationSort)
             </th>
             <th>
                 @{
-                    var paceSort = Model.Intervals.IsCurrentSortOrder[Model.PaceFieldName] ? sortIndicator : "";
-                    routeParams = Model.Intervals.SortRouteValues[Model.PaceFieldName];
+                    var paceSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.PaceFieldName] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues[IntervalsModel.PaceFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Pace)</a>@Html.Raw(paceSort)               
             </th>
             <th>
                 @{
-                    var strokeCountSort = Model.Intervals.IsCurrentSortOrder[Model.StrokeCountFieldName] ? sortIndicator : "";
-                    routeParams = Model.Intervals.SortRouteValues[Model.StrokeCountFieldName];
+                    var strokeCountSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.StrokeCountFieldName] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues[IntervalsModel.StrokeCountFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].StrokeCount)</a>@Html.Raw(strokeCountSort)
             </th>
             <th>
                 @{
-                    var swolfSort = Model.Intervals.IsCurrentSortOrder[Model.SwolfFieldName] ? sortIndicator : "";
-                    routeParams = Model.Intervals.SortRouteValues[Model.SwolfFieldName];
+                    var swolfSort = Model.Intervals.IsCurrentSortOrder[IntervalsModel.SwolfFieldName] ? sortIndicator : "";
+                    routeParams = Model.Intervals.SortRouteValues[IntervalsModel.SwolfFieldName];
                 }
                 <a asp-page="Intervals" asp-all-route-data="routeParams">@Html.DisplayNameFor(m => m.Intervals[0].Swolf)</a>@Html.Raw(swolfSort)                
             </th>

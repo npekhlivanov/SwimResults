@@ -126,65 +126,61 @@
 
             string connectionString = config.GetConnectionString("DefaultConnection");
 
-            using (var dbContext = new SqlServerDbContext(connectionString))
+            using var dbContext = new SqlServerDbContext(connectionString);
+            var repository = RepositoryFactory.CreateWorkoutRepository(dbContext);
+
+            var storedWorkouts = repository.GetList(w => w.Start, true).Result;
+
+            if (workoutId == 0)
             {
-                var repository = RepositoryFactory.CreateWorkoutRepository(dbContext);
-
-                var storedWorkouts = repository.GetList(w => w.Start, true).Result;
-
-                if (workoutId == 0)
+                var workouts = storedWorkouts.OrderBy(w => w.Id);
+                foreach (var workout in workouts)
                 {
-                    var workouts = storedWorkouts.OrderBy(w => w.Id);
-                    foreach (var workout in workouts)
+                    if (ImportWorkoutDetails(workout.Id, repository, workoutDetailsFolder))
                     {
-                        if (ImportWorkoutDetails(workout.Id, repository, workoutDetailsFolder))
-                        {
-                            Console.WriteLine($"Workout {workout.Id} details loaded");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Workout {workout.Id} details load failed!");
-                        }
-
-                        Thread.Sleep(300);
+                        Console.WriteLine($"Workout {workout.Id} details loaded");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Workout {workout.Id} details load failed!");
                     }
 
-                    return;
+                    Thread.Sleep(300);
                 }
 
-                var newWorkouts = GetNewWorkouts(loadedWorkouts, storedWorkouts);
-                SaveWorkouts(newWorkouts, repository);
+                return;
+            }
 
-                var myWorkout = storedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
+            var newWorkouts = GetNewWorkouts(loadedWorkouts, storedWorkouts);
+            SaveWorkouts(newWorkouts, repository);
+
+            var myWorkout = storedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
+            if (myWorkout == null)
+            {
+                myWorkout = loadedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
                 if (myWorkout == null)
                 {
-                    myWorkout = loadedWorkouts.Where(w => w.Id == workoutId).FirstOrDefault();
-                    if (myWorkout == null)
-                    {
-                        Console.WriteLine($"Workout with id {workoutId} is not found!");
-                        return;
-                    }
+                    Console.WriteLine($"Workout with id {workoutId} is not found!");
+                    return;
                 }
+            }
 
-                //var xmlDataStream = WorkoutDetailsRetriever.DownloadWorkoutDetails("https://www.swim.com/export/xml/", 1248785).Result;
-                //WorkoutDetailParser.LoadWorkoutData(xmlDataStream, myWorkout);
+            //var xmlDataStream = WorkoutDetailsRetriever.DownloadWorkoutDetails("https://www.swim.com/export/xml/", 1248785).Result;
+            //WorkoutDetailParser.LoadWorkoutData(xmlDataStream, myWorkout);
 
-                var detailsFile = Path.Combine(workoutDetailsFolder, $@"{workoutId}.xml");
-                WorkoutDetailParser.LoadWorkoutData(detailsFile, myWorkout);
+            var detailsFile = Path.Combine(workoutDetailsFolder, $@"{workoutId}.xml");
+            WorkoutDetailParser.LoadWorkoutData(detailsFile, myWorkout);
 
-                //var workoutInDb = repository.Get(workoutId).Result;
-                var workoutInDb = repository.GetList(w => w.Id == workoutId).Result;
-                if (workoutInDb == null)
-                {
-                    var id = repository.Add(myWorkout).Result;
-                }
-                else
-                {
-                    //var updated = repository.UpdateModifiedFields(myWorkout).Result;
-                    repository.Update(myWorkout).Wait();
-                }
-
-                //repository.FindAndDelete(workoutId).Wait();
+            //var workoutInDb = repository.Get(workoutId).Result;
+            var workoutInDb = repository.GetList(w => w.Id == workoutId).Result;
+            if (workoutInDb == null)
+            {
+                var id = repository.Add(myWorkout).Result;
+            }
+            else
+            {
+                //var updated = repository.UpdateModifiedFields(myWorkout).Result;
+                repository.Update(myWorkout).Wait();
             }
         }
 

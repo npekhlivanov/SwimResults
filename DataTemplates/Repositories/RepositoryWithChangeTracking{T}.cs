@@ -9,7 +9,7 @@
         where TEntityWithChangeTracking : EntityWithChangeTracking, new()
     {
 
-        public RepositoryWithChangeTracking(DbContext dbContext) : base(dbContext)
+        protected RepositoryWithChangeTracking(DbContext dbContext) : base(dbContext)
         {
         }
 

@@ -50,13 +50,15 @@ namespace SwimResults
                 options.Cookie.Name = "MyTempDataCookie";
             });
 
-
-            services.AddRazorPages(); // 3.0
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation(); // 3.0
             // see https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#opt-in-to-runtime-compilation
             //services.AddMvc() // 2.x
             //    .AddMvcOptions(options => options.EnableEndpointRouting = false); // for core 3.0 compatibility
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
+
+            services.AddControllers(); // 3.0; does not affect routing
 
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
             //services.AddSession();
@@ -90,7 +92,9 @@ namespace SwimResults
             //app.UseMvc(); // 2.x
             app.UseEndpoints(endpoints => // 3.0
             {
+                endpoints.MapControllers(); // must be present for api controller action routing; adds support for attribute-routed controllers 
                 endpoints.MapRazorPages();
+                //endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); // adds a conventional route for controllers
             });
         }
     }

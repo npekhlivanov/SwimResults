@@ -56,6 +56,7 @@
 <script>
     function dateChanged(e) {
         let selectedDate = e.target.value;
+        debugger;
         $.ajax({
             type: 'Get',
             url: '@Url.Action("GetWorkoutName", "Workout")',

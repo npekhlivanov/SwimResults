@@ -45,12 +45,12 @@
         {
             if (pageSize <= 0)
             {
-                throw new ArgumentOutOfRangeException("pageSize");
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
             }
 
             if (pageNo < 0)
             {
-                throw new ArgumentOutOfRangeException("pageNo");
+                throw new ArgumentOutOfRangeException(nameof(pageNo));
             }
         }
 

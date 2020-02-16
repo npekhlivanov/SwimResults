@@ -99,13 +99,13 @@
                 Intervals.Add(displayItem);
             }
 
-            Intervals.FirstPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToString());
-            Intervals.LastPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToString());
-            Intervals.PrevPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToString());
-            Intervals.NextPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToString());
+            Intervals.FirstPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
+            Intervals.LastPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
+            Intervals.PrevPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
+            Intervals.NextPageRouteValues.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
             foreach (var routeValues in Intervals.SortRouteValues)
             {
-                routeValues.Value.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToString());
+                routeValues.Value.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
             }
 
             var intervalTypes = await _intervalTypeRepository.GetList();

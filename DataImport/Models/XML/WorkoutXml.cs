@@ -3,12 +3,12 @@
     using System;
     using System.Xml.Serialization;
 
-    [Serializable()]
+    //[Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
     //[System.Xml.Serialization.XmlRoot(Namespace = "", IsNullable = false)]
     [XmlRoot("workout")]
-    internal class WorkoutXml
+    public class WorkoutXml
     {
         [XmlElement("device")]
         public WorkoutDeviceXml Device { get; set; }

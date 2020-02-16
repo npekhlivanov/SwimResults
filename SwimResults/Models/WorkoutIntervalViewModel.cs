@@ -10,6 +10,11 @@
 
     public class WorkoutIntervalViewModel
     {
+        public WorkoutIntervalViewModel()
+        {
+            this.Lengths = new List<WorkoutIntervalLengthViewModel>();
+        }
+
         [HiddenInput]
         public int Id { get; set; }
 
@@ -28,7 +33,7 @@
 
         public float Distance { get; set; }
 
-        public IList<WorkoutIntervalLengthViewModel> Lengths { get; set; }
+        public List<WorkoutIntervalLengthViewModel> Lengths { get; }
 
         public int? WorkoutIntervalTypeId { get; set; }
 
@@ -49,17 +54,18 @@
         [Display(Name = "SWOLF")]
         public float Swolf { get; set; }
 
-        public string DistanceFormatted => Distance > 0 ? Distance.ToString() + " m" : "-";
+        public string DistanceFormatted => Distance > 0 ? Distance.ToStringInvariant() + " m" : "-";
 
-        public string StrokeCountFormatted => StrokeCount > 0 ? StrokeCount.ToString("0.#") : "-";
+        public string StrokeCountFormatted => StrokeCount > 0 ? StrokeCount.ToStringInvariant("0.#") : "-";
 
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 
         public string DurationFormattedWithMs { get => DisplayValuesFormatter.FormatDuration(Duration, true); }
 
+        [Display(Name = "Pace")]
         public string PaceFormatted { get => Distance > 0 ? DisplayValuesFormatter.FormatDuration(Pace, true) : "-"; }
 
-        public string SwolfFormatted => StrokeTypeId != StrokeType.Drill && StrokeCount > 0 ? Swolf.ToString("0.#") : "-";
+        public string SwolfFormatted => StrokeTypeId != StrokeType.Drill && StrokeCount > 0 ? Swolf.ToStringInvariant("0.#") : "-";
 
         [Display(Name = "Start time")]
         public string StartTime { get => DisplayValuesFormatter.FormatDuration(TimeOffset, false); }

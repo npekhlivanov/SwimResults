@@ -7,19 +7,24 @@
 
     public sealed class WorkoutDetailsRetriever
     {
-        public static async Task<Stream> DownloadWorkoutDetails(string serviceUrl, int workoutId)
+        public static async Task<Stream> DownloadWorkoutDetails(string serviceWebAddress, int workoutId)
         {
-            using var httpClient = new HttpClient { BaseAddress = new Uri(serviceUrl), Timeout = TimeSpan.FromSeconds(10) };
-            using var responseMessage = await httpClient.GetAsync($"{serviceUrl}{workoutId}").ConfigureAwait(false);
+            using var httpClient = new HttpClient 
+            { 
+                BaseAddress = new Uri(serviceWebAddress), 
+                Timeout = TimeSpan.FromSeconds(10) 
+            };
+            using var responseMessage = await httpClient.GetAsync(new Uri($"{serviceWebAddress}{workoutId}"))
+                .ConfigureAwait(false);
             if (!responseMessage.IsSuccessStatusCode || responseMessage.Content.Headers.ContentType.MediaType != "text/xml")
             {
                 return null;
             }
 
             var result = new MemoryStream();
-            using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
+            using (var responseStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                await responseStream.CopyToAsync(result);
+                await responseStream.CopyToAsync(result).ConfigureAwait(false);
             }
 
             result.Position = 0;

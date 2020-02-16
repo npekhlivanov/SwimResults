@@ -8,6 +8,11 @@
 
     public class WorkoutViewModel
     {
+        public WorkoutViewModel()
+        {
+            this.Intervals = new List<WorkoutIntervalViewModel>();
+        }
+
         [HiddenInput]
         public int Id { get; set; }
 
@@ -32,7 +37,7 @@
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }
 
-        public IList<WorkoutIntervalViewModel> Intervals { get; set; }
+        public List<WorkoutIntervalViewModel> Intervals { get; }
 
         public int CourseLength { get; set; }
 

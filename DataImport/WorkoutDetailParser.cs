@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Xml;
     using System.Xml.Serialization;
     using DataImport.Models.XML;
     using DataImport.Tools;
@@ -11,7 +12,7 @@
 
     public static class WorkoutDetailParser
     {
-        public static void LoadWorkoutData(string xmlFileName, Workout workout)
+        public static bool LoadWorkoutData(string xmlFileName, Workout workout)
         {
             if (!File.Exists(xmlFileName))
             {
@@ -24,14 +25,26 @@
             }
 
             using FileStream xmlFile = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read);
-            LoadWorkoutData(xmlFile, workout);
+            var result = LoadWorkoutData(xmlFile, workout);
+            return result;
         }
 
-        public static void LoadWorkoutData(Stream stream, Workout workout)
+        public static bool LoadWorkoutData(Stream stream, Workout workout)
         {
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (workout == null)
+            {
+                throw new ArgumentNullException(nameof(workout));
+            }
+
             var xmlSerializer = new XmlSerializer(typeof(WorkoutXml));
             stream.Position = 0;
-            var workoutXml = (WorkoutXml)xmlSerializer.Deserialize(stream);
+            using var xmlReader = XmlReader.Create(stream, new XmlReaderSettings { XmlResolver = null });
+            var workoutXml = (WorkoutXml)xmlSerializer.Deserialize(xmlReader);
 
             workout.Duration = workoutXml.Duration; // already loaded, but accuracy seems to be better here
             workout.Start = workoutXml.Start;
@@ -39,46 +52,63 @@
             workout.Note = workoutXml.Note;
             workout.CourseLength = workoutXml.Course.CourseLength;
 
-            TransformWorkoutIntervals(workoutXml, workout);
+            var result = TransformWorkoutIntervals(workoutXml, workout);
+            return result;
         }
 
-        private static void TransformWorkoutIntervals(WorkoutXml workoutXml, Workout workout)
+        private static bool TransformWorkoutIntervals(WorkoutXml workoutXml, Workout workout)
         {
-            var intervals = new List<WorkoutInterval>();
+            if (workoutXml.Intervals == null)
+            {
+                return false;
+            }
+
+            //var intervals = new List<WorkoutInterval>();
             for (int i = 0; i < workoutXml.Intervals.Length; ++i)
             {
                 var intervalXml = workoutXml.Intervals[i];
                 var interval = TransformWorkoutInterval(intervalXml);
-                interval.IntervalNo = i + 1;
-                intervals.Add(interval);
+                if (interval != null)
+                {
+                    interval.IntervalNo = i + 1;
+                    //intervals.Add(interval);
+                    workout.Intervals.Add(interval);
+                }
             }
 
-            workout.Intervals = intervals;
-            workout.Distance = intervals.Sum(i => i.Distance);
-            workout.ActiveTime = intervals.Sum(i => i.Duration);
-            workout.Pace = workout.ActiveTime * 100 / workout.Distance;
+            //workout.Intervals = intervals;
+            workout.Distance = workout.Intervals.Sum(i => i.Distance);
+            workout.ActiveTime = workout.Intervals.Sum(i => i.Duration);
+            workout.Pace = workout.Distance > 0 ? workout.ActiveTime * 100 / workout.Distance : 0;
+            return true;
         }
 
         private static WorkoutInterval TransformWorkoutInterval(WorkoutIntervalXml intervalXml)
         {
-            var lengths = new List<WorkoutIntervalLength>();
-            for (int i = 0; i < intervalXml.Lengths.Length; ++i)
+            var interval = new WorkoutInterval
+            {
+                //Lengths = lengths,
+                TimeOffset = intervalXml.TimeOffset
+            };
+            //var lengths = new List<WorkoutIntervalLength>();
+            for (int i = 0; i < intervalXml.Lengths?.Length; ++i)
             {
                 var lengthXml = intervalXml.Lengths[i];
                 var length = TransformWorkoutIntervalLength(lengthXml);
                 length.LengthNo = i + 1;
-                lengths.Add(length);
+                interval.Lengths.Add(length);
+                //lengths.Add(length);
             }
 
-            var interval = new WorkoutInterval
-            {
-                Lengths = lengths,
-                TimeOffset = intervalXml.TimeOffset
-            };
+            //interval.Lengths.AddRange(lengths);
 
-            interval.Distance = lengths.Sum(l => l.Distance);
-            interval.Duration = lengths.Sum(l => l.Duration);
-            interval.StrokeCount = lengths.Sum(l => l.StrokeCount) / (float)lengths.Count;
+            if (interval.Lengths.Count > 0)
+            {
+                interval.Distance = interval.Lengths.Sum(l => l.Distance);
+                interval.Duration = interval.Lengths.Sum(l => l.Duration);
+                interval.StrokeCount = interval.Lengths.Sum(l => l.StrokeCount) / (float)interval.Lengths.Count;
+            }
+
             return interval;
         }
 

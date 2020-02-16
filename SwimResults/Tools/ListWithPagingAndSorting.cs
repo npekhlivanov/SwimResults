@@ -1,6 +1,8 @@
 ﻿namespace SwimResults.Tools
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     public class ListWithPagingAndSorting<T> : ListWithPaging<T>
     {
@@ -20,6 +22,11 @@
 
         protected void Initialize(string sortByParamName, string descendingParamName, string sortBy, bool descending, Dictionary<string, string> sortKeys)
         {
+            if (sortKeys == null)
+            {
+                throw new ArgumentNullException(nameof(sortKeys));
+            }
+
             CurrentSortOrder = sortBy;
             ReversedOrder = descending;
 
@@ -29,7 +36,7 @@
                 IsCurrentSortOrder.Add(sortKey.Key, sortKey.Value == sortBy);
             }
 
-            var descendingValue = ReversedOrder.ToString();
+            var descendingValue = ReversedOrder.ToStringInvariant();
 
             FirstPageRouteValues.Add(sortByParamName, sortBy);
             FirstPageRouteValues.Add(descendingParamName, descendingValue);
@@ -46,7 +53,7 @@
             SortRouteValues = new Dictionary<string, Dictionary<string, string>>();
             foreach (var sortKey in sortKeys)
             {
-                var routeValues = new Dictionary<string, string> { { sortByParamName, sortKey.Value }, { descendingParamName, (!descending).ToString() } };
+                var routeValues = new Dictionary<string, string> { { sortByParamName, sortKey.Value }, { descendingParamName, (!descending).ToStringInvariant() } };
                 SortRouteValues.Add(sortKey.Key, routeValues);
             }
         }

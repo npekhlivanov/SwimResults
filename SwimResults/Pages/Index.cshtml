@@ -102,11 +102,13 @@ Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
         $.ajax({
             type: "POST",
             url: '@Url.Action("Post", "Workout")',
-            contentType: "Application/json; charset=utf-8",
+            contentType: "application/json; charset=utf-8",
             data: workoutId,
+            dataType: "json",
             //processData: false,
             success: function (data) {
                 if (!data.success) {
+                    $('#busyIndicator').hide();
                     alert(data.message);
                     return;
                 };
@@ -120,6 +122,7 @@ Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
                 console.info(data.message);
             },
             failure: function (errMsg) {
+                $('#busyIndicator').hide();
                 alert(errMsg);
             }
         });

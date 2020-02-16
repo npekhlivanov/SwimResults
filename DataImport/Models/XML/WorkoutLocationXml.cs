@@ -2,10 +2,10 @@
 {
     using System.Xml.Serialization;
 
-    [System.Serializable()]
+    //[System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutLocation", AnonymousType = true)]
-    internal class WorkoutLocationXml
+    public class WorkoutLocationXml
     {
         [XmlElement("lat")]
         public decimal Latitude { get; set; }

@@ -9,6 +9,11 @@
 
     public class Workout : Entity, IWorkout
     {
+        public Workout()
+        {
+            this.Intervals = new List<WorkoutInterval>();
+        }
+
         //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         //public int Id { get; set; }
 
@@ -34,7 +39,7 @@
         [MaxLength(1000)]
         public string Note { get; set; }
 
-        public IList<WorkoutInterval> Intervals { get; set; }
+        public ICollection<WorkoutInterval> Intervals { get; }
 
         public float ActiveTime { get; set; }
 

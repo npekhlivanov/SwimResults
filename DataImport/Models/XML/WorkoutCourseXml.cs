@@ -1,12 +1,11 @@
 ﻿namespace DataImport.Models.XML
 {
-    using System;
     using System.Xml.Serialization;
 
-    [Serializable]
+    //[Serializable]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutCourse", AnonymousType = true)]
-    internal class WorkoutCourseXml
+    public class WorkoutCourseXml
     {
         [XmlElement("courseLength")]
         public float CourseLength { get; set; }

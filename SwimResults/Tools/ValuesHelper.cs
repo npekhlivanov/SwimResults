@@ -8,7 +8,8 @@
         public static string ComposeWorkoutName(DateTime dateAndTime)
         {
             var morningOrAfternoon = dateAndTime.Hour < 12 ? "Morning" : "Afternoon";
-            var result = $"{dateAndTime.ToString("dddd", CultureInfo.InvariantCulture)} {morningOrAfternoon} Swim {dateAndTime.ToString("dd.MM.yyyy")}";
+            var result = 
+                $"{dateAndTime.ToString("dddd", DateTimeFormatInfo.InvariantInfo)} {morningOrAfternoon} Swim {dateAndTime.ToString("dd.MM.yyyy", DateTimeFormatInfo.InvariantInfo)}";
             return result;
         }
 

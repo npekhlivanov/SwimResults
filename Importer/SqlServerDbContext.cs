@@ -1,5 +1,6 @@
 ﻿namespace Importer
 {
+    using System;
     using DataAccess;
     using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,11 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuider)
         {
+            if (optionsBuider == null)
+            {
+                throw new ArgumentNullException(nameof(optionsBuider));
+            }
+
             optionsBuider.UseLoggerFactory(DebugLoggerFactory.GetLoggerFactory());
         }
     }

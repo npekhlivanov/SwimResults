@@ -32,7 +32,7 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.Get(id.Value);
+            var storedWorkout = await _workoutRepository.GetById(id.Value);
 
             if (storedWorkout == null)
             {
@@ -51,7 +51,7 @@
                 return Page();
             }
 
-            var storedWorkout = await _workoutRepository.Get(Workout.Id);
+            var storedWorkout = await _workoutRepository.GetById(Workout.Id);
             var modifiedWorkout = _mapper.Map<Workout>(storedWorkout);
             _mapper.Map(Workout, modifiedWorkout);
 
@@ -84,7 +84,7 @@
 
         private bool WorkoutExists(int id)
         {
-            var workout = _workoutRepository.Get(id).Result;
+            var workout = _workoutRepository.GetById(id).Result;
             return workout != null;
         }
     }

@@ -2,10 +2,10 @@
 {
     using System.Xml.Serialization;
 
-    [System.Serializable()]
+    //[System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutUser", AnonymousType = true)]
-    internal class WorkoutUserXml
+    public class WorkoutUserXml
     {
         [XmlElement("id")]
         public string Id { get; set; }

@@ -8,15 +8,15 @@
     public interface IReadOnlyRepository<TEntity>
         where TEntity : IEntity
     {
-        Task<TEntity> Get(int id);
+        Task<TEntity> GetById(int id);
 
-        Task<TEntity> Get<TProperty>(int id, Expression<Func<TEntity, TProperty>> navigationPropertyPath);
+        Task<TEntity> GetById<TProperty>(int id, Expression<Func<TEntity, TProperty>> navigationPropertyPath);
 
-        Task<TEntity> Get<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TEntity, TProperty2>> navigationProperty2Path, Expression<Func<TEntity, TProperty3>> navigationProperty3Path);
+        Task<TEntity> GetById<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TEntity, TProperty2>> navigationProperty2Path, Expression<Func<TEntity, TProperty3>> navigationProperty3Path);
 
-        Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TEntity, TProperty2>> navigationProperty2Path);
+        Task<TEntity> GetById<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TEntity, TProperty2>> navigationProperty2Path);
 
-        Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TProperty1, TProperty2>> NavigationProperty2Path);
+        Task<TEntity> GetById<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TProperty1, TProperty2>> NavigationProperty2Path);
 
         Task<int> GetCount();
 

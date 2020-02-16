@@ -1,5 +1,6 @@
 ﻿namespace SwimResults.Mappings
 {
+    using System.Linq;
     using AutoMapper;
     using DataModels;
     using SwimResults.Models;
@@ -10,7 +11,8 @@
         {
             CreateMap<Workout, Workout>();
             CreateMap<Workout, WorkoutViewModel>()
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(source => source.WorkoutDate));
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(source => source.WorkoutDate))
+                .ForMember(dest => dest.Intervals, opt => opt.MapFrom(source => source.Intervals.OrderBy(i => i.IntervalNo)));
             CreateMap<Workout, WorkoutEditViewModel>();
             CreateMap<WorkoutEditViewModel, Workout>();
             //CreateMap<Workout, WorkoutCreateViewModel>();

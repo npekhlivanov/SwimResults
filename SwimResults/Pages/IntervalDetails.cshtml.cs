@@ -32,7 +32,7 @@
                 return NotFound();
             }
 
-            var storedInterval = await _intervalRepository.Get(id.Value, i => i.Lengths, i => i.WorkoutIntervalType, i => i.Workout);
+            var storedInterval = await _intervalRepository.GetById(id.Value, i => i.Lengths, i => i.WorkoutIntervalType, i => i.Workout);
             if (storedInterval == null)
             {
                 return NotFound();
@@ -41,8 +41,9 @@
             ReturnPath = string.IsNullOrWhiteSpace(returnPath) ? Url.Page("Details", new { id }) : returnPath;
 
             Interval = _mapper.Map<WorkoutIntervalViewModel>(storedInterval);
-            var lengths = Interval.Lengths.OrderBy(l => l.LengthNo).ToList();
-            Interval.Lengths = lengths;
+            //var lengths = Interval.Lengths.OrderBy(l => l.LengthNo).ToList();
+            //Interval.Lengths.Clear();
+            //Interval.Lengths.AddRange(lengths);
 
             //IntervalNo = intervalNo ?? 0;
             return Page();

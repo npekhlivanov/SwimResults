@@ -40,7 +40,7 @@
                 return NotFound();
             }
 
-            var storedInterval = await _intervalRepository.Get(id.Value, w => w.WorkoutIntervalType);
+            var storedInterval = await _intervalRepository.GetById(id.Value, w => w.WorkoutIntervalType);
             if (storedInterval == null)
             {
                 return NotFound();
@@ -63,7 +63,7 @@
                 return Page();
             }
 
-            var storedInterval = await _intervalRepository.Get(WorkoutInterval.Id);
+            var storedInterval = await _intervalRepository.GetById(WorkoutInterval.Id);
             var modifiedInterval = _mapper.Map<WorkoutInterval>(storedInterval);
             _mapper.Map(WorkoutInterval, modifiedInterval);
 
@@ -97,7 +97,7 @@
 
         private bool WorkoutIntervalExists(int id)
         {
-            return _intervalRepository.Get(id) != null;
+            return _intervalRepository.GetById(id) != null;
         }
     }
 }

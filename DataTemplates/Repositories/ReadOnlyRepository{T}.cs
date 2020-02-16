@@ -12,17 +12,20 @@
     public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : Entity
     {
-        protected readonly DbContext _context;
+        internal readonly DbContext _context;
 
         protected ReadOnlyRepository(DbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(DbContext));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public virtual async Task<IList<TEntity>> GetList()
         {
-            var result = _context.Set<TEntity>().AsNoTracking().ToListAsync();
-            return await result;
+            var result = await _context.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
+            return result;
         }
 
         private IQueryable<TEntity> GetListAsQueriable<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending)
@@ -57,7 +60,9 @@
         public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending)
         {
             var result = GetListAsQueriable(sortSelector, sortDescending);
-            return await result.AsNoTracking().ToListAsync();
+            return await result.AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task<IList<TEntity>> GetList<TKey>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo)
@@ -65,8 +70,11 @@
             ValidatePageParams(pageSize, pageNo);
 
             var result = GetListAsQueriable(sortSelector, sortDescending);
-            result = result.Skip(pageNo * pageSize).Take(pageSize);
-            return await result.AsNoTracking().ToListAsync();
+            result = result.Skip(pageNo * pageSize)
+                .Take(pageSize);
+            return await result.AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task<IList<TEntity>> GetList<TKey, TProperty>(Expression<Func<TEntity, TKey>> sortSelector, bool sortDescending, int pageSize, int pageNo,
@@ -78,7 +86,9 @@
             result = result.Skip(pageNo * pageSize)
                 .Take(pageSize)
                 .Include(navigationPropertyPath);
-            return await result.AsNoTracking().ToListAsync();
+            return await result.AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
 
@@ -92,7 +102,9 @@
                 .Take(pageSize)
                 .Include(navigationPropertyPath)
                 .Include(otherNavigationPropertyPath);
-            return await result.AsNoTracking().ToListAsync();
+            return await result.AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task<IList<TEntity>> GetList<TKey, TProperty, TProperty2>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TKey>> sortSelector,
@@ -106,7 +118,9 @@
                 .Take(pageSize)
                 .Include(navigationPropertyPath)
                 .Include(otherNavigationPropertyPath);
-            return await result.AsNoTracking().ToListAsync();
+            return await result.AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task<IList<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate)
@@ -116,76 +130,89 @@
             //    IQueryable<TEntity> entities = _context.Set<TEntity>().AsQueryable();
             //    return entities.Where(predicate).ToList();
             //});
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Where(predicate)
                 .AsNoTracking()
-                .ToListAsync();
-            return await result;
+                .ToListAsync()
+                .ConfigureAwait(false);
+            return result;
         }
 
         public virtual async Task<IList<TEntity>> GetList<TProperty>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TProperty>> navigationPropertyPath)
         {
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Include(navigationPropertyPath)
                 .Where(predicate)
                 .AsNoTracking()
-                .ToListAsync();
-            return await result;
+                .ToListAsync()
+                .ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> GetById(int id)
         {
-            var result = _context.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
-            return await result;
+            var result = await _context.Set<TEntity>()
+                .FirstOrDefaultAsync(e => e.Id == id)
+                .ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TEntity> Get<TProperty>(int id, Expression<Func<TEntity, TProperty>> navigationPropertyPath)
+        public async Task<TEntity> GetById<TProperty>(int id, Expression<Func<TEntity, TProperty>> navigationPropertyPath)
         {
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Include(navigationPropertyPath)
-                .FirstOrDefaultAsync(e => e.Id == id);
-            return await result;
+                .FirstOrDefaultAsync(e => e.Id == id)
+                .ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TProperty1, TProperty2>> NavigationProperty2Path)
+        public async Task<TEntity> GetById<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path, Expression<Func<TProperty1, TProperty2>> NavigationProperty2Path)
         {
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Include(navigationProperty1Path)
                 .ThenInclude(NavigationProperty2Path)
-                .FirstOrDefaultAsync(e => e.Id == id);
-            return await result;
+                .FirstOrDefaultAsync(e => e.Id == id)
+                .ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
+        public async Task<TEntity> GetById<TProperty1, TProperty2>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
             Expression<Func<TEntity, TProperty2>> navigationProperty2Path)
         {
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Include(navigationProperty1Path)
                 .Include(navigationProperty2Path)
-                .FirstOrDefaultAsync(e => e.Id == id);
-            return await result;
+                .FirstOrDefaultAsync(e => e.Id == id)
+                .ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TEntity> Get<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
+        public async Task<TEntity> GetById<TProperty1, TProperty2, TProperty3>(int id, Expression<Func<TEntity, TProperty1>> navigationProperty1Path,
                 Expression<Func<TEntity, TProperty2>> navigationProperty2Path, Expression<Func<TEntity, TProperty3>> navigationProperty3Path)
         {
-            var result = _context.Set<TEntity>()
+            var result = await _context.Set<TEntity>()
                 .Include(navigationProperty1Path)
                 .Include(navigationProperty2Path)
                 .Include(navigationProperty3Path)
-                .FirstOrDefaultAsync(e => e.Id == id);
-            return await result;
+                .FirstOrDefaultAsync(e => e.Id == id)
+                .ConfigureAwait(false);
+            return result;
         }
 
         public async Task<int> GetCount()
         {
-            var result = await _context.Set<TEntity>().CountAsync();
+            var result = await _context.Set<TEntity>()
+                .CountAsync()
+                .ConfigureAwait(false);
             return result;
         }
 
         public async Task<int> GetCount(Expression<Func<TEntity, bool>> predicate)
         {
-            var result = await _context.Set<TEntity>().Where(predicate).CountAsync();
+            var result = await _context.Set<TEntity>()
+                .Where(predicate)
+                .CountAsync()
+                .ConfigureAwait(false);
             return result;
         }
     }

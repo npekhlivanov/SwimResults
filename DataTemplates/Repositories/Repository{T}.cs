@@ -13,32 +13,38 @@
 
         public async Task<int> Add(TEntity entity)
         {
-            return await InternalAdd(entity);
+            return await InternalAdd(entity)
+                .ConfigureAwait(false);
         }
 
         public async Task Update(TEntity entity)
         {
-            await InternalUpdate(entity);
+            await InternalUpdate(entity)
+                .ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateModifiedFields(TEntity entity)
         {
-            return await InternalUpdateModifiedFields(entity);
+            return await InternalUpdateModifiedFields(entity)
+                .ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateModifiedFields(TEntity modifiedEntity, TEntity originalEntity)
         {
-            return await InternalUpdateModifiedFields(modifiedEntity, originalEntity);
+            return await InternalUpdateModifiedFields(modifiedEntity, originalEntity)
+                .ConfigureAwait(false);
         }
 
         public async Task<bool> FindAndDelete(int id)
         {
-            return await InternalFindAndDelete(id);
+            return await InternalFindAndDelete(id)
+                .ConfigureAwait(false);
         }
 
         public async Task Delete(int id)
         {
-            await InternalDelete(id);
+            await InternalDelete(id)
+                .ConfigureAwait(false);
         }
     }
 }

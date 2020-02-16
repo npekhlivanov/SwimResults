@@ -7,12 +7,22 @@
     {
         public static string GetDisplayName(this Enum enumValue)
         {
+            if (enumValue == null)
+            {
+                throw new ArgumentNullException(nameof(enumValue));
+            }
+
             var displayAttribute = enumValue.GetDisplayAttribute(out string valueName) ?? null;
             return displayAttribute?.Name ?? valueName;
         }
 
         public static string GetDescription(this Enum enumValue)
         {
+            if (enumValue == null)
+            {
+                throw new ArgumentNullException(nameof(enumValue));
+            }
+
             var displayAttribute = enumValue.GetDisplayAttribute(out string valueName) ?? null;
             return displayAttribute?.Description ?? valueName;
         }

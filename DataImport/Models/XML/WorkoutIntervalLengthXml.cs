@@ -2,10 +2,10 @@
 {
     using System.Xml.Serialization;
 
-    [System.Serializable()]
+    //[System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutIntervalLength", AnonymousType = true)]
-    internal class WorkoutIntervalLengthXml
+    public class WorkoutIntervalLengthXml
     {
         [XmlElement("duration")]
         public float Duration { get; set; }

@@ -31,7 +31,7 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.Get(id.Value);
+            var storedWorkout = await _workoutRepository.GetById(id.Value);
             if (storedWorkout == null)
             {
                 return NotFound();

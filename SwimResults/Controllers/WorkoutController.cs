@@ -11,6 +11,11 @@
     using SwimResults.Models;
     using SwimResults.Tools;
 
+    public class DTO
+    {
+        public string Value { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class WorkoutController : ControllerBase
@@ -26,25 +31,29 @@
 
         // POST: api/Workout
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] int workoutId) //string value
         {
-            FillWorkoutDetailsResult result;
-            if (!int.TryParse(value, out int workoutId))
+            // With .Net Core 3.0 string parameters must be passed as quoted, so the string parameter is changed to integer (since contentType is "application/json")
+            // Otherwise JavaScript must use JSON.stringify() to pass the parameters (also when the parameter is an object)
+            // In case of mismatched types the middleware returns HTTP result 415 to the caller
+            if (workoutId <= 0)
+            //if (!int.TryParse(value, out int workoutId))
             {
-                return CreateErrorResponse($"Invalid workoutId ({value})!");
+                return CreateErrorResponse($"Invalid workoutId ({workoutId})!");
             }
 
+            FillWorkoutDetailsResult result;
             try
             {
-                var workout = await _workoutRepository.Get(workoutId, w => w.Intervals);
+                var workout = await _workoutRepository.GetById(workoutId, w => w.Intervals);
                 if (workout == null)
                 {
-                    return CreateErrorResponse($"Workout with Id={value} not found!");
+                    return CreateErrorResponse($"Workout with Id={workoutId} not found!");
                 }
 
                 if (workout.Intervals?.Count > 0)
                 {
-                    return CreateErrorResponse($"The details for workout with Id={value} have already been loaded!");
+                    return CreateErrorResponse($"The details for workout with Id={workoutId} have already been loaded!");
                 }
 
                 var loadWorkoutResult = await LoadWorkoutDetails(workout);
@@ -58,7 +67,7 @@
                 var workoutData = new WorkoutDetailsData
                 {
                     WorkoutId = workoutId,
-                    Distance = workout.Distance.ToString(),
+                    Distance = workout.Distance.ToStringInvariant(),
                     Duration = DisplayValuesFormatter.FormatDuration(workout.Duration, false),
                     Name = workout.Name,
                     Pace = DisplayValuesFormatter.FormatDuration(workout.Pace, false),
@@ -94,8 +103,8 @@
             var workoutDetailsFile = Path.Combine(workoutDetailsFolder, $"{workout.Id}.xml");
             if (System.IO.File.Exists(workoutDetailsFile))
             {
-                WorkoutDetailParser.LoadWorkoutData(workoutDetailsFile, workout);
-                result.Message = $"Loaded details for workout {workout.Id} from file";
+                result.Success = WorkoutDetailParser.LoadWorkoutData(workoutDetailsFile, workout);
+                result.Message = result.Success ? $"Loaded details for workout {workout.Id} from file" : $"Details were not loaded for workout {workout.Id}";
             }
             else
             {
@@ -116,10 +125,10 @@
                     await detailsStream.CopyToAsync(outputFile);
                 }
 
+                result.Success = true;
                 result.Message = $"Loaded details for workout {workout.Id} from online source";
             }
 
-            result.Success = true;
             return result;
         }
 
@@ -134,9 +143,16 @@
             return new JsonResult(result);
         }
 
+        /// <summary>
+        /// Do not make the method static!<para/>
+        /// This will result in "405 HTTP Method Not Supported / Method not allowed" when calling it.<para/>
+        /// Besides this, @Url.Action("GetWorkoutName", "Workout") returns empty string
+        /// </summary>
+        /// <param name="value">The date of the workout (yyyy-mm-dd)</param>
+        /// <returns>Workout name, containing the date</returns>
+        // GET: api/Workout
         [HttpGet]
-        //[ActionName("GetWorkoutName")]
-        public static IActionResult GetWorkoutName(string value)
+        public IActionResult GetWorkoutName(string value)
         {
             string result;
             if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))

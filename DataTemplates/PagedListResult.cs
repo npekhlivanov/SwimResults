@@ -6,7 +6,13 @@
     public class PagedListResult<TEntity>
         where TEntity : Entity
     {
-        public IList<TEntity> List { get; set; }
+        public PagedListResult()
+        {
+            this.List = new List<TEntity>();
+        }
+
+        public IList<TEntity> List { get; }
+
         public int TotalPages { get; set; }
     }
 }

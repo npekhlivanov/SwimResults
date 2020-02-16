@@ -32,7 +32,7 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.Get(id.Value, w => w.Intervals, wi => ((WorkoutInterval)wi).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
+            var storedWorkout = await _workoutRepository.GetById(id.Value, w => w.Intervals, wi => ((WorkoutInterval)wi).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
             if (storedWorkout == null)
             {
                 return NotFound();
@@ -43,20 +43,23 @@
 
             //storedWorkout.Intervals = await _workoutIntervalRepository.GetList(i => i.WorkoutId == storedWorkout.Id, i => i.Lengths);
             Workout = _mapper.Map<WorkoutViewModel>(storedWorkout);
-            var intervals = Workout.Intervals.OrderBy(wi => wi.IntervalNo).ToList();
+            var intervals = Workout.Intervals
+                .OrderBy(wi => wi.IntervalNo)
+                .ToList();
             if (showRests ?? false)
             {
                 InsertRests(intervals);
             }
 
-            Workout.Intervals = intervals;
+            //Workout.Intervals.Clear();
+            //Workout.Intervals.AddRange(intervals);
             return Page();
         }
 
         private static void InsertRests(System.Collections.Generic.List<WorkoutIntervalViewModel> intervals)
         {
             var i = 0;
-            while (++i < intervals.Count())
+            while (++i < intervals.Count)
             {
                 var interval = intervals[i];
                 if (i > 0)

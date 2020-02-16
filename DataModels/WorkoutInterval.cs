@@ -8,6 +8,11 @@
 
     public class WorkoutInterval : Entity, IWorkoutInterval
     {
+        public WorkoutInterval()
+        {
+            this.Lengths = new List<WorkoutIntervalLength>();
+        }
+
         public int WorkoutId { get; set; }
 
         public int? IntervalNo { get; set; }
@@ -24,7 +29,7 @@
         //[NotMapped]
         //public float DistanceComputed { get => Lengths?.Sum(x => x.Distance) ?? 0; }
 
-        public IList<WorkoutIntervalLength> Lengths { get; set; }
+        public ICollection<WorkoutIntervalLength> Lengths { get; }
 
         public int? WorkoutIntervalTypeId { get; set; }
 

@@ -2,10 +2,10 @@
 {
     using System.Xml.Serialization;
 
-    [System.Serializable()]
+    //[System.Serializable()]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType("workoutDevice", AnonymousType = true)]
-    internal class WorkoutDeviceXml
+    public class WorkoutDeviceXml
     {
         [XmlElement("make")]
         public string Make { get; set; }

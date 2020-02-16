@@ -99,19 +99,19 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "WorkoutIntervalType",
                 columns: new[] { "Id", "Name" },
-                values: new object[,]
+                values: new[]
                 {
-                    { 1, "Warm up" },
-                    { 2, "First quick freestyle" },
-                    { 3, "Second quick freestyle" },
-                    { 4, "Drill with fins" },
-                    { 5, "Drill (other)" },
-                    { 6, "Freestyle series" },
-                    { 7, "Freestyle series with pull-buoy" },
-                    { 8, "Freestyle series with paddles" },
-                    { 9, "Final quick freestyle" },
-                    { 10, "Backstroke" },
-                    { 11, "Manually added" }
+                    new { Id = 1,  Name = "Warm up" },
+                    new { Id = 2,  Name = "First quick freestyle" },
+                    new { Id = 3,  Name = "Second quick freestyle" },
+                    new { Id = 4,  Name = "Drill with fins" },
+                    new { Id = 5,  Name = "Drill (other)" },
+                    new { Id = 6,  Name = "Freestyle series" },
+                    new { Id = 7,  Name = "Freestyle series with pull-buoy" },
+                    new { Id = 8,  Name = "Freestyle series with paddles" },
+                    new { Id = 9,  Name = "Final quick freestyle" },
+                    new { Id = 10, Name = "Backstroke" },
+                    new { Id = 11, Name = "Manually added" }
                 });
 
             migrationBuilder.CreateIndex(

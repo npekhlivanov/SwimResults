@@ -13,13 +13,13 @@
 
         public bool HasNextPage => PageNo < TotalPages;
 
-        public Dictionary<string, string> FirstPageRouteValues { get; protected set; }
+        public Dictionary<string, string> FirstPageRouteValues { get; internal set; }
 
-        public Dictionary<string, string> LastPageRouteValues { get; protected set; }
+        public Dictionary<string, string> LastPageRouteValues { get; internal set; }
 
-        public Dictionary<string, string> NextPageRouteValues { get; protected set; }
+        public Dictionary<string, string> NextPageRouteValues { get; internal set; }
 
-        public Dictionary<string, string> PrevPageRouteValues { get; protected set; }
+        public Dictionary<string, string> PrevPageRouteValues { get; internal set; }
 
         public string PrevPageDisabledClass { get; protected set; }
 
@@ -42,9 +42,9 @@
             TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
             FirstPageRouteValues = new Dictionary<string, string> { { pageNoParamName, "1" } };
-            LastPageRouteValues = new Dictionary<string, string> { { pageNoParamName, TotalPages.ToString() } };
-            NextPageRouteValues = new Dictionary<string, string> { { pageNoParamName, (HasNextPage ? PageNo + 1 : TotalPages).ToString() } };
-            PrevPageRouteValues = new Dictionary<string, string> { { pageNoParamName, (HasPreviousPage ? PageNo - 1 : 1).ToString() } };
+            LastPageRouteValues = new Dictionary<string, string> { { pageNoParamName, TotalPages.ToStringInvariant() } };
+            NextPageRouteValues = new Dictionary<string, string> { { pageNoParamName, (HasNextPage ? PageNo + 1 : TotalPages).ToStringInvariant() } };
+            PrevPageRouteValues = new Dictionary<string, string> { { pageNoParamName, (HasPreviousPage ? PageNo - 1 : 1).ToStringInvariant() } };
 
             NextPageDisabledClass = HasNextPage ? "" : disabledClass;
             PrevPageDisabledClass = HasPreviousPage ? "" : disabledClass;

@@ -12,65 +12,65 @@
     using DataTemplates.Interfaces;
     using Microsoft.Extensions.Configuration;
 
-    public static class EnumExtensions
-    {
-        public static int GetMaxValue(this Enum enumType)
-        {
-            var enumValues = Enum.GetValues(enumType.GetType());
-            var enumValList = new List<int>((int[])enumValues);
-            var maxVal = enumValList.Sum();
-            return maxVal;
-        }
+    //public static class EnumExtensions
+    //{
+    //    public static int GetMaxValue(this Enum enumType)
+    //    {
+    //        var enumValues = Enum.GetValues(enumType.GetType());
+    //        var enumValList = new List<int>((int[])enumValues);
+    //        var maxVal = enumValList.Sum();
+    //        return maxVal;
+    //    }
 
-        public static int GetMaxValue(this Type enumType)
-        {
-            if (!enumType.IsEnum)
-            {
-                throw new ArgumentException($"Type \"{enumType.Name}\" is not enum!");
-            }
+    //    public static int GetMaxValue(this Type enumType)
+    //    {
+    //        if (!enumType.IsEnum)
+    //        {
+    //            throw new ArgumentException($"Type \"{enumType.Name}\" is not enum!");
+    //        }
 
-            var enumValues = Enum.GetValues(enumType);
-            var listVals = enumValues.Cast<List<int>>();
-            var lastVal = (int)enumValues.GetValue(enumValues.Length - 1);
-            var maxVal = (lastVal << 1) - 1;
-            return maxVal;
-        }
+    //        var enumValues = Enum.GetValues(enumType);
+    //        var listVals = enumValues.Cast<List<int>>();
+    //        var lastVal = (int)enumValues.GetValue(enumValues.Length - 1);
+    //        var maxVal = (lastVal << 1) - 1;
+    //        return maxVal;
+    //    }
 
-        public static T IntToFlags<T>(int value) where T : Enum
-        {
-            var typeOfT = typeof(T);
-            if (!typeOfT.IsEnum || !typeOfT.IsDefined(typeof(FlagsAttribute), false))
-            {
-                throw new ArgumentException($"Type \"{typeOfT.Name}\" is not Enum with Flags attribute!");
-            }
+    //    public static T IntToFlags<T>(int value) where T : Enum
+    //    {
+    //        var typeOfT = typeof(T);
+    //        if (!typeOfT.IsEnum || !typeOfT.IsDefined(typeof(FlagsAttribute), false))
+    //        {
+    //            throw new ArgumentException($"Type \"{typeOfT.Name}\" is not Enum with Flags attribute!");
+    //        }
 
-            //var enumT = enumType.GetType();
-            var enumValues = Enum.GetValues(typeOfT);
-            var lastVal = (int)enumValues.GetValue(enumValues.Length - 1);
-            var maxVal = (lastVal << 1) - 1;
-            if (value > maxVal)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), $"Value \"{value}\" exceeds limit for enum \"{typeOfT.Name}\"");
-            }
+    //        //var enumT = enumType.GetType();
+    //        var enumValues = Enum.GetValues(typeOfT);
+    //        var lastVal = (int)enumValues.GetValue(enumValues.Length - 1);
+    //        var maxVal = (lastVal << 1) - 1;
+    //        if (value > maxVal)
+    //        {
+    //            throw new ArgumentOutOfRangeException(nameof(value), $"Value \"{value}\" exceeds limit for enum \"{typeOfT.Name}\"");
+    //        }
 
-            Enum.TryParse(typeOfT, value.ToString(), out object result);
-            return (T)result;
-        }
+    //        Enum.TryParse(typeOfT, value.ToString(), out object result);
+    //        return (T)result;
+    //    }
 
-        public static string GetDisplayName(this Enum enumValue)
-        {
-            var enumType = enumValue.GetType();
-            var valueName = Enum.GetName(enumType, enumValue);// enumValue.ToString();
+    //    public static string GetDisplayName(this Enum enumValue)
+    //    {
+    //        var enumType = enumValue.GetType();
+    //        var valueName = Enum.GetName(enumType, enumValue);// enumValue.ToString();
 
-            var memberInfo = enumType.GetMember(valueName);
-            var attrs = memberInfo.Length > 0 ? memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false) : null;
-            var displayAttribute = attrs?.Length > 0 ? (DisplayAttribute)attrs[0] : null;
+    //        var memberInfo = enumType.GetMember(valueName);
+    //        var attrs = memberInfo.Length > 0 ? memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false) : null;
+    //        var displayAttribute = attrs?.Length > 0 ? (DisplayAttribute)attrs[0] : null;
 
-            //var fieldInfo = enumType.GetField(valueName);
-            //var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>() ?? null;
-            return displayAttribute?.Name ?? valueName;
-        }
-    }
+    //        //var fieldInfo = enumType.GetField(valueName);
+    //        //var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>() ?? null;
+    //        return displayAttribute?.Name ?? valueName;
+    //    }
+    //}
 
     class Program
     {
@@ -92,7 +92,7 @@
 
         static void Main(string[] args)
         {
-            var x = TestEnum1.Value1;
+ /*           var x = TestEnum1.Value1;
             var s = x.GetDisplayName();
 
             var enumType = Enum.GetUnderlyingType(typeof(TestFlags1));
@@ -103,13 +103,13 @@
             //int maxVal = TestEnum1.GetMaxValue(typeof(TestEnum1)); // flags.GetMaxValue();// enumValList.Sum(); 
             TestFlags1 fl1 = EnumExtensions.IntToFlags<TestFlags1>(7);
             var maxVal = typeof(TestFlags1).GetMaxValue();
-
+*/
             var workoutId = 0;
             if (args.Length == 1)
             {
                 if (!int.TryParse(args[0], out workoutId) || workoutId < 1)
                 {
-                    Console.WriteLine("A valid WorkoutId mus be specified!");
+                    Console.WriteLine("A valid WorkoutId must be specified!");
                     return;
                 }
             }
@@ -186,7 +186,7 @@
 
         static bool ImportWorkoutDetails(int workoutId, IRepository<Workout> repository, string workoutDetailsFolder)
         {
-            var myWorkout = repository.Get(workoutId).Result;
+            var myWorkout = repository.GetById(workoutId).Result;
             if (myWorkout == null)
             {
                 return false;
@@ -201,7 +201,7 @@
         static void SaveWorkouts(IList<Workout> workouts, IRepository<Workout> repository)
         {
             var sortedWorkouts = workouts.OrderBy(w => w.Start).ToList();
-            for (int i = 0; i < sortedWorkouts.Count(); ++i)
+            for (int i = 0; i < sortedWorkouts.Count; ++i)
             {
                 var workout = sortedWorkouts[i];
                 repository.Add(workout).Wait();

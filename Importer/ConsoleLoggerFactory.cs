@@ -4,7 +4,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    public class ConsoleLoggerFactory
+    public static class ConsoleLoggerFactory
     {
         public static ILoggerFactory GetLoggerFactory()
         {

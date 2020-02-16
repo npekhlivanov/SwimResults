@@ -9,10 +9,17 @@
             var time = TimeSpan.FromSeconds(duration);
             if (duration >= 3600)
             {
-                return time.ToString(@"h\:mm\:ss");
+                return time.ToStringInvariant(@"h\:mm\:ss");
             }
 
-            return showHundredths ? time.ToString(@"mm\:ss\.ff") : time.ToString(@"mm\:ss");
+            if (!showHundredths)
+            {
+                return time.ToStringInvariant(@"mm\:ss");
+            }
+
+            var roundedMs = time.Milliseconds != 0 ? Math.Round((double)time.Milliseconds / 10, 0) : 0;
+            return $"{time.Minutes:00}:{time.Seconds:00}.{roundedMs:00}";
+            //return time.ToString(@"mm\:ss\.ff") : ;
         }
     }
 }

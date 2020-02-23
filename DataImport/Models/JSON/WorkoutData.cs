@@ -4,9 +4,9 @@
     {
         public int WorkoutId { get; set; }
         public string WorkoutName { get; set; }
-        public float Distance { get; set; }
-        public float Duration { get; set; }
-        public float Pace { get; set; }
+        public double Distance { get; set; }
+        public double Duration { get; set; }
+        public double Pace { get; set; }
         public string WorkoutNote { get; set; }
         public string PlaceName => Place?.Name;
 

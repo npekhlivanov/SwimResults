@@ -53,11 +53,11 @@
         public object lastLoginDate { get; set; }
         public object versionandroid { get; set; }
         public object versionios { get; set; }
-        public float duration { get; set; }
-        public float totaltimeactive { get; set; }
-        public float distance { get; set; }
-        public float distanceByUnit { get; set; }
-        public float pace { get; set; }
+        public double duration { get; set; }
+        public double totaltimeactive { get; set; }
+        public double distance { get; set; }
+        public double distanceByUnit { get; set; }
+        public double pace { get; set; }
         public object paceFormat { get; set; }
         public object avatar { get; set; }
         public object id { get; set; }

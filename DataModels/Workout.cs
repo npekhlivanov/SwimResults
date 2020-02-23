@@ -20,11 +20,11 @@
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public float Distance { get; set; }
+        public double Distance { get; set; }
 
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
-        public float Pace { get; set; }
+        public double Pace { get; set; }
 
         [MaxLength(100)]
         public string Place { get; set; }
@@ -41,8 +41,8 @@
 
         public ICollection<WorkoutInterval> Intervals { get; }
 
-        public float ActiveTime { get; set; }
+        public double ActiveTime { get; set; }
 
-        public float CourseLength { get; set; }
+        public double CourseLength { get; set; }
     }
 }

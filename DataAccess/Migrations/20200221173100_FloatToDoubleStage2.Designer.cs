@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200221173100_FloatToDoubleStage2")]
+    partial class FloatToDoubleStage2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,17 +26,17 @@ namespace DataAccess.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<double>("ActiveTime")
-                        .HasColumnType("float");
+                    b.Property<float>("ActiveTime")
+                        .HasColumnType("real");
 
-                    b.Property<double>("CourseLength")
-                        .HasColumnType("float");
+                    b.Property<float>("CourseLength")
+                        .HasColumnType("real");
 
-                    b.Property<double>("Distance")
-                        .HasColumnType("float");
+                    b.Property<float>("Distance")
+                        .HasColumnType("real");
 
-                    b.Property<double>("Duration")
-                        .HasColumnType("float");
+                    b.Property<float>("Duration")
+                        .HasColumnType("real");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
@@ -44,8 +46,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<double>("Pace")
-                        .HasColumnType("float");
+                    b.Property<float>("Pace")
+                        .HasColumnType("real");
 
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(100)")

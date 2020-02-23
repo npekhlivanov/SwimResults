@@ -25,7 +25,7 @@
         public DateTime Start { get; set; }
 
         [XmlElement("duration")]
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
         [XmlElement("course")]
         public WorkoutCourseXml Course { get; set; }

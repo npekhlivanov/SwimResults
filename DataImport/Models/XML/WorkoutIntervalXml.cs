@@ -8,7 +8,7 @@
     public class WorkoutIntervalXml
     {
         [XmlElement("timeOffset")]
-        public float TimeOffset { get; set; }
+        public double TimeOffset { get; set; }
 
         [XmlElement("length")]
         public WorkoutIntervalLengthXml[] Lengths { get; set; }

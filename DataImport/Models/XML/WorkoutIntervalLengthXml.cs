@@ -8,7 +8,7 @@
     public class WorkoutIntervalLengthXml
     {
         [XmlElement("duration")]
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
         [XmlElement("strokeType")]
         public int StrokeType { get; set; }
@@ -17,6 +17,6 @@
         public int StrokeCount { get; set; }
 
         [XmlElement("distance")]
-        public float Distance { get; set; }
+        public double Distance { get; set; }
     }
 }

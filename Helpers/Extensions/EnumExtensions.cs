@@ -1,4 +1,4 @@
-﻿namespace SwimResults.Tools
+﻿namespace NP.Helpers.Extensions
 {
     using System;
     using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,4 @@
-﻿namespace SwimResults.Tools
+﻿namespace NP.Helpers.Extensions
 {
     using System;
     using System.Globalization;
@@ -21,7 +21,7 @@
 
         public static string ToStringInvariant(this bool value)
         {
-            return value ? bool.TrueString : bool.FalseString; 
+            return value ? bool.TrueString : bool.FalseString;
         }
 
         public static string ToShortDateStringInvariant(this DateTime value)
@@ -39,12 +39,7 @@
             return value.ToString(NumberFormatInfo.InvariantInfo);
         }
 
-        public static string ToStringInvariant(this float value)
-        {
-            return value.ToString(NumberFormatInfo.InvariantInfo);
-        }
-
-        public static string ToStringInvariant(this float value, string format)
+        public static string ToStringInvariant(this double value, string format)
         {
             return value.ToString(format, NumberFormatInfo.InvariantInfo);
         }

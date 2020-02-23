@@ -10,13 +10,13 @@
 
         public int? LengthNo { get; set; }
 
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
         public StrokeType StrokeTypeId { get; set; }
 
         public int StrokeCount { get; set; }
 
-        public float Distance { get; set; }
+        public double Distance { get; set; }
 
         public virtual WorkoutInterval WorkoutInterval { get; set; }
     }

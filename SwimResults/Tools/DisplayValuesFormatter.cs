@@ -1,10 +1,11 @@
 ﻿namespace SwimResults.Tools
 {
     using System;
+    using NP.Helpers.Extensions;
 
     public static class DisplayValuesFormatter
     {
-        public static string FormatDuration(float duration, bool showHundredths)
+        public static string FormatDuration(double duration, bool showHundredths)
         {
             var time = TimeSpan.FromSeconds(duration);
             if (duration >= 3600)

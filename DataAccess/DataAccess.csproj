@@ -24,12 +24,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\DataModels\DataModels.csproj" />
     <ProjectReference Include="..\DataTemplates\DataTemplates.csproj" />
+    <ProjectReference Include="..\Helpers\NP.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

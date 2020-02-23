@@ -6,7 +6,7 @@
 
     public partial class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
@@ -33,10 +33,12 @@
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Duration)
+                //.HasComputedColumnSql("cast (0 as real)");
                 .HasComputedColumnSql("dbo.fnGetIntervalDuration(Id)");
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Distance)
+                //.HasComputedColumnSql("cast (0 as real)");
                 .HasComputedColumnSql("dbo.fnGetIntervalDistance(Id)");
 
             modelBuilder.Entity<WorkoutInterval>()
@@ -45,13 +47,13 @@
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Pace)
-                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else " +
-                    "dbo.fnGetIntervalDuration(Id) * 100 / dbo.fnGetIntervalDistance(Id) end");
+                //.HasComputedColumnSql("cast (0 as real)");
+                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 100 / dbo.fnGetIntervalDistance(Id) end");
 
             modelBuilder.Entity<WorkoutInterval>()
                 .Property(p => p.Swolf)
-                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else " +
-                    "dbo.fnGetIntervalDuration(Id) * 50 / dbo.fnGetIntervalDistance(Id) + StrokeCount * 2 end");
+                //.HasComputedColumnSql("cast (0 as real)");
+                .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 50 / dbo.fnGetIntervalDistance(Id) + StrokeCount end");
 
             modelBuilder.Entity<WorkoutIntervalType>().HasData(
                 new WorkoutIntervalType { Id = 1, Name = "Warm up" },

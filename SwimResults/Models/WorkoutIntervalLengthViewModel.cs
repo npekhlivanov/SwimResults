@@ -1,6 +1,7 @@
 ﻿namespace SwimResults.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using NP.Helpers.Extensions;
     using SwimResults.Tools;
     using static Constants.Enums;
 
@@ -12,7 +13,7 @@
 
         public int WorkoutIntervalId { get; set; }
 
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
         [Display(Name = "Stroke type")]
         public StrokeType StrokeTypeId { get; set; }
@@ -20,7 +21,7 @@
         [Display(Name = "Stroke count")]
         public int StrokeCount { get; set; }
 
-        public float Distance { get; set; }
+        public double Distance { get; set; }
 
         public string StrokeTypeName => StrokeTypeId.GetDisplayName(); //{ get }
 

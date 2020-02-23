@@ -106,7 +106,7 @@
             {
                 interval.Distance = interval.Lengths.Sum(l => l.Distance);
                 interval.Duration = interval.Lengths.Sum(l => l.Duration);
-                interval.StrokeCount = interval.Lengths.Sum(l => l.StrokeCount) / (float)interval.Lengths.Count;
+                interval.StrokeCount = interval.Lengths.Sum(l => l.StrokeCount) / (double)interval.Lengths.Count; 
             }
 
             return interval;

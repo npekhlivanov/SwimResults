@@ -18,11 +18,11 @@
 
         public string Name { get; set; }
 
-        public float Distance { get; set; }
+        public double Distance { get; set; }
 
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
-        public float Pace { get; set; }
+        public double Pace { get; set; }
 
         [MaxLength(100)]
         public string Place { get; set; }
@@ -42,10 +42,10 @@
         public int CourseLength { get; set; }
 
         [Display(Name = "Active time")]
-        public float ActiveTime { get; set; }
+        public double ActiveTime { get; set; }
 
         [Display(Name = "Rest time")]
-        public float RestTime => Duration - ActiveTime;
+        public double RestTime => Duration - ActiveTime;
 
         public string DurationFormatted { get => DisplayValuesFormatter.FormatDuration(Duration, false); }
 

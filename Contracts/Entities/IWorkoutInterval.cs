@@ -4,15 +4,15 @@
 
     public interface IWorkoutInterval : IEntity
     {
-        float Distance { get; }
-        float Duration { get; }
+        double Distance { get; }
+        double Duration { get; }
         //ICollection<IWorkoutIntervalLength> Lengths { get; set; }
         string Notes { get; set; }
-        float TimeOffset { get; set; }
+        double TimeOffset { get; set; }
         //IWorkout Workout { get; set; }
         int WorkoutId { get; set; }
         //IWorkoutIntervalType WorkoutIntervalType { get; set; }
         int? WorkoutIntervalTypeId { get; set; }
-        float StrokeCount { get; set; }
+        double StrokeCount { get; set; }
     }
 }

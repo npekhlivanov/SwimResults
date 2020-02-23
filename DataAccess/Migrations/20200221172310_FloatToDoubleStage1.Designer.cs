@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200221172310_FloatToDoubleStage1")]
+    partial class FloatToDoubleStage1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,17 +26,17 @@ namespace DataAccess.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<double>("ActiveTime")
-                        .HasColumnType("float");
+                    b.Property<float>("ActiveTime")
+                        .HasColumnType("real");
 
-                    b.Property<double>("CourseLength")
-                        .HasColumnType("float");
+                    b.Property<float>("CourseLength")
+                        .HasColumnType("real");
 
-                    b.Property<double>("Distance")
-                        .HasColumnType("float");
+                    b.Property<float>("Distance")
+                        .HasColumnType("real");
 
-                    b.Property<double>("Duration")
-                        .HasColumnType("float");
+                    b.Property<float>("Duration")
+                        .HasColumnType("real");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
@@ -44,8 +46,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<double>("Pace")
-                        .HasColumnType("float");
+                    b.Property<float>("Pace")
+                        .HasColumnType("real");
 
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(100)")
@@ -70,15 +72,15 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Distance")
+                    b.Property<float>("Distance")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("float")
-                        .HasComputedColumnSql("dbo.fnGetIntervalDistance(Id)");
+                        .HasColumnType("real")
+                        .HasComputedColumnSql("cast (0 as real)");
 
-                    b.Property<double>("Duration")
+                    b.Property<float>("Duration")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("float")
-                        .HasComputedColumnSql("dbo.fnGetIntervalDuration(Id)");
+                        .HasColumnType("real")
+                        .HasComputedColumnSql("cast (0 as real)");
 
                     b.Property<int?>("IntervalNo")
                         .HasColumnType("int");
@@ -87,23 +89,23 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<double?>("Pace")
+                    b.Property<float?>("Pace")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("float")
-                        .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 100 / dbo.fnGetIntervalDistance(Id) end");
+                        .HasColumnType("real")
+                        .HasComputedColumnSql("cast (0 as real)");
 
-                    b.Property<double>("StrokeCount")
-                        .HasColumnType("float");
+                    b.Property<float>("StrokeCount")
+                        .HasColumnType("real");
 
                     b.Property<int?>("StrokeTypeId")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
                         .HasComputedColumnSql("dbo.fnGetIntervalStrokeType(Id)");
 
-                    b.Property<double?>("Swolf")
+                    b.Property<float?>("Swolf")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("float")
-                        .HasComputedColumnSql("case when dbo.fnGetIntervalDistance(Id)=0 then null else dbo.fnGetIntervalDuration(Id) * 50 / dbo.fnGetIntervalDistance(Id) + StrokeCount end");
+                        .HasColumnType("real")
+                        .HasComputedColumnSql("cast (0 as real)");
 
                     b.Property<double>("TimeOffset")
                         .HasColumnType("float");

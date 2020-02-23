@@ -5,8 +5,8 @@
 
     public interface IWorkoutIntervalLength : IEntity
     {
-        float Distance { get; set; }
-        float Duration { get; set; }
+        double Distance { get; set; }
+        double Duration { get; set; }
         int StrokeCount { get; set; }
         Enums.StrokeType StrokeTypeId { get; set; }
         //IWorkoutInterval WorkoutInterval { get; set; }

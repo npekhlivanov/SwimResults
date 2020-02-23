@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using DataModels;
     using Microsoft.AspNetCore.Mvc;
+    using NP.Helpers.Extensions;
     using SwimResults.Tools;
     using static Constants.Enums;
 
@@ -25,13 +26,13 @@
         public int IntervalNo { get; set; }
 
         [Display(Name = "Time offset")]
-        public float TimeOffset { get; set; }
+        public double TimeOffset { get; set; }
 
         //public float DurationComputed { get => Lengths?.Sum(x => x.Duration) ?? 0; }
 
-        public float Duration { get; set; }
+        public double Duration { get; set; }
 
-        public float Distance { get; set; }
+        public double Distance { get; set; }
 
         public List<WorkoutIntervalLengthViewModel> Lengths { get; }
 
@@ -44,15 +45,15 @@
         public string Notes { get; set; }
 
         [Display(Name = "Stroke count")]
-        public float StrokeCount { get; set; }
+        public double StrokeCount { get; set; }
 
         [Display(Name = "Stroke type")]
         public StrokeType StrokeTypeId { get; set; }
 
-        public float Pace { get; set; }
+        public double Pace { get; set; }
 
         [Display(Name = "SWOLF")]
-        public float Swolf { get; set; }
+        public double Swolf { get; set; }
 
         public string DistanceFormatted => Distance > 0 ? Distance.ToStringInvariant() + " m" : "-";
 

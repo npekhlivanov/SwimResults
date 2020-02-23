@@ -8,6 +8,7 @@
     using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
+    using NP.Helpers.Extensions;
     using SwimResults.Models;
     using SwimResults.Tools;
 

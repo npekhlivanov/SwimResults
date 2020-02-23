@@ -10,9 +10,9 @@
         {
         }
 
-        private static DbContextOptions GetOptions(string connectionString)
+        private static DbContextOptions<ApplicationDbContext> GetOptions(string connectionString)
         {
-            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString).Options;
+            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder<ApplicationDbContext>(), connectionString).Options;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuider)

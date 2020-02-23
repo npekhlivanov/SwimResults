@@ -8,7 +8,7 @@
     public class WorkoutCourseXml
     {
         [XmlElement("courseLength")]
-        public float CourseLength { get; set; }
+        public double CourseLength { get; set; }
 
         [XmlElement("courseUnit")]
         public string CourseUnit { get; set; }

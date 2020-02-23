@@ -32,8 +32,8 @@ namespace SwimResults
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
-            //, assembly => assembly.MigrationsAssembly(nameof(DataAccess)) //typeof(ApplicationDbContext).Assembly.FullName
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
+                assembly => assembly.MigrationsAssembly(nameof(DataAccess)) //typeof(ApplicationDbContext).Assembly.FullName
             ));
 
             // Add AutoMapper

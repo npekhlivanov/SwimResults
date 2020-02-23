@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using NP.Helpers.Extensions;
 
     public class ListWithPaging<T> : List<T>
     {

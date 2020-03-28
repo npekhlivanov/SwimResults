@@ -1,4 +1,4 @@
-﻿namespace DataTemplates.Interfaces
+﻿namespace NP.DataTemplates.Interfaces
 {
     using System.Threading.Tasks;
 

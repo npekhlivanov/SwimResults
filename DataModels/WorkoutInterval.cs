@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Constants.Enums;
     using Contracts.Entities;
-    using DataTemplates.Entities;
-    using static Constants.Enums;
+    using NP.DataTemplates.Entities;
 
     public class WorkoutInterval : Entity, IWorkoutInterval
     {

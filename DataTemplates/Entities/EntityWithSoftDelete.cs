@@ -1,7 +1,7 @@
-﻿namespace DataTemplates.Entities
+﻿namespace NP.DataTemplates.Entities
 {
     public class EntityWithSoftDelete : Entity
     {
-        public bool DeletedOn { get; set; }
+        public bool Deleted { get; set; }
     }
 }

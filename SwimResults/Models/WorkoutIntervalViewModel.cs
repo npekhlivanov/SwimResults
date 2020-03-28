@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Constants.Enums;
     using DataModels;
     using Microsoft.AspNetCore.Mvc;
     using NP.Helpers.Extensions;
     using SwimResults.Tools;
-    using static Constants.Enums;
 
     public class WorkoutIntervalViewModel
     {

@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\DataTemplates\DataTemplates.csproj" />
+    <ProjectReference Include="..\DataTemplates\NP.DataTemplates.csproj" />
   </ItemGroup>
 
 </Project>

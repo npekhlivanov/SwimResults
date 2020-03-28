@@ -19,46 +19,46 @@
     }
     <hr />
     <div class="row">
-        <div class="col">
+        <div class="col col-4">
             <dl class="row">
-                <dt class="col-sm-3">
+                <dt class="col-4">
                     @Html.DisplayNameFor(model => model.Interval.StartTime)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-8">
                     @Html.DisplayFor(model => model.Interval.StartTime)
                 </dd>
-                <dt class="col-sm-3">
+                <dt class="col-4">
                     @Html.DisplayNameFor(model => model.Interval.EndTime)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-8">
                     @Html.DisplayFor(model => model.Interval.EndTime)
                 </dd>
-                <dt class="col-sm-3">
+                <dt class="col-4">
                     @Html.DisplayNameFor(model => model.Interval.Duration)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-8">
                     @Html.DisplayFor(model => model.Interval.DurationFormatted)
                 </dd>
             </dl>
         </div>
-        <div class="col">
+        <div class="col col-8">
             <dl class="row">
-                <dt class="col-sm-3">
+                <dt class="col-3">
                     @Html.DisplayNameFor(model => model.Interval.PaceFormatted)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-9">
                     @Html.DisplayFor(model => model.Interval.PaceFormatted) / 100m
                 </dd>
-                <dt class="col-sm-3">
+                <dt class="col-3">
                     @Html.DisplayNameFor(model => model.Interval.WorkoutIntervalType)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-9">
                     @Html.DisplayFor(model => model.Interval.WorkoutIntervalType.Name)
                 </dd>
-                <dt class="col-sm-3">
+                <dt class="col-3">
                     @Html.DisplayNameFor(model => model.Interval.Notes)
                 </dt>
-                <dd class="col-sm-9">
+                <dd class="col-9">
                     @*@Html.Raw("<pre>" + Model.Workout.Note + "</pre>")*@
                     <span style="white-space: pre-line">@Html.DisplayFor(model => model.Interval.Notes)</span>
                 </dd>
@@ -67,11 +67,11 @@
     </div>
 
     <h4 class="text-info">Lengths</h4>
-    <table class="table table-hover table-bordered">
+    <table class="table table-hover border-left border-right border-bottom">
         <thead class="thead-light">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Interval.Lengths[0].LengthNo)
+                    No
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Interval.Lengths[0].Distance)
@@ -119,6 +119,6 @@
 </div>
 <div>
     @{ var routeValues = new Dictionary<string, string> { { "id", Model.Interval.Id.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery() } }; }
-    <a asp-page="./EditInterval" title="Edit interval" asp-all-route-data="routeValues"><i class='far fa-edit'></i></a> |
-    <a href="@Model.ReturnPath" title="Back"><i class='far fa-arrow-alt-circle-left'></i></a>
+    <a asp-page="./EditInterval" title="Edit interval" asp-all-route-data="routeValues" class="btn btn-outline-primary"><i class="far fa-edit mr-1"></i>Edit</a> 
+    <a href="@Model.ReturnPath" title="Back" class="btn btn-outline-primary ml-3"><i class="far fa-arrow-alt-circle-left mr-1"></i>Back</a>
 </div>

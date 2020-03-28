@@ -1,11 +1,12 @@
-﻿namespace DataTemplates.Repositories
+﻿namespace NP.DataTemplates.Repositories
 {
     using System.Threading.Tasks;
-    using DataTemplates.Entities;
-    using DataTemplates.Interfaces;
     using Microsoft.EntityFrameworkCore;
+    using NP.DataTemplates.Entities;
+    using NP.DataTemplates.Interfaces;
 
-    public abstract class Repository<TEntity> : BaseRepository<TEntity>, IRepository<TEntity> where TEntity : Entity, new()
+    public abstract class Repository<TEntity> : BaseRepository<TEntity>, IRepository<TEntity>
+        where TEntity : Entity, new()
     {
         protected Repository(DbContext context) : base(context)
         {

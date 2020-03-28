@@ -7,10 +7,12 @@
     using System.Linq;
     using System.Threading;
     using DataAccess;
+    using DataAccess.Specifications;
     using DataImport;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.Extensions.Configuration;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers.Extensions;
 
     //public static class EnumExtensions
     //{
@@ -92,24 +94,24 @@
 
         static void Main(string[] args)
         {
- /*           var x = TestEnum1.Value1;
-            var s = x.GetDisplayName();
+            /*           var x = TestEnum1.Value1;
+                       var s = x.GetDisplayName();
 
-            var enumType = Enum.GetUnderlyingType(typeof(TestFlags1));
-            var enumType2 = Enum.GetUnderlyingType(typeof(TestEnum1));
-            Console.WriteLine($"value1={(int)TestEnum1.Value1},value3={(int)TestEnum1.Value3}");
-            //var enumValues1 = Enum.GetValues(typeof(TestFlags1));
-            //var enumValList = new List<int>((int[])enumValues1); 
-            //int maxVal = TestEnum1.GetMaxValue(typeof(TestEnum1)); // flags.GetMaxValue();// enumValList.Sum(); 
-            TestFlags1 fl1 = EnumExtensions.IntToFlags<TestFlags1>(7);
-            var maxVal = typeof(TestFlags1).GetMaxValue();
-*/
+                       var enumType = Enum.GetUnderlyingType(typeof(TestFlags1));
+                       var enumType2 = Enum.GetUnderlyingType(typeof(TestEnum1));
+                       Console.WriteLine($"value1={(int)TestEnum1.Value1},value3={(int)TestEnum1.Value3}");
+                       //var enumValues1 = Enum.GetValues(typeof(TestFlags1));
+                       //var enumValList = new List<int>((int[])enumValues1); 
+                       //int maxVal = TestEnum1.GetMaxValue(typeof(TestEnum1)); // flags.GetMaxValue();// enumValList.Sum(); 
+                       TestFlags1 fl1 = EnumExtensions.IntToFlags<TestFlags1>(7);
+                       var maxVal = typeof(TestFlags1).GetMaxValue();
+           */
             var workoutId = 0;
             if (args.Length == 1)
             {
                 if (!int.TryParse(args[0], out workoutId) || workoutId < 1)
                 {
-                    Console.WriteLine("A valid WorkoutId must be specified!");
+                    Console.WriteLine("A valid WorkoutId must be specified!".ToInvariant());
                     return;
                 }
             }
@@ -129,7 +131,7 @@
             using var dbContext = new SqlServerDbContext(connectionString);
             var repository = RepositoryFactory.CreateWorkoutRepository(dbContext);
 
-            var storedWorkouts = repository.GetList(w => w.Start, true).Result;
+            var storedWorkouts = repository.GetList(new WorkoutsSortedByDateSpecification()).Result;
 
             if (workoutId == 0)
             {
@@ -172,7 +174,7 @@
             WorkoutDetailParser.LoadWorkoutData(detailsFile, myWorkout);
 
             //var workoutInDb = repository.Get(workoutId).Result;
-            var workoutInDb = repository.GetList(w => w.Id == workoutId).Result;
+            var workoutInDb = repository.GetById(workoutId).Result;
             if (workoutInDb == null)
             {
                 var id = repository.Add(myWorkout).Result;

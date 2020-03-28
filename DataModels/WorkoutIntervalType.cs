@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using Contracts.Entities;
-    using DataTemplates.Entities;
+    using NP.DataTemplates.Entities;
 
     public class WorkoutIntervalType : Entity, IWorkoutIntervalType
     {

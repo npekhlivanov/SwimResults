@@ -1,7 +1,6 @@
 ﻿namespace DataImport
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml;
@@ -78,8 +77,8 @@
 
             //workout.Intervals = intervals;
             workout.Distance = workout.Intervals.Sum(i => i.Distance);
-            workout.ActiveTime = workout.Intervals.Sum(i => i.Duration);
-            workout.Pace = workout.Distance > 0 ? workout.ActiveTime * 100 / workout.Distance : 0;
+            workout.ActiveTime = Math.Round(workout.Intervals.Sum(i => i.Duration), 1);
+            workout.Pace = workout.Distance > 0 ? Math.Round(workout.ActiveTime * 100 / workout.Distance, 1) : 0;
             return true;
         }
 
@@ -105,8 +104,8 @@
             if (interval.Lengths.Count > 0)
             {
                 interval.Distance = interval.Lengths.Sum(l => l.Distance);
-                interval.Duration = interval.Lengths.Sum(l => l.Duration);
-                interval.StrokeCount = interval.Lengths.Sum(l => l.StrokeCount) / (double)interval.Lengths.Count; 
+                interval.Duration = Math.Round(interval.Lengths.Sum(l => l.Duration), 1);
+                interval.StrokeCount = interval.Lengths.Sum(l => l.StrokeCount) / (double)interval.Lengths.Count;
             }
 
             return interval;

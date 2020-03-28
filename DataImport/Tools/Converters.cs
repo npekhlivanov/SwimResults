@@ -1,7 +1,7 @@
 ﻿namespace DataImport.Tools
 {
     using System;
-    using static Constants.Enums;
+    using Constants.Enums;
 
     internal static class Converters
     {

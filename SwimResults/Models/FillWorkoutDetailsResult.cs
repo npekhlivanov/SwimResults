@@ -1,6 +1,6 @@
 ﻿namespace SwimResults.Models
 {
-    public class FillWorkoutDetailsResult
+    class FillWorkoutDetailsResult
     {
         public bool Success { get; set; }
 

@@ -1,28 +1,22 @@
 ﻿namespace NP.Helpers.Extensions
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations; // for .net Framework this is a separate package
+    using System.Linq;
+    using System.Reflection;
 
     public static class EnumExtensions
     {
         public static string GetDisplayName(this Enum enumValue)
         {
-            if (enumValue == null)
-            {
-                throw new ArgumentNullException(nameof(enumValue));
-            }
-
+            Validators.ValidateNotNull(enumValue, nameof(enumValue));
             var displayAttribute = enumValue.GetDisplayAttribute(out string valueName) ?? null;
             return displayAttribute?.Name ?? valueName;
         }
 
         public static string GetDescription(this Enum enumValue)
         {
-            if (enumValue == null)
-            {
-                throw new ArgumentNullException(nameof(enumValue));
-            }
-
+            Validators.ValidateNotNull(enumValue, nameof(enumValue));
             var displayAttribute = enumValue.GetDisplayAttribute(out string valueName) ?? null;
             return displayAttribute?.Description ?? valueName;
         }
@@ -39,6 +33,23 @@
             //var fieldInfo = enumType.GetField(valueName);
             //var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>() ?? null;
             return displayAttribute;
+        }
+
+        public static TAttribute GetAttribute<TAttribute>(this Enum enumValue)
+            where TAttribute : Attribute
+        {
+            Validators.ValidateNotNull(enumValue, nameof(enumValue));
+            var type = enumValue.GetType();
+            var typeInfo = type.GetTypeInfo();
+            var memberInfo = typeInfo.GetMember(enumValue.ToString());
+            if (memberInfo.Length < 1)
+            {
+                return null;
+            }
+
+            var attributes = memberInfo[0].GetCustomAttributes<TAttribute>();
+            var attribute = attributes?.FirstOrDefault();
+            return attribute;
         }
     }
 }

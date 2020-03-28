@@ -22,3 +22,5 @@ Alternative to <a href="#" ..> -> href="javascript:void(0)" onclick=""
 mr, ml, mx - set margins
 
 CHECK ConfigureAwait(false)!
+
+add logic to set interval type upon import

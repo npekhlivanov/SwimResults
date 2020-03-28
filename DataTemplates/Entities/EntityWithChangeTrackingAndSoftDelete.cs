@@ -1,10 +1,10 @@
-﻿namespace DataTemplates.Entities
+﻿namespace NP.DataTemplates.Entities
 {
     using System;
 
     public class EntityWithChangeTrackingAndSoftDelete : EntityWithChangeTracking
     {
-        public DateTime DeletedOn { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
         public string DeletedBy { get; set; }
     }

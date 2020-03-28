@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataImport", "DataImport\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Importer", "Importer\Importer.csproj", "{AE31E7A0-B239-4E3E-98B1-819DD6DBE242}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTemplates", "DataTemplates\DataTemplates.csproj", "{99CDEEE3-CFE7-4839-ABAC-4E670F347DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NP.DataTemplates", "DataTemplates\NP.DataTemplates.csproj", "{99CDEEE3-CFE7-4839-ABAC-4E670F347DD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{833DACA6-0F0B-4947-A1E0-22754EA9321D}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModels", "DataModels\DataModels.csproj", "{A4DF9568-0F5A-4CB1-AAC9-004F87EB8584}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NP.Helpers", "Helpers\NP.Helpers.csproj", "{AF52A744-04AA-479D-BFCF-94AE9E2C208A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NP.Helpers.Web", "NP.Helpers.Web\NP.Helpers.Web.csproj", "{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{AF52A744-04AA-479D-BFCF-94AE9E2C208A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF52A744-04AA-479D-BFCF-94AE9E2C208A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF52A744-04AA-479D-BFCF-94AE9E2C208A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -101,17 +102,17 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new[]
                 {
-                    new { Id = 1,  Name = "Warm up" },
-                    new { Id = 2,  Name = "First quick freestyle" },
-                    new { Id = 3,  Name = "Second quick freestyle" },
-                    new { Id = 4,  Name = "Drill with fins" },
-                    new { Id = 5,  Name = "Drill (other)" },
-                    new { Id = 6,  Name = "Freestyle series" },
-                    new { Id = 7,  Name = "Freestyle series with pull-buoy" },
-                    new { Id = 8,  Name = "Freestyle series with paddles" },
-                    new { Id = 9,  Name = "Final quick freestyle" },
-                    new { Id = 10, Name = "Backstroke" },
-                    new { Id = 11, Name = "Manually added" }
+                    new { Id = WorkoutIntervalTypes.WarmUpId,  Name = "Warm up" },
+                    new { Id = WorkoutIntervalTypes.FirstQuickFreestyleId,  Name = "First quick freestyle" },
+                    new { Id = WorkoutIntervalTypes.SecondQuickFreestyleId,  Name = "Second quick freestyle" },
+                    new { Id = WorkoutIntervalTypes.DrillWithFinsId,  Name = "Drill with fins" },
+                    new { Id = WorkoutIntervalTypes.DrillOtherId,  Name = "Drill (other)" },
+                    new { Id = WorkoutIntervalTypes.FreestyleSeriesId,  Name = "Freestyle series" },
+                    new { Id = WorkoutIntervalTypes.FreestyleSeriesWithPullBuoyId,  Name = "Freestyle series with pull-buoy" },
+                    new { Id = WorkoutIntervalTypes.FreestyleSeriesWithPaddlesId,  Name = "Freestyle series with paddles" },
+                    new { Id = WorkoutIntervalTypes.FinalQuickFreestyleId,  Name = "Final quick freestyle" },
+                    new { Id = WorkoutIntervalTypes.BackstrokeId, Name = "Backstroke" },
+                    new { Id = WorkoutIntervalTypes.ManuallyAddedId, Name = "Manually added" }
                 });
 
             migrationBuilder.CreateIndex(

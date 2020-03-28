@@ -3,13 +3,16 @@
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using DataAccess.Specifications;
     using DataImport;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
     using NP.Helpers.Extensions;
     using SwimResults.Models;
+    using SwimResults.Services;
     using SwimResults.Tools;
 
     public class DTO
@@ -26,8 +29,8 @@
 
         public WorkoutController(IRepository<Workout> workoutRepository, IConfiguration configuration)
         {
-            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _workoutRepository = Validators.ValidateNotNull(workoutRepository, nameof(workoutRepository));
+            _configuration = Validators.ValidateNotNull(configuration, nameof(configuration));
         }
 
         // POST: api/Workout
@@ -46,7 +49,10 @@
             FillWorkoutDetailsResult result;
             try
             {
-                var workout = await _workoutRepository.GetById(workoutId, w => w.Intervals);
+                //static IQueryable<Workout> queryModifier(IQueryable<Workout> q) => q.Include(w =>w.Intervals);
+                var workout = await _workoutRepository.GetById(workoutId, new WorkoutWithIntervalsSpecification())
+                   .ConfigureAwait(false);
+                //var workout = await _workoutRepository.GetById(workoutId, w => w.Intervals)
                 if (workout == null)
                 {
                     return CreateErrorResponse($"Workout with Id={workoutId} not found!");
@@ -57,13 +63,16 @@
                     return CreateErrorResponse($"The details for workout with Id={workoutId} have already been loaded!");
                 }
 
-                var loadWorkoutResult = await LoadWorkoutDetails(workout);
+                var loadWorkoutResult = await LoadWorkoutDetails(workout)
+                     .ConfigureAwait(false);
                 if (!loadWorkoutResult.Success)
                 {
                     return CreateErrorResponse(loadWorkoutResult.Message);
                 }
 
-                await _workoutRepository.Update(workout);
+                WorkoutIntervalModifier.AutoFillIntervalTypes(workout);
+                await _workoutRepository.Update(workout)
+                    .ConfigureAwait(false);
 
                 var workoutData = new WorkoutDetailsData
                 {
@@ -106,30 +115,28 @@
             {
                 result.Success = WorkoutDetailParser.LoadWorkoutData(workoutDetailsFile, workout);
                 result.Message = result.Success ? $"Loaded details for workout {workout.Id} from file" : $"Details were not loaded for workout {workout.Id}";
+                return result;
             }
-            else
+
+            using var detailsStream = await WorkoutDetailsRetriever.DownloadWorkoutDetails(_configuration["OnlineWorkoutDetailsSource"], workout.Id)
+                .ConfigureAwait(false);
+            if (detailsStream == null)
             {
-                using (var detailsStream = await WorkoutDetailsRetriever.DownloadWorkoutDetails(_configuration["OnlineWorkoutDetailsSource"], workout.Id))
-                {
-                    if (detailsStream == null)
-                    {
-                        result.Message = $"No details found for workout with Id={workout.Id}!";
-                        result.Success = false;
-                        return result;
-                    }
-
-                    detailsStream.Position = 0;
-                    WorkoutDetailParser.LoadWorkoutData(detailsStream, workout);
-
-                    using var outputFile = new FileStream(workoutDetailsFile, FileMode.Create);
-                    detailsStream.Position = 0;
-                    await detailsStream.CopyToAsync(outputFile);
-                }
-
-                result.Success = true;
-                result.Message = $"Loaded details for workout {workout.Id} from online source";
+                result.Message = $"No details found for workout with Id={workout.Id}!";
+                result.Success = false;
+                return result;
             }
 
+            detailsStream.Position = 0;
+            WorkoutDetailParser.LoadWorkoutData(detailsStream, workout);
+
+            using var outputFile = new FileStream(workoutDetailsFile, FileMode.Create);
+            detailsStream.Position = 0;
+            await detailsStream.CopyToAsync(outputFile)
+                .ConfigureAwait(false);
+
+            result.Success = true;
+            result.Message = $"Loaded details for workout {workout.Id} from online source";
             return result;
         }
 
@@ -145,7 +152,7 @@
         }
 
         /// <summary>
-        /// Do not make the method static!<para/>
+        /// <strong>Do not make this method static !!!</strong><para/>
         /// This will result in "405 HTTP Method Not Supported / Method not allowed" when calling it.<para/>
         /// Besides this, @Url.Action("GetWorkoutName", "Workout") returns empty string
         /// </summary>
@@ -153,13 +160,15 @@
         /// <returns>Workout name, containing the date</returns>
         // GET: api/Workout
         [HttpGet]
-        public IActionResult GetWorkoutName(string value)
+        public IActionResult GetWorkoutName(DateTime selectedDate, bool isMorning)
         {
             string result;
-            if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))
+            if (selectedDate > DateTime.MinValue)
             {
-                var dateAndTime = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, 0, 0);
-                result = ValuesHelper.ComposeWorkoutName(dateAndTime);
+            //if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))
+            //{
+            //    var dateAndTime = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, 0, 0);
+                result = ValuesHelper.ComposeWorkoutName(selectedDate, isMorning);
             }
             else
             {

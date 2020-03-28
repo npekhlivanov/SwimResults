@@ -23,5 +23,7 @@
 
         [DataType(DataType.Date)] // Display the value without the time
         public DateTime Date { get; set; }
+
+        public bool IsMorning { get; set; }
     }
 }

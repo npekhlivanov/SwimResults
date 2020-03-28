@@ -1,7 +1,7 @@
 ﻿namespace Contracts.Entities
 {
     using System;
-    using DataTemplates.Interfaces;
+    using NP.DataTemplates.Interfaces;
 
     public interface IWorkout : IEntity
     {

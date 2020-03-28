@@ -1,25 +1,27 @@
 ﻿namespace SwimResults.Pages
 {
-    using System;
     using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
+    using SwimResults.Core;
     using SwimResults.Models;
 
-    public class EditModel : PageModel
+    //[SmartBreadcrumbs.Attributes.Breadcrumb("Edit workout")]
+    public class EditModel : MyPageModel
     {
         private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
 
         public EditModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
-            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); 
+            _workoutRepository = Validators.ValidateNotNull(workoutRepository, nameof(workoutRepository));
+            _mapper = Validators.ValidateNotNull(mapper, nameof(mapper));
         }
 
         [BindProperty]
@@ -32,7 +34,8 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.GetById(id.Value);
+            var storedWorkout = await _workoutRepository.GetById(id.Value)
+                .ConfigureAwait(false);
 
             if (storedWorkout == null)
             {
@@ -51,7 +54,8 @@
                 return Page();
             }
 
-            var storedWorkout = await _workoutRepository.GetById(Workout.Id);
+            var storedWorkout = await _workoutRepository.GetById(Workout.Id)
+                .ConfigureAwait(false);
             var modifiedWorkout = _mapper.Map<Workout>(storedWorkout);
             _mapper.Map(Workout, modifiedWorkout);
 
@@ -59,7 +63,8 @@
 
             try
             {
-                await _workoutRepository.UpdateModifiedFields(modifiedWorkout, storedWorkout);
+                await _workoutRepository.UpdateModifiedFields(modifiedWorkout, storedWorkout)
+                    .ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {

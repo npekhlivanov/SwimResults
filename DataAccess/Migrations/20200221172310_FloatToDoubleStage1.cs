@@ -111,7 +111,7 @@ namespace DataAccess.Migrations
                 "RETURN @ret; " +
                 "END";
             migrationBuilder.Sql(alterFunc);
- 
+
             migrationBuilder.AlterColumn<float>(
                 name: "TimeOffset",
                 table: "WorkoutIntervals",

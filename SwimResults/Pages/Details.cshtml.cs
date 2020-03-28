@@ -4,13 +4,16 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using DataAccess.Specifications;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using NP.DataTemplates.Interfaces;
+    using SwimResults.Core;
     using SwimResults.Models;
 
-    public class DetailsModel : PageModel
+    //[SmartBreadcrumbs.Attributes.Breadcrumb("Workout details")]
+    public class DetailsModel : MyPageModel
     {
         private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
@@ -32,7 +35,9 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.GetById(id.Value, w => w.Intervals, wi => ((WorkoutInterval)wi).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
+            var storedWorkout = await _workoutRepository.GetById(id.Value, new WorkoutWithIntervalsAndIntervalTypeSpecification())
+                .ConfigureAwait(false);
+            //var storedWorkout = await _workoutRepository.GetById(id.Value, w => w.Intervals, wi => ((WorkoutInterval)wi).WorkoutIntervalType); // i => ((WorkoutInterval)i).Lengths
             if (storedWorkout == null)
             {
                 return NotFound();

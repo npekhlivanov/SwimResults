@@ -1,6 +1,6 @@
 ﻿namespace SwimResults.Models
 {
-    public class WorkoutDetailsData
+    class WorkoutDetailsData
     {
         public int WorkoutId { get; set; }
         public string Name { get; set; }

@@ -11,6 +11,8 @@ namespace SwimResults
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using SmartBreadcrumbs;
+    using SmartBreadcrumbs.Extensions;
 
     public class Startup
     {
@@ -32,7 +34,7 @@ namespace SwimResults
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                 assembly => assembly.MigrationsAssembly(nameof(DataAccess)) //typeof(ApplicationDbContext).Assembly.FullName
             ));
 
@@ -50,6 +52,18 @@ namespace SwimResults
                 options.Cookie.Name = "MyTempDataCookie";
             });
 
+            //  The IDistributedCache implementation is used as a backing store for session
+            //services.AddDistributedMemoryCache();
+
+            // Add Session
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.Name = "MySession"; // Cookie name
+            //    options.IdleTimeout = TimeSpan.FromHours(1); // 1 hours expiry
+            //options.Cookie.HttpOnly = true;
+            //options.Cookie.IsEssential = true;
+            //});
+
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation(); // 3.0
             // see https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#opt-in-to-runtime-compilation
@@ -62,6 +76,16 @@ namespace SwimResults
 
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
             //services.AddSession();
+            services.AddBreadcrumbs(GetType().Assembly, options => 
+            {
+                //options.DontLookForDefaultNode = true;
+                //TagName = "nav",
+                //TagClasses = "",
+                //OlClasses = "breadcrumb",
+                //LiClasses = "breadcrumb-item",
+                //ActiveLiClasses = "breadcrumb-item active",
+                //SeparatorElement = "<li class=\"separator\">/</li>"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,7 +111,9 @@ namespace SwimResults
 
             app.UseRouting(); // 3.0
 
-            //app.UseSession();
+            // Call UseSession after UseRouting and before UseEndpoints
+            //app.UseSession(); or
+            //app.UseHttpContextItemsMiddleware();
 
             //app.UseMvc(); // 2.x
             app.UseEndpoints(endpoints => // 3.0

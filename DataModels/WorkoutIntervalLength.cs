@@ -1,8 +1,8 @@
 ﻿namespace DataModels
 {
+    using Constants.Enums;
     using Contracts.Entities;
-    using DataTemplates.Entities;
-    using static Constants.Enums;
+    using NP.DataTemplates.Entities;
 
     public class WorkoutIntervalLength : Entity, IWorkoutIntervalLength
     {

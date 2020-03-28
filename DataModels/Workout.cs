@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Contracts.Entities;
-    using DataTemplates.Entities;
+    using NP.DataTemplates.Entities;
 
     public class Workout : Entity, IWorkout
     {

@@ -7,12 +7,20 @@
     ViewData["Title"] = "Swims";
 }
 
-<h1>Swims</h1>
+<div class="form-row">
+    <div class="col"><h3>Swims</h3></div>
+    <div class="col text-right pt-2">
+        <a asp-page="Create"><i class="fas fa-plus-circle"></i></a>
+    </div>
+</div>
 
-<h5 id="workoutLoadMessage" class="text-info" style="display: none">Workout load message</h5>
+<div id="workoutLoadAlert" class="alert alert-warning" style="display: none">
+    <button class="close" onclick="(function () { $('#workoutLoadAlert').hide(); })(); return false;">&times;</button>
+    <span id="workoutLoadMessage">Loading workout, please wait...</span>
+</div>
 
-<table class="table">
-    <thead>
+<table class="table table-hover border-left border-right border-bottom">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Workouts[0].Name)
@@ -84,19 +92,33 @@
     </tbody>
 </table>
 
-<a asp-page="./Index" asp-all-route-data="@Model.Workouts.FirstPageRouteValues" class="btn @Model.Workouts.PrevPageDisabledClass"><i class="fas fa-angle-double-left"></i></a>
-<a asp-page="./Index" asp-all-route-data="@Model.Workouts.PrevPageRouteValues" class="btn @Model.Workouts.PrevPageDisabledClass"><i class="fas fa-angle-left"></i></a>
-Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
-<a asp-page="./Index" asp-all-route-data="@Model.Workouts.NextPageRouteValues" class="btn @Model.Workouts.NextPageDisabledClass"><i class="fas fa-angle-right"></i></a>
-<a asp-page="./Index" asp-all-route-data="@Model.Workouts.LastPageRouteValues" class="btn @Model.Workouts.NextPageDisabledClass"><i class="fas fa-angle-double-right"></i></a>
+<nav>
+    <ul class="pagination">
+        <li class="page-item @Model.Workouts.PrevPageDisabledClass">
+            <a asp-page="./Index" asp-all-route-data="@Model.Workouts.FirstPageRouteValues" class="page-link"><i class="fas fa-angle-double-left"></i></a>
+        </li>
+        <li class="page-item @Model.Workouts.PrevPageDisabledClass">
+            <a asp-page="./Index" asp-all-route-data="@Model.Workouts.PrevPageRouteValues" class="page-link"><i class="fas fa-angle-left"></i></a>
+        </li>
+        <li class="page-item">
+            <span class="page-link">Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()</span>
+        </li>
+        <li class="page-item @Model.Workouts.NextPageDisabledClass">
+            <a asp-page="./Index" asp-all-route-data="@Model.Workouts.NextPageRouteValues" class="page-link"><i class="fas fa-angle-right"></i></a>
+        </li>
+        <li class="page-item @Model.Workouts.NextPageDisabledClass">
+            <a asp-page="./Index" asp-all-route-data="@Model.Workouts.LastPageRouteValues" class="page-link"><i class="fas fa-angle-double-right"></i></a>
+        </li>
+    </ul>
+</nav>
 <p>
-    <a asp-page="Create"><i class="fas fa-plus-circle"></i></a>
+    
 </p>
 
 <script>
     function fillWorkoutDetail(sender) {
         $("#busyIndicator").show();
-        $("#workoutLoadMessage").text('');
+        $("#workoutLoadAlert").show();
         let workoutId = sender.id;
         var parentTr = sender.closest('tr');
         $.ajax({
@@ -107,9 +129,10 @@ Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
             dataType: "json",
             //processData: false,
             success: function (data) {
+                $('#workoutLoadMessage').text(data.message);
+                $('#busyIndicator').hide();
                 if (!data.success) {
-                    $('#busyIndicator').hide();
-                    alert(data.message);
+                    //alert(data.message);
                     return;
                 };
                 parentTr.children[0].innerHTML = '<a href="@Url.Page("Details")?id=' + data.workoutData.workoutId + '">' + data.workoutData.name + '</a>';
@@ -117,8 +140,8 @@ Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
                 parentTr.children[2].innerText = data.workoutData.duration;
                 parentTr.children[3].innerText = data.workoutData.pace;
                 parentTr.children[4].innerText = data.workoutData.startDate;
-                $('#workoutLoadMessage').text(data.message).show();
-                $('#busyIndicator').hide();
+                //$('#workoutLoadMessage').text(data.message);
+                //$('#busyIndicator').hide();
                 console.info(data.message);
             },
             failure: function (errMsg) {
@@ -128,5 +151,4 @@ Page @Model.Workouts.PageNo.ToString() of @Model.Workouts.TotalPages.ToString()
         });
         return false;
     }
-
 </script>

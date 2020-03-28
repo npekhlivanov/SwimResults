@@ -1,8 +1,8 @@
 ﻿namespace DataAccess.Repositories
 {
     using DataModels;
-    using DataTemplates.Interfaces;
-    using DataTemplates.Repositories;
+    using NP.DataTemplates.Interfaces;
+    using NP.DataTemplates.Repositories;
 
     internal class WorkoutIntervalRepository : Repository<WorkoutInterval>, IRepository<WorkoutInterval>
     {

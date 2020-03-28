@@ -3,13 +3,17 @@
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
+    using DataAccess.Specifications;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using NP.DataTemplates.Interfaces;
+    using SmartBreadcrumbs.Attributes;
+    using SwimResults.Core;
     using SwimResults.Models;
     using SwimResults.Tools;
 
-    public class IndexModel : PageModel
+    [DefaultBreadcrumb("Swims")]
+    public class IndexModel : MyPageModel
     {
         private readonly IRepository<Workout> _repository;
         private readonly IMapper _mapper;
@@ -29,8 +33,12 @@
         {
             var pageIndex = ValuesHelper.GetPageIndex(pageNo);
 
-            var workoutList = await _repository.GetList(w => w.Start, true, _pageSize, pageIndex);
-            var totalCount = await _repository.GetCount();
+            //static IQueryable<Workout> queryModifier(IQueryable<Workout> q) => q.Include(w => w.Start).OrderByDescending(w => w.Start);
+            var workoutList = await _repository.GetList(new WorkoutsSortedByDateWithPagingSpecification(pageIndex, _pageSize))
+               .ConfigureAwait(false);
+            //var workoutList = await _repository.GetList(w => w.Start, true, _pageSize, pageIndex)
+            var totalCount = await _repository.GetCount()
+                .ConfigureAwait(false);
 
             Workouts = new ListWithPaging<WorkoutViewModel>(totalCount, pageIndex, _pageSize, nameof(pageNo));
 

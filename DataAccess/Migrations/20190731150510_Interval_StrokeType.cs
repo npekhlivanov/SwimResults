@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
@@ -31,7 +32,7 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "WorkoutIntervalType",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 12, "Pre warm-up" });
+                values: new object[] { WorkoutIntervalTypes.PreWarmUpId, "Pre warm-up" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

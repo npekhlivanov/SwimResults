@@ -1,24 +1,26 @@
 ﻿namespace SwimResults.Pages
 {
-    using System;
     using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
+    using SwimResults.Core;
     using SwimResults.Models;
 
-    public class DeleteModel : PageModel
+    //[SmartBreadcrumbs.Attributes.Breadcrumb("Delete workout")]
+    public class DeleteModel : MyPageModel
     {
         private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
 
         public DeleteModel(IRepository<Workout> workoutRepository, IMapper mapper)
         {
-            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _workoutRepository = Validators.ValidateNotNull(workoutRepository, nameof(workoutRepository));
+            _mapper = Validators.ValidateNotNull(mapper, nameof(mapper));
         }
 
         [BindProperty]
@@ -31,7 +33,8 @@
                 return NotFound();
             }
 
-            var storedWorkout = await _workoutRepository.GetById(id.Value);
+            var storedWorkout = await _workoutRepository.GetById(id.Value)
+                .ConfigureAwait(false);
             if (storedWorkout == null)
             {
                 return NotFound();
@@ -49,7 +52,8 @@
                 return NotFound();
             }
 
-            await _workoutRepository.Delete(id.Value);
+            await _workoutRepository.Delete(id.Value)
+                .ConfigureAwait(false);
 
             var returnPath = (string)TempData[ValueKeys.TempDataReturnPathKey];
             if (string.IsNullOrWhiteSpace(returnPath))

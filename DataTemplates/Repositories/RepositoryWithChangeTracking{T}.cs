@@ -1,55 +1,51 @@
-﻿namespace DataTemplates.Repositories
+﻿namespace NP.DataTemplates.Repositories
 {
     using System;
     using System.Threading.Tasks;
-    using DataTemplates.Entities;
     using Microsoft.EntityFrameworkCore;
+    using NP.DataTemplates.Entities;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
 
     public abstract class RepositoryWithChangeTracking<TEntityWithChangeTracking> : BaseRepository<TEntityWithChangeTracking>
         where TEntityWithChangeTracking : EntityWithChangeTracking, new()
     {
+        private readonly ICurrentUserService currentUserService;
 
-        protected RepositoryWithChangeTracking(DbContext dbContext) : base(dbContext)
+        protected RepositoryWithChangeTracking(DbContext dbContext, ICurrentUserService currentUserService) : base(dbContext)
         {
+            this.currentUserService = currentUserService;
         }
 
-        public async Task<int> Add(TEntityWithChangeTracking entity, string userName)
+        public async Task<int> Add(TEntityWithChangeTracking entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
             entity.CreatedOn = DateTime.Now;
-            if (!string.IsNullOrEmpty(userName))
+            var userId = currentUserService?.UserId;
+            if (!string.IsNullOrEmpty(userId))
             {
-                entity.CreatedBy = userName;
+                entity.CreatedBy = userId;
             }
 
             return await InternalAdd(entity)
                 .ConfigureAwait(false);
         }
 
-        public async void Update(TEntityWithChangeTracking entity, string userName)
+        public async void Update(TEntityWithChangeTracking entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
-            UpdateEntity(entity, userName);
+            UpdateEntity(entity);
             await InternalUpdate(entity)
                 .ConfigureAwait(false);
         }
 
-        public async Task<bool> UpdateModifiedFields(TEntityWithChangeTracking entity, string userName)
+        public async Task<bool> UpdateModifiedFields(TEntityWithChangeTracking entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
-            UpdateEntity(entity, userName);
+            UpdateEntity(entity);
             return await InternalUpdateModifiedFields(entity)
                 .ConfigureAwait(false);
         }
@@ -66,12 +62,13 @@
                 .ConfigureAwait(false);
         }
 
-        private void UpdateEntity(TEntityWithChangeTracking entity, string userName)
+        private void UpdateEntity(TEntityWithChangeTracking entity)
         {
             entity.ModifiedOn = DateTime.Now;
-            if (!string.IsNullOrEmpty(userName))
+            var userId = currentUserService?.UserId;
+            if (!string.IsNullOrEmpty(userId))
             {
-                entity.ModifiedBy = userName;
+                entity.ModifiedBy = userId;
             }
         }
     }

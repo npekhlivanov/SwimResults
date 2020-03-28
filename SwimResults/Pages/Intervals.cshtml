@@ -6,20 +6,23 @@
     ViewData["Title"] = "Intervals";
 }
 
-<h1>Intervals</h1>
+<h3>Intervals</h3>
 
 <form method="get">
     <div class="form-inline">
-        <label asp-for="SelectedIntervalType" class="col-form-label  mr-2">Interval type</label>
-        <select id="IntervalType" asp-for="SelectedIntervalType" asp-items="Model.WorkoutIntervalTypeSelectList" class="form-control" onchange="this.form.submit()">
+        <label asp-for="SelectedIntervalType" class="col-form-label">Interval type</label>
+        <select id="IntervalType" asp-for="SelectedIntervalType" asp-items="Model.WorkoutIntervalTypeSelectList" class="form-control mx-3" onchange="this.form.submit()" aria-describedby="selectHelpInline">
             <option value="">Select interval type</option>
         </select>
+        <small id="selectHelpInline" class="text-muted">
+            Select interval type to view data.
+        </small>
     </div>
     <br/>
 </form>
 
-<table class="table">
-    <thead>
+<table class="table table-hover border-left border-right border-bottom">
+    <thead class="thead-light">
         <tr>
             @{
                 var upDown = Model.Intervals.ReversedOrder ? "down" : "up";
@@ -111,10 +114,24 @@
 @if (Model.Intervals.Count > 0)
 {
 <text>
-    <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.FirstPageRouteValues" class="btn @Model.Intervals.PrevPageDisabledClass"><i class="fas fa-angle-double-left"></i></a>
-    <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.PrevPageRouteValues" class="btn @Model.Intervals.PrevPageDisabledClass"><i class="fas fa-angle-left"></i></a>
-    Page @Model.Intervals.PageNo.ToString() of @Model.Intervals.TotalPages.ToString()
-    <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.NextPageRouteValues" class="btn @Model.Intervals.NextPageDisabledClass"><i class="fas fa-angle-right"></i></a>
-    <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.LastPageRouteValues" class="btn @Model.Intervals.NextPageDisabledClass"><i class="fas fa-angle-double-right"></i></a>
+<nav>
+    <ul class="pagination">
+        <li class="page-item @Model.Intervals.PrevPageDisabledClass">
+            <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.FirstPageRouteValues" class="page-link"><i class="fas fa-angle-double-left"></i></a>
+        </li>
+        <li class="page-item @Model.Intervals.PrevPageDisabledClass">
+            <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.PrevPageRouteValues" class="page-link"><i class="fas fa-angle-left"></i></a>
+        </li>
+        <li class="page-item">
+            <span class="page-link">Page @Model.Intervals.PageNo.ToString() of @Model.Intervals.TotalPages.ToString()</span>
+        </li>
+        <li class="page-item @Model.Intervals.NextPageDisabledClass">
+            <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.NextPageRouteValues" class="page-link"><i class="fas fa-angle-right"></i></a>
+        </li>
+        <li class="page-item @Model.Intervals.NextPageDisabledClass">
+            <a asp-page="./Intervals" asp-all-route-data="Model.Intervals.LastPageRouteValues" class="page-link"><i class="fas fa-angle-double-right"></i></a>
+        </li>
+    </ul>
+</nav>
 </text>
 }

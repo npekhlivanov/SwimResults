@@ -1,9 +1,9 @@
 ﻿namespace SwimResults.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using Constants.Enums;
     using NP.Helpers.Extensions;
     using SwimResults.Tools;
-    using static Constants.Enums;
 
     public class WorkoutIntervalLengthViewModel
     {

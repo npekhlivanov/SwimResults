@@ -1,9 +1,9 @@
-﻿namespace DataTemplates.Repositories
+﻿namespace NP.DataTemplates.Repositories
 {
-    using System;
     using System.Threading.Tasks;
-    using DataTemplates.Entities;
     using Microsoft.EntityFrameworkCore;
+    using NP.DataTemplates.Entities;
+    using NP.Helpers;
 
     public abstract class BaseRepository<TEntity> : ReadOnlyRepository<TEntity>
         where TEntity : Entity, new()
@@ -14,13 +14,9 @@
 
         protected async Task<int> InternalAdd(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
-            var dbSet = _context.Set<TEntity>();
-            var entry = await dbSet.AddAsync(entity);
+            var entry = await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync()
                 .ConfigureAwait(false);
             return entry.Entity.Id;
@@ -28,44 +24,32 @@
 
         protected async Task InternalUpdate(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
             var entry = _context.Entry<Entity>(entity); // or _context.Attach()?
             entry.State = EntityState.Modified;
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await _context.SaveChangesAsync()
+                .ConfigureAwait(false);
         }
 
         protected async Task<bool> InternalUpdateModifiedFields(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            entity.ValidateNotNull(nameof(entity));
 
-            var dbSet = _context.Set<TEntity>();
-            var entityToUpdate = await dbSet.FindAsync(entity.Id);
+            var entityToUpdate = await _dbSet.FindAsync(entity.Id);
             if (entityToUpdate == null)
             {
                 return false;
             }
 
-            return await InternalUpdateModifiedFields(entityToUpdate, entity).ConfigureAwait(false);
+            return await InternalUpdateModifiedFields(entityToUpdate, entity)
+                .ConfigureAwait(false);
         }
 
         protected async Task<bool> InternalUpdateModifiedFields(TEntity modifiedEntity, TEntity originalEntity)
         {
-            if (originalEntity == null)
-            {
-                throw new ArgumentNullException(nameof(originalEntity));
-            }
-
-            if (modifiedEntity == null)
-            {
-                throw new ArgumentNullException(nameof(originalEntity));
-            }
+            originalEntity.ValidateNotNull(nameof(originalEntity));
+            modifiedEntity.ValidateNotNull(nameof(modifiedEntity));
 
             var entry = _context.Entry<Entity>(originalEntity);
             entry.CurrentValues.SetValues(modifiedEntity);
@@ -74,21 +58,22 @@
                 return false;
             }
 
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await _context.SaveChangesAsync()
+                .ConfigureAwait(false);
             return true;
         }
 
         protected async Task<bool> InternalFindAndDelete(int id)
         {
-            var dbSet = _context.Set<TEntity>();
-            var entity = await dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id);
             if (entity == null)
             {
                 return false;
             }
 
-            dbSet.Remove(entity);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync()
+                .ConfigureAwait(false);
             return true;
         }
 
@@ -97,7 +82,8 @@
             var entity = new TEntity() { Id = id };
             var entry = _context.Entry(entity);
             entry.State = EntityState.Deleted; // state is Detached and entry is not deleted
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await _context.SaveChangesAsync()
+                .ConfigureAwait(false);
         }
     }
 }

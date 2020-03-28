@@ -2,7 +2,7 @@
 {
     using DataAccess.Repositories;
     using DataModels;
-    using DataTemplates.Interfaces;
+    using NP.DataTemplates.Interfaces;
 
     public static class RepositoryFactory
     {

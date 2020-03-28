@@ -5,10 +5,10 @@
 
     public static class ValuesHelper
     {
-        public static string ComposeWorkoutName(DateTime dateAndTime)
+        public static string ComposeWorkoutName(DateTime dateAndTime, bool isMorning)
         {
-            var morningOrAfternoon = dateAndTime.Hour < 12 ? "Morning" : "Afternoon";
-            var result = 
+            var morningOrAfternoon = isMorning ? "Morning" : "Afternoon";
+            var result =
                 $"{dateAndTime.ToString("dddd", DateTimeFormatInfo.InvariantInfo)} {morningOrAfternoon} Swim {dateAndTime.ToString("dd.MM.yyyy", DateTimeFormatInfo.InvariantInfo)}";
             return result;
         }

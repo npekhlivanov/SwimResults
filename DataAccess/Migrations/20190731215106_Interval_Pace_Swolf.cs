@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
@@ -27,17 +28,12 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "WorkoutIntervalType",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 13, "Intermediate quick freestyle" });
-
-            migrationBuilder.InsertData(
-                table: "WorkoutIntervalType",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 14, "Final quick freestyle 2" });
-
-            migrationBuilder.InsertData(
-                table: "WorkoutIntervalType",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 15, "Other freestyle" });
+                values: new[]
+                {
+                    new { Id = WorkoutIntervalTypes.IntermediateQuickFreestyleId, Name = "Intermediate quick freestyle" },
+                    new { Id = WorkoutIntervalTypes.FinalQuickFreestyle2Id, Name = "Final quick freestyle 2" },
+                    new { Id = WorkoutIntervalTypes.OtherkFreestyleId, Name = "Other freestyle" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

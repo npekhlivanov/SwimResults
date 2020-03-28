@@ -4,14 +4,17 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Configuration;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
+    using SwimResults.Core;
     using SwimResults.Models;
     using SwimResults.Tools;
 
-    public class CreateModel : PageModel
+    [SmartBreadcrumbs.Attributes.Breadcrumb("Intervals")]
+    public class CreateModel : MyPageModel
     {
         private readonly IRepository<Workout> _workoutRepository;
         private readonly IMapper _mapper;
@@ -19,9 +22,9 @@
 
         public CreateModel(IRepository<Workout> workoutRepository, IMapper mapper, IConfiguration configuration)
         {
-            _workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository)); 
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _workoutRepository = Validators.ValidateNotNull(workoutRepository, nameof(workoutRepository));
+            _mapper = Validators.ValidateNotNull(mapper, nameof(mapper));
+            _configuration = Validators.ValidateNotNull(configuration, nameof(configuration));
         }
 
         [BindProperty]
@@ -30,11 +33,13 @@
         public IActionResult OnGet()
         {
             var time = DateTime.Now;
+            var isMorning = time.Hour < 12;
             Workout = new WorkoutCreateViewModel
             {
                 Date = time.Date,
-                Name = ValuesHelper.ComposeWorkoutName(time),
-                Place = _configuration["DefaultSwimPlace"]
+                Name = ValuesHelper.ComposeWorkoutName(time, isMorning),
+                Place = _configuration["DefaultSwimPlace"],
+                IsMorning = isMorning
             };
             return Page();
         }
@@ -48,7 +53,8 @@
 
             var workout = _mapper.Map<Workout>(Workout);
             workout.Start = new DateTime(workout.WorkoutDate.Year, workout.WorkoutDate.Month, workout.WorkoutDate.Day, DateTime.Now.Hour, 0, 0);
-            await _workoutRepository.Add(workout);
+            await _workoutRepository.Add(workout)
+                .ConfigureAwait(false);
 
             return RedirectToPage("./Index");
         }

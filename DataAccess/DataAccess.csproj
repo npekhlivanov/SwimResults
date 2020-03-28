@@ -37,7 +37,7 @@
     <ProjectReference Include="..\Constants\Constants.csproj" />
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\DataModels\DataModels.csproj" />
-    <ProjectReference Include="..\DataTemplates\DataTemplates.csproj" />
+    <ProjectReference Include="..\DataTemplates\NP.DataTemplates.csproj" />
     <ProjectReference Include="..\Helpers\NP.Helpers.csproj" />
   </ItemGroup>
 

@@ -5,16 +5,20 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using AutoMapper;
+    using DataAccess.Specifications;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
     using NP.Helpers.Extensions;
+    using SwimResults.Core;
     using SwimResults.Models;
     using SwimResults.Tools;
 
-    public class IntervalsModel : PageModel
+    [SmartBreadcrumbs.Attributes.Breadcrumb("Intervals")]
+    public class IntervalsModel : MyPageModel
     {
         private readonly IRepository<WorkoutInterval> _intervalRepository;
         private readonly IRepository<WorkoutIntervalType> _intervalTypeRepository;
@@ -30,6 +34,7 @@
 
         [BindProperty(SupportsGet = true)]
         public int SelectedIntervalType { get; set; }
+
         //[TempData]
         //public string CurrentSortOrder { get; set; }
 
@@ -52,15 +57,15 @@
 
         public IntervalsModel(IRepository<WorkoutInterval> intervalRepository, IRepository<WorkoutIntervalType> intervalTypeRepository, IMapper mapper)
         {
-            _intervalRepository = intervalRepository ?? throw new ArgumentNullException(nameof(intervalRepository));
-            _intervalTypeRepository = intervalTypeRepository ?? throw new ArgumentNullException(nameof(intervalTypeRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _intervalRepository = Validators.ValidateNotNull(intervalRepository, nameof(intervalRepository));
+            _intervalTypeRepository = Validators.ValidateNotNull(intervalTypeRepository, nameof(intervalTypeRepository));
+            _mapper = Validators.ValidateNotNull(mapper, nameof(mapper));
             _pageSize = 10;
         }
 
         public async Task OnGet(int? pageNo, string sortBy, bool? descending)
         {
-            Expression<Func<WorkoutInterval, dynamic>> sortSelector;
+            Expression<Func<WorkoutInterval, object>> sortSelector;
             switch (sortBy)
             {
                 case DistanceSortKey: { sortSelector = i => i.Distance; break; }
@@ -76,8 +81,18 @@
 
             var pageIndex = ValuesHelper.GetPageIndex(pageNo);
 
-            var intervals = await _intervalRepository.GetList(i => i.WorkoutIntervalTypeId == SelectedIntervalType, sortSelector, sortDescending, _pageSize, pageIndex, i => i.WorkoutIntervalType, i => i.Workout);
-            var totalCount = await _intervalRepository.GetCount(i => i.WorkoutIntervalTypeId == SelectedIntervalType);
+            var intervals = await _intervalRepository.GetList(new SortedIntervalsByTypeSpecification(SelectedIntervalType, sortSelector, sortDescending, pageIndex, _pageSize))
+            //var intervals = await _intervalRepository.GetList(
+            //    q => q
+            //        .Where(i => i.WorkoutIntervalTypeId == SelectedIntervalType)
+            //        .Include(i => i.WorkoutIntervalType)
+            //        .Include(i => i.Workout),
+            //    _pageSize, pageIndex, sortSelector, sortDescending)
+                .ConfigureAwait(false);
+            //var intervals = await _intervalRepository.GetList(i => i.WorkoutIntervalTypeId == SelectedIntervalType, sortSelector, sortDescending, _pageSize, pageIndex, i => i.WorkoutIntervalType, i => i.Workout)
+            var totalCount = await _intervalRepository.GetCount(new IntervalsByTypeSpecification(SelectedIntervalType))
+            //var totalCount = await _intervalRepository.GetCount(i => i.WorkoutIntervalTypeId == SelectedIntervalType)
+                 .ConfigureAwait(false);
 
             var sortKeys = new Dictionary<string, string>
             {
@@ -90,7 +105,6 @@
             };
 
             Intervals = new ListWithPagingAndSorting<WorkoutIntervalViewModel>(totalCount, pageIndex, _pageSize, nameof(pageNo), nameof(sortBy), nameof(descending), newSortOrder, sortDescending, sortKeys);
-
 
             foreach (var interval in intervals)
             {
@@ -109,7 +123,8 @@
                 routeValues.Value.Add(nameof(SelectedIntervalType), SelectedIntervalType.ToStringInvariant());
             }
 
-            var intervalTypes = await _intervalTypeRepository.GetList();
+            var intervalTypes = await _intervalTypeRepository.GetList()
+                .ConfigureAwait(false);
             WorkoutIntervalTypeSelectList = new SelectList(intervalTypes, "Id", "Name");
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace DataTemplates.Entities
+﻿namespace NP.DataTemplates.Entities
 {
-    using DataTemplates.Interfaces;
+    using NP.DataTemplates.Interfaces;
 
     public abstract class Entity : IEntity
     {

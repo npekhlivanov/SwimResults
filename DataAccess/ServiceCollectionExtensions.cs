@@ -2,8 +2,8 @@
 {
     using DataAccess.Repositories;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
+    using NP.DataTemplates.Interfaces;
 
     public static class ServiceCollectionExtensions
     {
@@ -32,7 +32,7 @@
             services
                 .AddTransient<IRepository<Workout>, WorkoutRepository>()
                 .AddTransient<IRepository<WorkoutInterval>, WorkoutIntervalRepository>()
-                .AddTransient<IReadOnlyRepository<WorkoutIntervalLength>, WorkoutIntervalLengthRepository>() 
+                .AddTransient<IReadOnlyRepository<WorkoutIntervalLength>, WorkoutIntervalLengthRepository>()
                 .AddTransient<IRepository<WorkoutIntervalType>, WorkoutIntervalTypeRepository>();
 
             return services;

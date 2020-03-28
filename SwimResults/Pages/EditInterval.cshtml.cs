@@ -1,18 +1,21 @@
 ﻿namespace SwimResults.Pages
 {
-    using System;
     using System.Threading.Tasks;
     using AutoMapper;
     using Constants;
+    using DataAccess.Specifications;
     using DataModels;
-    using DataTemplates.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
+    using NP.DataTemplates.Interfaces;
+    using NP.Helpers;
+    using SwimResults.Core;
     using SwimResults.Models;
 
-    public class EditIntervalModel : PageModel
+    //[SmartBreadcrumbs.Attributes.Breadcrumb("Edit interval")]
+    public class EditIntervalModel : MyPageModel
     {
         private readonly IRepository<WorkoutInterval> _intervalRepository;
         private readonly IRepository<WorkoutIntervalType> _intervalTypeRepository;
@@ -20,9 +23,9 @@
 
         public EditIntervalModel(IRepository<WorkoutInterval> intervalRepository, IRepository<WorkoutIntervalType> intervalTypeRepository, IMapper mapper)
         {
-            _intervalRepository = intervalRepository ?? throw new ArgumentNullException(nameof(intervalRepository));
-            _intervalTypeRepository = intervalTypeRepository ?? throw new ArgumentNullException(nameof(intervalTypeRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _intervalRepository = Validators.ValidateNotNull(intervalRepository, nameof(intervalRepository));
+            _intervalTypeRepository = Validators.ValidateNotNull(intervalTypeRepository, nameof(intervalTypeRepository));
+            _mapper = Validators.ValidateNotNull(mapper, nameof(mapper));
         }
 
         [BindProperty]
@@ -40,7 +43,9 @@
                 return NotFound();
             }
 
-            var storedInterval = await _intervalRepository.GetById(id.Value, w => w.WorkoutIntervalType);
+            var storedInterval = await _intervalRepository.GetById(id.Value, new IntervalWithTypeSpecifiction())
+                .ConfigureAwait(false);
+            //var storedInterval = await _intervalRepository.GetById(id.Value, w => w.WorkoutIntervalType);
             if (storedInterval == null)
             {
                 return NotFound();
@@ -51,7 +56,8 @@
             TempData[ValueKeys.TempDataReturnPathKey] = returnUrl;
             //ReturnPath = returnPath; // works fine without extra configuring; get value in page via @Model.ReturnPath 
 
-            var intervalTypes = await _intervalTypeRepository.GetList();
+            var intervalTypes = await _intervalTypeRepository.GetList()
+                .ConfigureAwait(false);
             WorkoutIntervalTypeSelectList = new SelectList(intervalTypes, "Id", "Name", storedInterval.WorkoutIntervalTypeId ?? 0);
             return Page();
         }
@@ -63,13 +69,15 @@
                 return Page();
             }
 
-            var storedInterval = await _intervalRepository.GetById(WorkoutInterval.Id);
+            var storedInterval = await _intervalRepository.GetById(WorkoutInterval.Id)
+                .ConfigureAwait(false);
             var modifiedInterval = _mapper.Map<WorkoutInterval>(storedInterval);
             _mapper.Map(WorkoutInterval, modifiedInterval);
 
             try
             {
-                await _intervalRepository.UpdateModifiedFields(modifiedInterval, storedInterval);
+                await _intervalRepository.UpdateModifiedFields(modifiedInterval, storedInterval)
+                    .ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {

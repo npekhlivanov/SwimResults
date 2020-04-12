@@ -9,21 +9,21 @@ namespace DataAccess.Specifications
     public class SortedIntervalsByTypeSpecification : BaseQuerySpecification<WorkoutInterval>
     {
         public SortedIntervalsByTypeSpecification(
-            int selectedIntervalType, 
-            Expression<Func<WorkoutInterval, object>> sortSelector, 
-            bool sortDescending, 
-            int pageNo, 
+            int selectedIntervalType,
+            Expression<Func<WorkoutInterval, object>> sortSelector,
+            bool sortDescending,
+            int pageNo,
             int pageSize)
             : base(
-                  i => i.WorkoutIntervalTypeId == selectedIntervalType, 
+                  i => i.WorkoutIntervalTypeId == selectedIntervalType,
                   new IncludeSpecification<WorkoutInterval>(q => q
                     .Include(i => i.WorkoutIntervalType)
                     .Include(i => i.Workout)),
                   new SortOrderSpecification<WorkoutInterval>(sortSelector, sortDescending),
                   new PagingSpecification(pageNo, pageSize))
         {
-        }    
-        
+        }
+
         //public class IntervalsByTypeSpecification : BaseSpecification<WorkoutInterval>
         //{
         //    public IntervalsByTypeSpecification(int selectedIntervalType, Expression<Func<WorkoutInterval, object>> sortSelector, bool sortDescending, int pageNo, int pageSize) 

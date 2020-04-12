@@ -5,7 +5,7 @@
     using NP.DataTemplates.Entities;
     using NP.DataTemplates.Interfaces;
 
-    public class SortOrderSpecification<TEntity> : ISortOrderSpecification<TEntity> 
+    public class SortOrderSpecification<TEntity> : ISortOrderSpecification<TEntity>
         where TEntity : Entity
     {
         public SortOrderSpecification(Expression<Func<TEntity, object>> sortSelector, bool sortDescending)

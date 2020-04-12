@@ -5,7 +5,6 @@
     using Constants;
     using DataModels;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
     using NP.DataTemplates.Interfaces;
     using NP.Helpers;
     using SwimResults.Core;

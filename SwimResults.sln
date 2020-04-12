@@ -20,13 +20,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84450570-318C-4359-AD2B-C92F0412015E}"
 	ProjectSection(SolutionItems) = preProject
 		Notes.txt = Notes.txt
+		Removed code.txt = Removed code.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModels", "DataModels\DataModels.csproj", "{A4DF9568-0F5A-4CB1-AAC9-004F87EB8584}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NP.Helpers", "Helpers\NP.Helpers.csproj", "{AF52A744-04AA-479D-BFCF-94AE9E2C208A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NP.Helpers.Web", "NP.Helpers.Web\NP.Helpers.Web.csproj", "{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NP.Helpers.Web", "NP.Helpers.Web\NP.Helpers.Web.csproj", "{C9C27DD5-4C79-4B32-A8B6-6F5EDC93F1A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

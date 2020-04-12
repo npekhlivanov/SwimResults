@@ -6,9 +6,9 @@
     public class IntervalsByTypeSpecification : BaseQuerySpecification<WorkoutInterval>
     {
         public IntervalsByTypeSpecification(int selectedIntervalType) : base(
-            i => i.WorkoutIntervalTypeId == selectedIntervalType, 
-            null, 
-            null, 
+            i => i.WorkoutIntervalTypeId == selectedIntervalType,
+            null,
+            null,
             null)
         {
         }

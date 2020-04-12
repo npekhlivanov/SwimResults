@@ -5,7 +5,6 @@
     using AutoMapper;
     using DataAccess.Specifications;
     using DataModels;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
     using NP.DataTemplates.Interfaces;
     using SmartBreadcrumbs.Attributes;
     using SwimResults.Core;

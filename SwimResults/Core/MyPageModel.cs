@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Net.Http.Headers;
 using SmartBreadcrumbs.Attributes;
-using SmartBreadcrumbs.Nodes;
 
 namespace SwimResults.Core
 {
@@ -30,7 +29,7 @@ namespace SwimResults.Core
                     var hostPos = referer.IndexOf(host, StringComparison.OrdinalIgnoreCase);
                     if (hostPos >= 0)
                     {
-                        refererPath = referer.Substring(hostPos + host.Length); 
+                        refererPath = referer.Substring(hostPos + host.Length);
                         if (refererPath.StartsWith(currentPath, StringComparison.OrdinalIgnoreCase))
                         {
                             refererPath = currentPath;

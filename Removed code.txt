@@ -1,0 +1,24 @@
+Details.cshtml
+- display interval lengths (hidden initially)
+                @if (!isRestInterval)
+                {
+                    for (int i = 0; i < item.Lengths.Count; ++i)
+                    {
+                        var length = item.Lengths[i];
+                        <tr class="bg-secondary" parent-interval-id="@item.Id" stroke-type="@((int)item.StrokeTypeId)" style="display: none;">
+                            <td class="pl-2" length-no="@length.LengthNo"><span style="margin-left:10px;">&nbsp;</span>@length.LengthNo</td>
+                            <td field-name="Duration">@Html.DisplayFor(model => length.DurationFormatted)</td>
+                            <td></td>
+                            <td field-name="Pace">@Html.DisplayFor(model => length.PaceFormatted)</td>
+                            <td field-name="Distance">@Html.DisplayFor(model => length.Distance) m</td>
+                            <td field-name="StrokeCount">@Html.DisplayFor(model => length.StrokeCount)</td>
+                            <td></td>
+                            <td>@Html.DisplayFor(model => length.StrokeTypeName)</td>
+                            <td>
+                                @*<i class="fas fa-link"></i>*@
+                                <a href="#" onclick="joinLengthWithNext(this, '@Url.Action("ModifyLengths", "Intervals")'); return false;"><i class="fas fa-download"></i></a>
+                                @*<button class="btn"><i class="fas fa-arrows-alt-v"></i></button>*@
+                            </td>
+                        </tr>
+                    }
+                }

@@ -71,3 +71,7 @@ fieldset legend {
     border-bottom: none;
     font-size: 1.25rem;
 }
+
+rest-interval {
+    font-weight: normal;
+}

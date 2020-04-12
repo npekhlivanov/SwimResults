@@ -12,13 +12,9 @@
     using NP.Helpers;
     using NP.Helpers.Extensions;
     using SwimResults.Models;
+    using SwimResults.Models.Api;
     using SwimResults.Services;
     using SwimResults.Tools;
-
-    public class DTO
-    {
-        public string Value { get; set; }
-    }
 
     [Route("api/[controller]")]
     [ApiController]
@@ -98,15 +94,9 @@
             }
         }
 
-        private class LoadWorkoutDetailsResult
+        private async Task<ApiResultBase> LoadWorkoutDetails(Workout workout)
         {
-            public bool Success { get; set; }
-            public string Message { get; set; }
-        }
-
-        private async Task<LoadWorkoutDetailsResult> LoadWorkoutDetails(Workout workout)
-        {
-            var result = new LoadWorkoutDetailsResult();
+            var result = new ApiResultBase();
 
             var workoutDetailsFolder = _configuration["WorkoutDetailsFolder"];
             workoutDetailsFolder = Environment.ExpandEnvironmentVariables(workoutDetailsFolder);
@@ -165,9 +155,9 @@
             string result;
             if (selectedDate > DateTime.MinValue)
             {
-            //if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))
-            //{
-            //    var dateAndTime = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, 0, 0);
+                //if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, out DateTime date))
+                //{
+                //    var dateAndTime = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, 0, 0);
                 result = ValuesHelper.ComposeWorkoutName(selectedDate, isMorning);
             }
             else

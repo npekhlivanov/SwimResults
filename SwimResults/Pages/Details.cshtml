@@ -11,161 +11,108 @@
     <h3>Workout &laquo;@Html.DisplayFor(model => model.Workout.Name)&raquo;</h3>
     <hr />
     <div class="row">
-        <div class="col col-4">
+        <div class="col-md-4">
             <dl class="row">
-                <dt class="col-4">
-                    @Html.DisplayNameFor(model => model.Workout.Distance)
-                </dt>
-                <dd class="col-8">
-                    @Html.DisplayFor(model => model.Workout.Distance) m
-                </dd>
-                <dt class="col-4">
-                    @Html.DisplayNameFor(model => model.Workout.Duration)
-                </dt>
-                <dd class="col-8">
-                    @Html.DisplayFor(model => model.Workout.DurationFormatted)
-                </dd>
-                <dt class="col-4">
-                    @Html.DisplayNameFor(model => model.Workout.ActiveTime)
-                </dt>
-                <dd class="col-8">
-                    @Html.DisplayFor(model => model.Workout.ActiveTimeFormatted)
-                </dd>
-                <dt class="col-4">
-                    @Html.DisplayNameFor(model => model.Workout.RestTime)
-                </dt>
-                <dd class="col-8">
-                    @Html.DisplayFor(model => model.Workout.RestTimeFormatted)
-                </dd>
-                <dt class="col-4">
-                    @Html.DisplayNameFor(model => model.Workout.Pace)
-                </dt>
-                <dd class="col-8">
-                    @Html.DisplayFor(model => model.Workout.PaceFormatted) / 100m
-                </dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Workout.Distance)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Workout.Distance) m</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Workout.Duration)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Workout.DurationFormatted)</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Workout.ActiveTime)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Workout.ActiveTimeFormatted)</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Workout.RestTime)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Workout.RestTimeFormatted)</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Workout.Pace)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Workout.PaceFormatted) / 100m</dd>
             </dl>
         </div>
-        <div class="col col-8">
+        <div class="col-md-8">
             <dl class="row">
-                <dt class="col-2">
-                    @Html.DisplayNameFor(model => model.Workout.Place)
-                </dt>
-                <dd class="col-10">
-                    @Html.DisplayFor(model => model.Workout.Place)
-                </dd>
-                <dt class="col-2">
-                    @Html.DisplayNameFor(model => model.Workout.Date)
-                </dt>
-                <dd class="col-10">
-                    @Html.DisplayFor(model => model.Workout.Date)
-                </dd>
-                <dt class="col-2">
-                    @Html.DisplayNameFor(model => model.Workout.Start)
-                </dt>
-                <dd class="col-10">
-                    @Model.Workout.Start.ToString("t") @*@Html.DisplayFor(model => model.Workout.Start.TimeOfDay)*@
-                </dd>
-                <dt class="col-2">
-                    @Html.DisplayNameFor(model => model.Workout.Note)
-                </dt>
-                <dd class="col-10">
-                    @*@Html.Raw("<pre>" + Model.Workout.Note + "</pre>")*@
-                    <span style="white-space: pre-line">@Html.DisplayFor(model => model.Workout.Note)</span>
+                <dt class="col-2">@Html.DisplayNameFor(model => model.Workout.Place)</dt>
+                <dd class="col-10">@Html.DisplayFor(model => model.Workout.Place)</dd>
+                <dt class="col-2">@Html.DisplayNameFor(model => model.Workout.Date)</dt>
+                <dd class="col-10">@Html.DisplayFor(model => model.Workout.Date)</dd>
+                <dt class="col-2">@Html.DisplayNameFor(model => model.Workout.Start)</dt>
+                <dd class="col-10">@Model.Workout.Start.ToString("t") @*@Html.DisplayFor(model => model.Workout.Start.TimeOfDay)*@</dd>
+                <dt class="col-2">@Html.DisplayNameFor(model => model.Workout.Note)</dt>
+                <dd class="col-10">@*@Html.Raw("<pre>" + Model.Workout.Note + "</pre>")*@<span style="white-space: pre-line">@Html.DisplayFor(model => model.Workout.Note)</span>
                 </dd>
             </dl>
         </div>
     </div>
 
-    <h4 class="text-info">Intervals</h4>
-    <table class="table table-sm table-hover border-left border-right border-bottom">
-        <thead class="thead-light">
+    <div class="form-row">
+        <div class="col-sm-4">
+            <h4 class="text-info">Intervals</h4>
+        </div>
+        <div class="col">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="showRestsOff" name="showRests" checked="checked" onclick="hideRests();" />
+                <label class="form-check-label" for="showRestsOff">Hide rests</label>
+                <input class="form-check-input ml-3" type="radio" id="showRestsOn" name="showRests" onclick="showRests();" />
+                <label class="form-check-label" for="showRestsOn">Show rests</label>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-sm border-left border-right border-bottom">
+        <thead class="thead-light ">
             <tr>
-                <th>№</th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].Duration)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].StartTime)
-                </th>
-                @*<th>
-            @Html.DisplayNameFor(model => model.Workout.Intervals[0].EndTime)
-        </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].Pace)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].Distance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].StrokeCount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].Swolf)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Workout.Intervals[0].WorkoutIntervalType)
-                </th>
+                <th>&nbsp;№</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].Duration)</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].StartTime)</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].Pace)</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].Distance)</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].StrokeCount)</th>
+                <th>@Html.DisplayNameFor(model => model.Workout.Intervals[0].Swolf)</th>
+                <th>Interval/Stroke type</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Workout.Intervals)
             {
-                    var isRestInterval = item.Id < 1;
-                    var rowClass = isRestInterval ? "class=bg-light" : "";
+                var isRestInterval = item.Id < 1;
+                var rowClass = isRestInterval ? "class=\"rest-interval text-muted\" style=\"display: none;\"" : "";
+                Dictionary<string, string> routeValues = null;
 
-                <tr @rowClass>
-                    <td class="pl-3">
-                        @{ 
-                            Dictionary<string, string> routeValues = null;
+                <tr @Html.Raw(rowClass) interval-id="@item.Id" interval-type-id="@item.WorkoutIntervalTypeId" interval-no="@item.IntervalNo">
+                    <td class="pl-2">
+                        @{
                             if (!isRestInterval)
                             {
                                 routeValues = new Dictionary<string, string> { { "id", item.Id.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery() } };
+                                <span id="@item.Id" onclick="foldUnfoldInterval(this);"><i class="fas fa-caret-right" style="width:10px;"></i></span>
                                 <a asp-page="./IntervalDetails" asp-route-id="@item.Id" asp-all-route-data="routeValues">@item.IntervalNo</a>
                             }
                         }
                     </td>
-                    <td>
-                        @Html.DisplayFor(model => item.DurationFormatted)
-                    </td>                    
-                    <td>
-                        @Html.DisplayFor(model => item.StartTime)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(model => item.EndTime)
-                    </td>*@
-                    <td>
-                        @{
+                    <td field-name="Duration">@Html.DisplayFor(model => item.DurationFormattedWithMs)</td>
+                    <td field-name="StartTime">@Html.DisplayFor(model => item.StartTime)</td>
+                    <td>@{
                             if (!isRestInterval)
-                            { 
-                                @Html.DisplayFor(model => item.PaceFormatted) 
+                            {
+                                @Html.DisplayFor(model => item.PaceFormatted)
                             }
                             else
                             {
-                                <text>Rest</text> 
-                            } 
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.DistanceFormatted)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.StrokeCountFormatted)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.SwolfFormatted)
-                    </td>                    
-                    <td>
-                        @Html.DisplayFor(model => item.WorkoutIntervalType.Name)
-                    </td>                    
-                    <td>
-                        @{ 
+                                <span class="text-secondary">Rest</span>
+                            }
+                    }</td>
+                    <td field-name="Distance">@Html.DisplayFor(model => item.DistanceFormatted)</td>
+                    <td field-name="StrokeCount">@Html.DisplayFor(model => item.StrokeCountFormatted)</td>
+                    <td field-name="Swolf">@Html.DisplayFor(model => item.SwolfFormatted)</td>
+                    <td field-name="IntervalTypeName">@{
+                            if (!isRestInterval)
+                            {
+                                @Html.DisplayFor(model => item.WorkoutIntervalType.Name);
+                            }
+                    }</td>
+                    <td>@{
                             if (!isRestInterval)
                             {
                                 <a asp-page="./EditInterval" asp-all-route-data="routeValues">Edit</a>
                             }
-                        }
-                    </td>
+                    }</td>
                 </tr>
             }
         </tbody>
@@ -173,7 +120,21 @@
 </div>
 <div>
     @{ var routeValues2 = new Dictionary<string, string> { { "id", Model.Workout.Id.ToString() }, { "returnPath", Request.GetEncodedPathAndQuery()@*Model.ReturnPath*@ } }; }
-    <a asp-page="./Edit" asp-all-route-data="routeValues2" class="btn btn-outline-primary"><i class="far fa-edit mr-1"></i>Edit</a> 
+    <a asp-page="./Edit" asp-all-route-data="routeValues2" class="btn btn-outline-primary"><i class="far fa-edit mr-1"></i>Edit</a>
     <a href="@Model.ReturnPath" class="btn btn-outline-primary ml-3"><i class="far fa-arrow-alt-circle-left mr-1"></i>Back</a>
     @*<a asp-page="./Index">Back to List</a>*@
 </div>
+
+@section Scripts {
+    <script src="~/js/details.js"></script>
+    <script>
+        intervalDataJson = '@Html.Raw(Model.SerializedIntervals)';
+        $().ready(function () {
+            debugger;
+            let intervalData = JSON.parse(intervalDataJson);
+            for (var i = 0; i < intervalData.length; ++i) {
+                showIntervalLengths(intervalData[i], false, '@Url.Action("ModifyLengths", "Intervals")', false);
+            }
+        });
+    </script>
+}

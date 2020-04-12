@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using NP.DataTemplates.Entities;
 
     public interface ISpecification<TEntity>
         where TEntity : IEntity

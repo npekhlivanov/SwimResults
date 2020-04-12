@@ -11,7 +11,7 @@ namespace SwimResults
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using SmartBreadcrumbs;
+    using Newtonsoft.Json.Serialization;
     using SmartBreadcrumbs.Extensions;
 
     public class Startup
@@ -52,7 +52,7 @@ namespace SwimResults
                 options.Cookie.Name = "MyTempDataCookie";
             });
 
-            //  The IDistributedCache implementation is used as a backing store for session
+            // The IDistributedCache implementation is used as a backing store for session
             //services.AddDistributedMemoryCache();
 
             // Add Session
@@ -64,19 +64,30 @@ namespace SwimResults
             //options.Cookie.IsEssential = true;
             //});
 
-            services.AddRazorPages()
-                .AddRazorRuntimeCompilation(); // 3.0
+#if (DEBUG)
+            services.AddRazorPages()// configuration delegate gets called by Startup.Configure()
+                .AddRazorRuntimeCompilation(); // Since Core 3.0: the package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation must nave been added
+#else
+            services.AddRazorPages();
+
+#endif
+
             // see https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#opt-in-to-runtime-compilation
             //services.AddMvc() // 2.x
             //    .AddMvcOptions(options => options.EnableEndpointRouting = false); // for core 3.0 compatibility
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //.AddSessionStateTempDataProvider(); // see https://www.learnrazorpages.com/razor-pages/tempdata
 
-            services.AddControllers(); // 3.0; does not affect routing
+            services.AddControllers() // 3.0; does not affect routing
+                .AddNewtonsoftJson(options => 
+                { 
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); 
+                });
+
 
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>(); // used by default, workos without this line
             //services.AddSession();
-            services.AddBreadcrumbs(GetType().Assembly, options => 
+            services.AddBreadcrumbs(GetType().Assembly, options =>
             {
                 //options.DontLookForDefaultNode = true;
                 //TagName = "nav",
@@ -107,6 +118,8 @@ namespace SwimResults
             //app.UseRequestLocalization(options => options.DefaultRequestCulture = new RequestCulture("bg-BG"));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // Enforce cookie policy and display GDPR-friendly messaging - https://wakeupandcode.com/cookies-and-consent-in-asp-net-core-3-1/
             app.UseCookiePolicy();
 
             app.UseRouting(); // 3.0
